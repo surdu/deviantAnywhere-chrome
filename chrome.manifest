@@ -1,0 +1,5 @@
+content     devany      chrome/content/
+skin        devany default      chrome/skin/default/
+overlay chrome://browser/content/browser.xul chrome://devany/content/UI/overlay.xul
+locale devany en-US chrome/locale/en-US/
+

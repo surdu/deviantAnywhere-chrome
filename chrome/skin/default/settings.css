@@ -1,0 +1,99 @@
+radio[pane]
+{
+  padding: 5px 3px 1px;
+}
+
+radio[pane=dA-look]
+{
+    list-style-image: url("chrome://devany/skin/images/icon_look.png");
+}
+
+radio[pane=dA-behave]
+{
+	list-style-image: url("chrome://devany/skin/images/icon_behave.png");
+}
+
+radio[pane=dA-connect]
+{
+	list-style-image: url("chrome://devany/skin/images/icon_connect.png");
+}
+
+radio[pane=dA-about]
+{
+	list-style-image: url("chrome://devany/skin/images/icon_about.png");
+}
+
+#statusConsole
+{
+	height: 100px;
+}
+
+groupbox caption
+{
+	margin-left: 10px;
+	font-weight: bold;
+}
+
+#customLookRow
+{
+    margin-bottom: 10px;
+}
+
+#aboutProdWrap
+{
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+#aboutProdDev, #aboutProdAny
+{
+	font-size: 24px;
+	font-family: Tahoma;
+	color: #5c7062;
+}
+
+#aboutProdAny
+{
+	margin-left: -5px;
+	font-weight: bold;
+}
+
+#aboutProdVer
+{
+	vertical-align: baseline;
+	color: #5c7062;
+	margin-left: -5px;
+	font-weight: bold;
+}
+
+#authorPanel label
+{
+	font-weight: bold;
+}
+
+#devBox
+{
+	margin-top: 10px;
+}
+
+#thankMsg
+{
+	margin-bottom: 10px;
+}
+
+#linkBox
+{
+	margin-top: 30px;
+}
+
+#thanksBox
+{
+	margin-left: 10px;
+}
+
+#winButtons
+{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	display: none;
+}

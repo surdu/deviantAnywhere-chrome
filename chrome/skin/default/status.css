@@ -1,0 +1,22 @@
+window
+{
+    padding: 10px;
+    padding-top: 20px;
+    min-width: 300px;
+    background-color: #40534A;
+}
+
+#statusCode
+{
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #C9E322;
+}
+
+#statusMsg
+{
+    padding-left: 5px;
+    color: #FFFFFF;
+    padding-top: 4px;
+}

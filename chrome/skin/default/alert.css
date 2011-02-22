@@ -1,0 +1,110 @@
+#container
+{
+	background-color: #c2ccc2;
+	border: 2px solid #89A08E;
+	padding: 3px;
+}
+
+#daLogo
+{
+    margin-top: 3px;
+}
+
+#title
+{
+    color: black;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.entry
+{
+    margin-left: 5px;
+    color: #393D3C;
+    padding-right: 5px;
+    padding-left: 25px;
+    margin-top: 2px;
+}
+    .note
+    {
+        background: url(images/icons/note.gif) no-repeat left top;
+    }
+
+    .message
+    {
+        background: url(images/icons/message.gif) no-repeat left top;
+    }
+
+    .deviation
+    {
+        background: url(images/icons/deviation.gif) no-repeat left top;
+    }
+
+    .journal
+    {
+        background: url(images/icons/journal.gif) no-repeat left top;
+    }
+
+
+    .news
+    {
+        background: url(images/icons/news.gif) no-repeat left top;
+    }
+
+    .fav
+    {
+        background: url(images/icons/favgold.gif) no-repeat left top;
+    }
+
+    .watch
+    {
+        background: url(images/icons/friends.gif) no-repeat left top;
+    }
+
+
+    .notice
+    {
+        background: url(images/icons/notice.gif) no-repeat left top;
+        height: 20px;
+        margin-top: 0px;
+    }
+
+    .contest
+    {
+        background: url(images/icons/contest.gif) no-repeat left top;
+        height: 17px;
+        margin-top: 1px;
+    }
+
+
+.text-link
+{
+    margin: 0px;
+    margin-left: -3px;
+    margin-right: -3px;
+    color: #2C3635;
+}
+
+#closeBtn
+{
+    -moz-appearance: none;
+    -moz-image-region: rect(0px, 14px, 14px, 0px);
+    -moz-margin-end: 6px;
+    border: none;
+    padding: 0px;
+    width: 14px;
+    height: 14px;
+    list-style-image: url("chrome://global/skin/icons/close.png");
+}
+
+    #closeBtn:hover
+    {
+        -moz-image-region: rect(0px, 28px, 14px, 14px);
+    }
+    
+    #closeBtn:hover:active
+    {
+        -moz-image-region: rect(0px, 42px, 14px, 28px);
+    }
+    
+

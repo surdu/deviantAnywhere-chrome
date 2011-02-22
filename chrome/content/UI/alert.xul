@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="chrome://global/skin/global.css" type="text/css" ?>
+<?xml-stylesheet href="chrome://devany/skin/alert.css" type="text/css" ?>
+
+<window xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+		id="dAAlert"
+		align="start"
+        onload="ro_cvds_dANotifier.initNotifier()"
+        onmouseover="ro_cvds_dANotifier.mouseIn()"
+        onmouseout="ro_cvds_dANotifier.mouseOut()"
+        >
+
+    <script type="application/x-javascript" src="chrome://devany/content/alert.js"></script>
+    <hbox id="container">
+        <vbox>
+            <image id="daLogo" src="chrome://devany/skin/images/fella_icon.png"/>
+        </vbox>
+        <vbox id="notificationContent">
+<!--
+             <label id="title" value="deviantAnywhere" />
+             
+             <box class="entry note">
+                <label value="~SomeUser" class="text-link"/>
+                <label value="has wrote you a"/>
+                <label value="note" class="text-link"/>
+            </box>
+
+            <box class="entry message">
+                <label value="~SomeUser" class="text-link"/>
+                <label value="posted a comment on"/>
+                <label value="your deviation" class="text-link"/>
+            </box>
+
+            <box class="entry deviation">
+                <label value="~SomeUser" class="text-link"/>
+                <label value="submitted deviation"/>
+                <label value="beautifull name" class="text-link"/>
+            </box>
+
+            <box class="entry news">
+                <label value="~SomeUser" class="text-link"/>
+                <label value="has wrote"/>
+                <label value="news title" class="text-link"/>
+            </box>
+
+            <box class="entry notice">
+                <label value="~SomeUser" class="text-link"/>
+                <label value="has posted notice"/>
+                <label value="notice title" class="text-link"/>
+            </box>
+
+            <box class="entry contest">
+                <label value="~SomeUser" class="text-link"/>
+                <label value="posted contest"/>
+                <label value="contest title" class="text-link"/>
+            </box>
+
+            <box class="entry watch">
+                <label value="~SomeUser" class="text-link"/>
+                <label value="has added you to their deviantWATCH"/>
+            </box>
+
+            <box class="entry fav">
+                <label value="~SomeUser" class="text-link"/>
+                <label value="has added"/>
+                <label value="something" class="text-link"/>
+                <label value="to their"/>
+                <label value="collection" class="text-link"/>
+            </box>
+
+            <box class="entry critique">
+                <label value="~SomeUser" class="text-link"/>
+                <label value="posted a"/>
+                <label value="critique" class="text-link"/>
+                <label value="of"/>
+                <label value="Some deviation" class="text-link"/>
+                <label value="by"/>
+                <label value="~SomeArtist" class="text-link"/>
+            </box>
+            
+            <box class="entry journal">
+                <label value="~SomeUser" class="text-link"/>
+                <label value="wrote journal entry"/>
+                <label value="beautifull name" class="text-link"/>
+            </box>
+            
+-->
+        </vbox>
+        <vbox>
+            <toolbarbutton id="closeBtn" oncommand="window.close()"/>
+        </vbox>
+    </hbox>
+
+</window>

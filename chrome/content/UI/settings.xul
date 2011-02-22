@@ -1,0 +1,278 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/global.css" type="text/css" ?>
+<?xml-stylesheet href="chrome://devany/skin/settings.css" type="text/css" ?>
+<!DOCTYPE window SYSTEM "chrome://devany/locale/main.dtd">
+
+<prefwindow id="dA-settings"
+            title="deviantAnywhere settings"
+            xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+            xmlns:html="http://www.w3.org/1999/xhtml"
+            onload="ro_cvds_dASettings.init()"
+            ondialogaccept="return ro_cvds_dASettings.doOK()"
+            windowtype="devAny:settings">
+
+    <script type="application/x-javascript" src="chrome://devany/content/utils.js"></script>
+    <script type="application/x-javascript" src="chrome://devany/content/settings.js"></script>
+
+    <prefpane id="dA-look" label="&settings.look;" selected="true">
+        <preferences>
+            <preference id="dACustomLook" name="deviantAnywhere.customLook" type="bool" instantApply="true" onchange="ro_cvds_dASettings.handleCustomLookClick()"/>
+            <preference id="dABkgColor" name="deviantAnywhere.bkgcolor" type="string"/>
+            <preference id="dATextColor" name="deviantAnywhere.textcolor" type="string"/>
+            <preference id="dAShowIcon" name="deviantAnywhere.showIcon" type="bool" />
+        </preferences>
+
+        <groupbox>
+            <caption label="&settings.colors;" />
+            <rows id="customLookRow">
+                <row>
+                    <checkbox id="customLookCheck" label="&settings.usecolors;" preference="dACustomLook"/>
+                </row>
+            </rows>
+            <grid>
+                <columns>
+                    <column flex="1"/>
+                    <column flex="2"/>
+                    <column flex="3"/>
+                    <column flex="4"/>
+                </columns>
+                <rows>
+                    <row align="left">
+                        <label id="bkgColorLabel" control="bkgColor" value="&settings.bkgColor;:" />
+                        <colorpicker type="button" preference="dABkgColor" id="bkgColor" color="#728776"/>
+                        <button id="defultBkg" onclick="ro_cvds_dASettings.setDefaultBkg()" label="&settings.default;" />
+                    </row>
+                    <row align="left">
+                        <label id="textColorLabel" control="numberColor" value="&settings.textColor;:" />
+                        <colorpicker type="button" preference="dATextColor" id="textColor" color="#FFFFFF"/>
+                        <button id="defultText" onclick="ro_cvds_dASettings.setDefaultText()" label="&settings.default;" />
+                    </row>
+                </rows>
+            </grid>
+            <rows id="useIconRow">
+                <row>
+                    <checkbox id="showIconCheck" label="&settings.showFella;" preference="dAShowIcon"/>
+                </row>
+            </rows>
+        </groupbox>
+    </prefpane>
+    
+    <prefpane id="dA-behave" label="&settings.behave;">
+        <preferences>
+            <preference id="dAOpenNew" name="deviantAnywhere.openMsgOnNew" type="bool" instantApply="true" onchange="ro_cvds_dASettings.handleActionClick()"/>
+            <preference id="dANotify" name="deviantAnywhere.openNotification" type="bool"/>
+            <preference id="dAFocus" name="deviantAnywhere.focusTab" type="bool"/>
+            <preference id="dAPlaySound" name="deviantAnywhere.playsound" type="bool" instantApply="true" onchange="ro_cvds_dASettings.handleSoundClick()"/>
+            <preference id="dASound" name="deviantAnywhere.sound" type="string"/>
+			
+			<preference id="fNotices" name="deviantAnywhere.followNotices" type="bool"/>
+			<preference id="fActivity" name="deviantAnywhere.followActivity" type="bool"/>
+			<preference id="fReplies" name="deviantAnywhere.followReplies" type="bool"/>
+			<preference id="fNotes" name="deviantAnywhere.followNotes" type="bool"/>
+			<preference id="fJournals" name="deviantAnywhere.followJournals" type="bool"/>
+			<preference id="fComments" name="deviantAnywhere.followComments" type="bool"/>
+			<preference id="fDeviations" name="deviantAnywhere.followDeviations" type="bool"/>
+			<preference id="fPolls" name="deviantAnywhere.followPolls" type="bool"/>
+			<preference id="fContest" name="deviantAnywhere.followContest" type="bool"/>
+			<preference id="fNews" name="deviantAnywhere.followNews" type="bool"/>
+			<preference id="fAdmin" name="deviantAnywhere.followAdmin" type="bool"/>
+			<preference id="fCritiques" name="deviantAnywhere.followCritiques" type="bool"/>
+			<preference id="fCorrespondence" name="deviantAnywhere.followCorrespondence" type="bool"/>
+        </preferences>
+
+        <groupbox>
+            <caption label="&settings.receiveMsg;" />
+            <rows>
+               <!-- <row>
+                    <checkbox label="&settings.showAlert;" id="notifyCheck" preference="dANotify"/>
+                </row> -->
+                <row>
+                    <checkbox label="&settings.openInbox;" id="openCheck" preference="dAOpenNew"/>
+                </row>
+                <row>
+                    <checkbox id="focusCheck" label="&settings.focus;" disabled="true" preference="dAFocus"/>
+                </row>
+            </rows>
+        </groupbox>
+
+        <groupbox>
+            <caption label="&settings.sound;" />
+            <rows>
+                <row align="left">
+                    <checkbox id="soundCheck" label="&settings.playSound;" preference="dAPlaySound"/>
+                </row>
+                <row>
+                    <label id="soundLabel" control="sound" value="&settings.chooseSound;:" disabled="true"/>
+
+                    <menulist id="sound" preference="dASound" disabled="true">
+                      <menupopup>
+                        <menuitem label="Splat" value="chrome://devany/content/sounds/splat.wav" />
+                        <menuitem label="Mix" value="chrome://devany/content/sounds/mix.wav"/>
+                        <menuitem label="Slice" value="chrome://devany/content/sounds/slice.wav"/>
+                        <menuitem label="Zing" value="chrome://devany/content/sounds/zing.wav"/>
+                      </menupopup>
+                    </menulist>
+                </row>
+            </rows>
+        </groupbox>
+		
+		<groupbox id="msgSelectionBox">
+			<caption label="&settings.notifyMsgLabel;"/>
+			
+			<grid>
+                <columns>
+                  <column flex="1"/>
+                  <column flex="2"/>
+				  <column flex="3"/>
+                </columns>
+
+				<rows>					
+					<row>
+						 <checkbox label="&settings.msgNotices;" preference="fNotices"/>
+						 <checkbox label="&settings.msgActivity;" preference="fActivity"/>
+						 <checkbox label="&settings.msgReplies;" preference="fReplies"/>
+					</row>
+	
+					<row>
+						<checkbox label="&settings.msgNotes;" preference="fNotes"/>
+						 <checkbox label="&settings.msgJournals;" preference="fJournals"/>
+						 <checkbox label="&settings.msgComments;" preference="fComments"/>
+					</row>
+	
+					<row>
+						<checkbox label="&settings.msgDeviations;" preference="fDeviations"/>
+						 <checkbox label="&settings.msgPolls;" preference="fPolls"/>
+						 <checkbox label="&settings.msgContest;" preference="fContest"/>
+					</row>
+	
+					<row>
+						 <checkbox label="&settings.msgNews;" preference="fNews"/>
+						 <checkbox label="&settings.msgAdmin;" preference="fAdmin"/>
+						 <checkbox label="&settings.msgCritiques;" preference="fCritiques"/>
+					</row>
+
+					<row>
+						 <checkbox label="&settings.msgCorrespondence;" preference="fCorrespondence"/>
+					</row>
+
+				</rows>
+			</grid>
+		</groupbox>		
+    </prefpane>
+
+    <prefpane id="dA-connect" label="&settings.connect;">
+        <preferences>
+            <preference id="dAAutoUpdate" name="deviantAnywhere.autoupdate" type="bool" instantApply="true" onchange="ro_cvds_dASettings.handleAutoUpdateClick()"/>
+            <preference id="dAChecktime" name="deviantAnywhere.checktime" type="int" />
+            <preference id="dAUseAutologin" name="deviantAnywhere.useautologin" type="bool" instantApply="true" onchange="ro_cvds_dASettings.handleAutoLoginClick()"/>
+            <preference id="dAUsername" name="deviantAnywhere.username" type="string" />
+        </preferences>
+
+        <groupbox>
+            <caption label="&settings.autoupdate;" />
+            <rows>
+                <row align="left">
+                    <checkbox id="soundCheck" label="&settings.useautoupdate;" preference="dAAutoUpdate"/>
+                </row>
+                <row align="center">
+                    <label control="checktime" value="&settings.checkMsg;" id="checkTimeLabel"/>
+                    <textbox id="checktime" size="3" preference="dAChecktime" type="number" min="1"/>
+                    <label value="&settings.seconds;" id="checkTimeSuffix"/>
+                </row>
+            </rows>
+        </groupbox>
+
+        <groupbox id="autoLoginBox">
+            <caption id="autoLoginLabel" label="&settings.autoLogin;"/>
+            <grid>
+                <columns>
+                  <column flex="1"/>
+                  <column flex="2"/>
+                </columns>
+
+                <rows>
+                    <row>
+                        <checkbox id="autoLoginCheck" label="&settings.useAutoLogin;" preference="dAUseAutologin"/>
+                    </row>
+                    <row align="center">
+                        <label id="usernameLabel" control="username" value="&settings.deviantName;:" disabled="true"/>
+                        <textbox id="username" size="32" preference="dAUsername"  disabled="true"/>
+                    </row>
+                    <row align="center">
+                        <label id="passwordLabel" control="password" value="&settings.pass;:"  disabled="true"/>
+                        <textbox id="password" size="32" type="password"  disabled="true"/>
+                    </row>
+                </rows>
+            </grid>
+        </groupbox>
+        
+		<groupbox>
+			<caption label="&settings.log;"/>
+			<textbox id="statusConsole" multiline="true" readonly="true"/>
+		</groupbox>
+					
+    </prefpane>
+
+    <prefpane id="dA-about" label="&settings.about;">
+        <preferences>
+        </preferences>
+
+		<row id="aboutProdWrap">
+			<label id="aboutProdDev">deviant</label><label id="aboutProdAny">Anywhere</label><label id="aboutProdVer"></label>
+		</row>
+
+        <groupbox>
+            <caption label="&settings.credits;" />
+			<tabbox selectedIndex="0">
+			  <tabs>
+			    <tab label="&settings.author;"/>
+			    <!--<tab label="&settings.translators;"/>-->
+				<tab label="&settings.thanks;"/>
+			  </tabs>
+			  <tabpanels>
+			    <tabpanel id="authorPanel">
+			    	<box orient="vertical">
+			    	<box id="devBox">
+						Developed by <label>Nicolae Surdu</label> aka <label>PostaL2600</label>
+					</box>
+					
+					<box id="linkBox" orient="vertical">
+						<label href="http://www.cvds.ro" class="text-link" value="www.cvds.ro" onclick="window.opener.ro_cvds_daInstance.openURL(this.getAttribute('href'),true);return false;"/>
+						<label href="http://www.deviantanywhere.deviantart.com" class="text-link" value="www.deviantanywhere.deviantart.com" onclick="window.opener.ro_cvds_daInstance.openURL(this.getAttribute('href'),true);return false;"/>
+					</box>
+					</box>
+				</tabpanel>
+			    
+				<!--
+				<tabpanel>
+					
+				</tabpanel>
+				-->
+				
+				<tabpanel>
+					<box orient="vertical">
+						<label id="thankMsg">&settings.thanksMsg;</label>
+						<label id="orderLabel">&settings.order;:</label>
+						<box id="thanksBox">
+							<label href="http://aneolus.deviantart.com/" class="text-link" value="aneolus" onclick="window.opener.ro_cvds_daInstance.openURL(this.getAttribute('href'),true);return false;"/>,
+							<label href="http://electricjonny.deviantart.com/" class="text-link" value="electricjonny" onclick="window.opener.ro_cvds_daInstance.openURL(this.getAttribute('href'),true);return false;"/>,
+							<label href="http://samusfairchild.deviantart.com/" class="text-link" value="SamusFairchild" onclick="window.opener.ro_cvds_daInstance.openURL(this.getAttribute('href'),true);return false;"/>,
+							<label href="http://mushisan.deviantart.com/" class="text-link" value="mushisan" onclick="window.opener.ro_cvds_daInstance.openURL(this.getAttribute('href'),true);return false;"/>,
+							<label href="http://sevca.deviantart.com/" class="text-link" value="sevca" onclick="window.opener.ro_cvds_daInstance.openURL(this.getAttribute('href'),true);return false;"/>,
+							<label href="http://insanity-as-a-refuge.deviantart.com/" class="text-link" value="insanity-as-a-refuge" onclick="window.opener.ro_cvds_daInstance.openURL(this.getAttribute('href'),true);return false;"/>
+						</box>
+					</box>
+				</tabpanel>
+			  </tabpanels>
+			</tabbox>
+			
+        </groupbox>
+    </prefpane>
+
+    
+	<hbox id="winButtons">
+		<button label="Ok" accesskey="O" oncommand="if(ro_cvds_dASettings.doOK()) window.close();"/>
+		<button label="Cancel" accesskey="C" oncommand="window.close()"/>	
+	</hbox>
+	
+</prefwindow>

@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://devany/skin/bar.css" type="text/css" ?>
+<!DOCTYPE window SYSTEM "chrome://devany/locale/main.dtd">
+
+<overlay id="dAstatusOverlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+    <script type="application/x-javascript" src="chrome://devany/content/utils.js"></script>
+	<script type="application/x-javascript" src="chrome://devany/content/httpLayer.js"></script>
+    <script type="application/x-javascript" src="chrome://devany/content/main.js"></script>
+
+    <keyset id="mainKeyset">
+        <key id="GoToMsg" modifiers="accel,alt" key="d" oncommand="ro_cvds_daInstance.openMessages()" />
+        <key id="CheckMsg" modifiers="accel,alt" key="c" oncommand="ro_cvds_daInstance.checkNow()" />
+    </keyset>
+
+
+    <statusbar id="status-bar">
+        <statusbarpanel id="dAPanel" tooltip="da-Tip" ondblclick="if (!ro_cvds_daInstance.status.error) ro_cvds_daInstance.openMessages()" context="dA-contextMenu">
+			<hbox align="center" id="statusWrap">
+				<image  src="chrome://devany/skin/images/devIcon.gif" id="daLogo"/>
+				<label id="daText" class="msgLabel" value="deviantAnywhere"/>
+			</hbox>			        
+        </statusbarpanel>
+
+        <menupopup id="dA-contextMenu">
+          <menuitem label="&menuitem.showInbox;" oncommand="ro_cvds_daInstance.openMessages()" style="font-weight:bold" key="GoToMsg" />
+          <menuitem label="&menuitem.checkMsg;" oncommand="ro_cvds_daInstance.checkNow()" key="CheckMsg"/>          
+		  <menuseparator/>
+		  <menuitem label="&menuitem.settings;..." oncommand="ro_cvds_daInstance.openConfig()"/>
+		  <menuitem label="&menuitem.log;..." oncommand="ro_cvds_daInstance.openLog()"/>
+		  <menuseparator/>
+		  <menuitem label="&menuitem.donate;..." oncommand="ro_cvds_daInstance.donate()"/>
+          <menuitem label="&menuitem.about;..." oncommand="ro_cvds_daInstance.openAbout()"/>
+        </menupopup>
+
+        <tooltip id="da-Tip" orient="vertical" style="background-color: #33DD00;">
+          <description value="deviantAnywhere" style="font-weight: bold;"/>
+          <description value="&tooltip.by; Nicolae Surdu"/>
+        </tooltip>
+    </statusbar>
+</overlay>

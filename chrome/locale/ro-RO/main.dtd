@@ -1,7 +1,6 @@
 <!ENTITY menuitem.showInbox "Vezi mesajele">
 <!ENTITY menuitem.checkMsg "Verifiă acum">
 <!ENTITY menuitem.settings "Setări">
-<!ENTITY menuitem.log "Arată log">
 <!ENTITY menuitem.status "Status">
 <!ENTITY menuitem.donate "Donează">
 <!ENTITY menuitem.about "Despre">
@@ -48,7 +47,6 @@
 <!ENTITY settings.msgCritiques "Critiques">
 <!ENTITY settings.msgCorrespondence "Correspondence">
 <!-- end items -->
-<!ENTITY settings.log "Registru">
 <!ENTITY settings.about "Despre">
 <!ENTITY settings.credits "Credite">
 <!ENTITY settings.author "Autor">

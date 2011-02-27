@@ -1,5 +1,17 @@
 content     devany      chrome/content/
 skin        devany default      chrome/skin/default/
 overlay chrome://browser/content/browser.xul chrome://devany/content/UI/overlay.xul
+locale devany bg chrome/locale/bg/
+locale devany ca-AD chrome/locale/ca-AD/
+locale devany cs chrome/locale/cs/
+locale devany de chrome/locale/de/
 locale devany en-US chrome/locale/en-US/
+locale devany es-ES chrome/locale/es-ES/
+locale devany fr chrome/locale/fr/
+locale devany no-NO chrome/locale/no-NO/
+locale devany pl chrome/locale/pl/
+locale devany bt-BR chrome/locale/bt-BR/
+locale devany ro-RO chrome/locale/ro-RO/
+locale devany zh-CN chrome/locale/zh-CN/
+
 

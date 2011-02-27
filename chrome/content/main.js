@@ -158,20 +158,7 @@ deviantAnywhere.prototype =
 
 	log: function(text)
 	{
-		var now = new Date();
-		var h=now.getHours();
-		var m=now.getMinutes();
-		var s=now.getSeconds();
-		
-		h = h < 10 ? "0"+h : h;
-		m = m < 10 ? "0"+m : m;
-		s = s < 10 ? "0"+s : s;
-		
-		var a = this.logInfo.length;
-		this.logInfo[a] = h+":"+m+":"+s+" - "+text;
-		
-//		if (this.settingWindow && typeof(this.settingWindow.ro_cvds_dASettings) != "undefined")
-//			this.settingWindow.ro_cvds_dASettings.updateLog();
+		//TODO: implement this to log on a file that will be sent to developers for debugging
 	},
 
     checkNow: function()
@@ -241,8 +228,6 @@ deviantAnywhere.prototype =
 		
         if (hasNew)
         {
-//            if (ro_cvds_daUtils.getPref("openNotification",ro_cvds_daUtils.boolPref))
-//                this.getContents(html);
             if (ro_cvds_daUtils.getPref("playsound",ro_cvds_daUtils.boolPref))
                 this.playSound(ro_cvds_daUtils.getPref("sound"));
             if (ro_cvds_daUtils.getPref("openMsgOnNew",ro_cvds_daUtils.boolPref))
@@ -387,3 +372,6 @@ function ro_cvds_initDa()
 }
 
 window.addEventListener("load", ro_cvds_initDa, false);
+
+
+

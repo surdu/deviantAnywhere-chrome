@@ -205,12 +205,6 @@
                 </rows>
             </grid>
         </groupbox>
-        
-		<groupbox>
-			<caption label="&settings.log;"/>
-			<textbox id="statusConsole" multiline="true" readonly="true"/>
-		</groupbox>
-					
     </prefpane>
 
     <prefpane id="dA-about" label="&settings.about;">

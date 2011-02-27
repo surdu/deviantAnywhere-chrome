@@ -1,0 +1,58 @@
+<!ENTITY menuitem.showInbox "Vos messages">
+<!ENTITY menuitem.checkMsg "Vérifier vos messages maintenant">
+<!ENTITY menuitem.settings "Paramètres">
+<!ENTITY menuitem.log "Journal d'événements">
+<!ENTITY menuitem.status "Statut">
+<!ENTITY menuitem.donate "Faire un don">
+<!ENTITY menuitem.about "À propos">
+<!ENTITY tooltip.by "par">
+<!ENTITY settings.look "Apparence">
+<!ENTITY settings.colors "Couleurs">
+<!ENTITY settings.usecolors "Couleurs personnalisées">
+<!ENTITY settings.bkgColor "Couleur de fond">
+<!ENTITY settings.textColor "Couleur du texte">
+<!ENTITY settings.default "Couleur par défaut">
+<!ENTITY settings.showFella "Afficher DeviantArt Fella">
+<!ENTITY settings.behave "Comportement">
+<!ENTITY settings.autoupdate "Mise à jour automatique">
+<!ENTITY settings.useautoupdate "Utiliser mise à jour automatique">
+<!--The next 2 should play well toghether as in this sentance: "Check for messages every 22 seconds"-->
+<!ENTITY settings.checkMsg "Vérifier les messages chaque">
+<!ENTITY settings.seconds "secondes">
+<!ENTITY settings.receiveMsg "Quand je reçois des nouveaux messages">
+<!ENTITY settings.showAlert "Afficher une notification">
+<!ENTITY settings.openInbox "Ouvrir la page des messages dans un nouvel onglet">
+<!ENTITY settings.focus "Afficher l'onglet en l'ouvrant">
+<!ENTITY settings.sound "Effets sonores">
+<!ENTITY settings.playSound "Jouer un son">
+<!ENTITY settings.chooseSound "Choisissez un son">
+<!ENTITY settings.connect "Connexion">
+<!ENTITY settings.autoLogin "Connexion automatique">
+<!ENTITY settings.useAutoLogin "Connecter automatiquement">
+<!ENTITY settings.deviantName "Nom d'utilisateur">
+<!ENTITY settings.pass "Mot de passe">
+<!ENTITY settings.notifyMsgLabel "Suivre ces types de messages">
+<!-- If you feel that the following items are not suitable for translation, leave them untranslated-->
+<!-- items -->
+<!ENTITY settings.msgNotices "Notifications">
+<!ENTITY settings.msgActivity "Messages d’activité">
+<!ENTITY settings.msgReplies "Réponses">
+<!ENTITY settings.msgNotes "Notes">
+<!ENTITY settings.msgJournals "Journaux">
+<!ENTITY settings.msgComments "Commentaires">
+<!ENTITY settings.msgDeviations "Déviations">
+<!ENTITY settings.msgPolls "Sondages">
+<!ENTITY settings.msgContest "Annonces de concours">
+<!ENTITY settings.msgNews "Nouvelles">
+<!ENTITY settings.msgAdmin "Messages d'administration">
+<!ENTITY settings.msgCritiques "Critiques">
+<!ENTITY settings.msgCorrespondence "Correspondance">
+<!-- end items -->
+<!ENTITY settings.log "Journal des événements">
+<!ENTITY settings.about "À propos">
+<!ENTITY settings.credits "Crédits">
+<!ENTITY settings.author "Auteur">
+<!ENTITY settings.translators "Traducteurs">
+<!ENTITY settings.thanks "Remerciements">
+<!ENTITY settings.order "En aucun ordre particulier">
+<!ENTITY settings.thanksMsg "Je tiens à remercier les personnes suivantes pour leur soutien sur deviantAnywhere.">

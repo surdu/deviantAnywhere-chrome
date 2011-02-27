@@ -1,0 +1,58 @@
+<!ENTITY menuitem.showInbox "Zobraz zprávy">
+<!ENTITY menuitem.checkMsg "Zkontroluj schránku">
+<!ENTITY menuitem.settings "Nastavení">
+<!ENTITY menuitem.log "Zobraz log">
+<!ENTITY menuitem.status "Status">
+<!ENTITY menuitem.donate "Přispějte">
+<!ENTITY menuitem.about "O programu">
+<!ENTITY tooltip.by "vytvořil">
+<!ENTITY settings.look "Vzhled">
+<!ENTITY settings.colors "Barvy">
+<!ENTITY settings.usecolors "Použít vlastní barvy">
+<!ENTITY settings.bkgColor "Barva pozadí">
+<!ENTITY settings.textColor "Barva textu">
+<!ENTITY settings.default "Původní barva">
+<!ENTITY settings.showFella "Zobrazovat obrázek dA Felly">
+<!ENTITY settings.behave "Chování">
+<!ENTITY settings.autoupdate "Automatická aktualizace">
+<!ENTITY settings.useautoupdate "Používat automatickou aktualizaci">
+<!--The next 2 should play well toghether as in this sentance: "Check for messages every 22 seconds"-->
+<!ENTITY settings.checkMsg "Kontrolovat zprávy každých">
+<!ENTITY settings.seconds "sekund">
+<!ENTITY settings.receiveMsg "Když obdržím nové zprávy">
+<!ENTITY settings.showAlert "Zobrazovat oznámení">
+<!ENTITY settings.openInbox "Otevírat schránku v nové záložce">
+<!ENTITY settings.focus "Přepnout na nový tab se zprávami">
+<!ENTITY settings.sound "Zvuk">
+<!ENTITY settings.playSound "Přehrát zvuk">
+<!ENTITY settings.chooseSound "Vybrat zvuk">
+<!ENTITY settings.connect "Spojení">
+<!ENTITY settings.autoLogin "Automatické přihlašování">
+<!ENTITY settings.useAutoLogin "Používat automatické přihlašování">
+<!ENTITY settings.deviantName "Přezdívka na devu">
+<!ENTITY settings.pass "Heslo">
+<!ENTITY settings.notifyMsgLabel "Sleduj tyto zprávy">
+<!-- If you feel that the following items are not suitable for translation, leave them untranslated-->
+<!-- items -->
+<!ENTITY settings.msgNotices "Notices">
+<!ENTITY settings.msgActivity "Activity Messages">
+<!ENTITY settings.msgReplies "Replies">
+<!ENTITY settings.msgNotes "Notes">
+<!ENTITY settings.msgJournals "Journals">
+<!ENTITY settings.msgComments "Comments">
+<!ENTITY settings.msgDeviations "Deviations">
+<!ENTITY settings.msgPolls "Polls">
+<!ENTITY settings.msgContest "Contest Announcements">
+<!ENTITY settings.msgNews "News">
+<!ENTITY settings.msgAdmin "Admin Messages">
+<!ENTITY settings.msgCritiques "Critiques">
+<!ENTITY settings.msgCorrespondence "Correspondence">
+<!-- end items -->
+<!ENTITY settings.log "Log">
+<!ENTITY settings.about "O programu">
+<!ENTITY settings.credits "Credits">
+<!ENTITY settings.author "Autor">
+<!ENTITY settings.translators "Překladatelé">
+<!ENTITY settings.thanks "Poděkování">
+<!ENTITY settings.order "Bez nějakého pořadí">
+<!ENTITY settings.thanksMsg "Chtěl bych poděkovat těmto lidem za podporu při tvorbě deviantAnywhere.">

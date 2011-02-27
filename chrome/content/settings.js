@@ -45,17 +45,7 @@ deviantAnywhereSettings.prototype =
 		
 		consoleBox = document.getElementById("statusConsole");
 		consoleBox.value = "Temporarily disabled the log due to the fact that it might create some issues.";
-		//this.updateLog();
     },
-
-	updateLog: function()
-	{
-		logInfo = window.opener.ro_cvds_daInstance.logInfo;
-		consoleBox = document.getElementById("statusConsole");
-		consoleBox.value = "";
-		for (var f=0; f<logInfo.length;f++)
-			consoleBox.value += logInfo[f]+"\n";		
-	},
 
     setDefaultBkg: function()
     {

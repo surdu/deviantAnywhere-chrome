@@ -1,7 +1,6 @@
 <!ENTITY menuitem.showInbox "Go to messages">
 <!ENTITY menuitem.checkMsg "Check now">
 <!ENTITY menuitem.settings "Settings">
-<!ENTITY menuitem.log "Show log">
 <!ENTITY menuitem.donate "Donate">
 <!ENTITY menuitem.about "About">
 
@@ -54,10 +53,6 @@
 <!ENTITY settings.msgCritiques "Critiques">
 <!ENTITY settings.msgCorrespondence "Correspondence">
 <!-- end items -->
-
-
-<!ENTITY settings.log "Log">
-
 
 <!ENTITY settings.about "About">
 <!ENTITY settings.credits "Credits">

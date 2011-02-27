@@ -1,0 +1,58 @@
+<!ENTITY menuitem.showInbox "Vezi mesajele">
+<!ENTITY menuitem.checkMsg "Verifiă acum">
+<!ENTITY menuitem.settings "Setări">
+<!ENTITY menuitem.log "Arată log">
+<!ENTITY menuitem.status "Status">
+<!ENTITY menuitem.donate "Donează">
+<!ENTITY menuitem.about "Despre">
+<!ENTITY tooltip.by "de">
+<!ENTITY settings.look "Aspect">
+<!ENTITY settings.colors "Culori">
+<!ENTITY settings.usecolors "Culori personalizate">
+<!ENTITY settings.bkgColor "Culoare fundal">
+<!ENTITY settings.textColor "Culoare text">
+<!ENTITY settings.default "Culoarea implicită">
+<!ENTITY settings.showFella "Arată iconul deviantArt">
+<!ENTITY settings.behave "Comportament">
+<!ENTITY settings.autoupdate "Auto-actualizare">
+<!ENTITY settings.useautoupdate "Folosește auto-actualizarea">
+<!--The next 2 should play well toghether as in this sentance: "Check for messages every 22 seconds"-->
+<!ENTITY settings.checkMsg "Verifică mesajele la fiecare">
+<!ENTITY settings.seconds "secunde">
+<!ENTITY settings.receiveMsg "Când primesc mesaje noi">
+<!ENTITY settings.showAlert "Arată o notificare">
+<!ENTITY settings.openInbox "Deschide pagina de mesaje intr-un tab nou">
+<!ENTITY settings.focus "Focalizează tab-ul cu mesaje după deschidere">
+<!ENTITY settings.sound "Sunet">
+<!ENTITY settings.playSound "Cânta un sunet">
+<!ENTITY settings.chooseSound "Alege un sunet">
+<!ENTITY settings.connect "Conexiune">
+<!ENTITY settings.autoLogin "Autentificare automată">
+<!ENTITY settings.useAutoLogin "Folosește">
+<!ENTITY settings.deviantName "Nume utilizator">
+<!ENTITY settings.pass "Parola">
+<!ENTITY settings.notifyMsgLabel "Urmărește aceste mesaje">
+<!-- If you feel that the following items are not suitable for translation, leave them untranslated-->
+<!-- items -->
+<!ENTITY settings.msgNotices "Notices">
+<!ENTITY settings.msgActivity "Activity Messages">
+<!ENTITY settings.msgReplies "Replies">
+<!ENTITY settings.msgNotes "Notes">
+<!ENTITY settings.msgJournals "Journals">
+<!ENTITY settings.msgComments "Comments">
+<!ENTITY settings.msgDeviations "Deviations">
+<!ENTITY settings.msgPolls "Polls">
+<!ENTITY settings.msgContest "Contest Announcements">
+<!ENTITY settings.msgNews "News">
+<!ENTITY settings.msgAdmin "Admin Messages">
+<!ENTITY settings.msgCritiques "Critiques">
+<!ENTITY settings.msgCorrespondence "Correspondence">
+<!-- end items -->
+<!ENTITY settings.log "Registru">
+<!ENTITY settings.about "Despre">
+<!ENTITY settings.credits "Credite">
+<!ENTITY settings.author "Autor">
+<!ENTITY settings.translators "Traducători">
+<!ENTITY settings.thanks "Mulțumiri către">
+<!ENTITY settings.order "Intr-o ordine oarecare">
+<!ENTITY settings.thanksMsg "Aș vrea să mulțumesc urmatorilor pentru suportul lor adus la crearea extensiei deviantAnywhere.">

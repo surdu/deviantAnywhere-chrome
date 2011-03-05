@@ -112,7 +112,7 @@ deviantAnywhere.prototype =
 				ro_cvds_daInstance.getMsgContent();
 		}
 		else
-			this.login();
+			ro_cvds_daInstance.login();
 
 	},
 

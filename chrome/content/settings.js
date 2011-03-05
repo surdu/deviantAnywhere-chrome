@@ -1,6 +1,10 @@
 function deviantAnywhereSettings()
 {
-//    this.passwordManager = Components.classes["@mozilla.org/login-manager;1"].getService(Components.interfaces.nsILoginManager);
+    this.passwordManager = Components.classes["@mozilla.org/login-manager;1"].getService(Components.interfaces.nsILoginManager);
+
+	this.nsLoginInfo = new Components.Constructor("@mozilla.org/login-manager/loginInfo;1",
+	                                             Components.interfaces.nsILoginInfo,
+	                                             "init");
 }
 
 deviantAnywhereSettings.prototype =
@@ -12,11 +16,23 @@ deviantAnywhereSettings.prototype =
 
     init: function()
     {
-	    ver = Components.classes["@mozilla.org/extensions/manager;1"]
-	          .getService(Components.interfaces.nsIExtensionManager)
-	          .getItemForID("deviantAnywhere@cvds.ro").version;
-	    document.getElementById("aboutProdVer").setAttribute("value", "v"+ver)
-
+		//retreive the extension version
+		try 
+		{
+			// Firefox 4 and later
+			Components.utils.import("resource://gre/modules/AddonManager.jsm");
+			AddonManager.getAddonByID("deviantAnywhere@cvds.ro", function(addon) {
+				document.getElementById("aboutProdVer").setAttribute("value", "v"+addon.version)
+			});
+		} 
+		catch (ex) 
+		{
+			// Firefox 3.6 and before
+			var ver = Components.classes["@mozilla.org/extensions/manager;1"]
+			      .getService(Components.interfaces.nsIExtensionManager)
+			      .getItemForID("deviantAnywhere@cvds.ro").version;
+			document.getElementById("aboutProdVer").setAttribute("value", "v"+ver);
+		}    	
 
         document.getElementById("password").value = ro_cvds_daUtils.getUserData()?ro_cvds_daUtils.getUserData().password:"";
         this.handleActionClick();
@@ -42,9 +58,6 @@ deviantAnywhereSettings.prototype =
 		var osString = Components.classes["@mozilla.org/xre/app-info;1"].getService(Components.interfaces.nsIXULRuntime).OS;
 		if (osString=="Darwin")
 			document.getElementById("winButtons").style.display = "block";
-		
-		consoleBox = document.getElementById("statusConsole");
-		consoleBox.value = "Temporarily disabled the log due to the fact that it might create some issues.";
     },
 
     setDefaultBkg: function()
@@ -107,7 +120,7 @@ deviantAnywhereSettings.prototype =
                 loginData = new this.nsLoginInfo('chrome://deviantAnywhere','User auto-login', null,"Main User", pass, "", "");
                 if (ro_cvds_daUtils.getUserData())
                     this.myLoginManager.removeLogin(ro_cvds_daUtils.getUserData());
-                this.myLoginManager.addLogin(loginData);
+                this.passwordManager.addLogin(loginData);
             }
             else
             {

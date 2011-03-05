@@ -16,7 +16,7 @@
     <statusbar id="status-bar">
         <statusbarpanel id="dAPanel" tooltip="da-Tip" ondblclick="if (!ro_cvds_daInstance.status.error) ro_cvds_daInstance.openMessages()" context="dA-contextMenu">
 			<hbox align="center" id="statusWrap">
-				<image  src="chrome://devany/skin/images/devIcon.gif" id="daLogo"/>
+				<image src="chrome://devany/skin/images/status_icons/normal.gif" id="daLogo"/>
 				<label id="daText" class="msgLabel" value="deviantAnywhere"/>
 			</hbox>			        
         </statusbarpanel>

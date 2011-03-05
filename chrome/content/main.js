@@ -75,26 +75,34 @@ deviantAnywhere.prototype =
 		ro_cvds_daInstance.retrieveMessages();
 	},
 
+	setIcon: function(icon)
+	{
+		var iconEl = document.getElementById("daLogo");
+		iconEl.setAttribute("src", "chrome://devany/skin/images/status_icons/"+icon+".gif")
+	},
+
     retrieveMessages: function()
     {
+        ro_cvds_daInstance.log("Retrieve messages: start");
+		ro_cvds_daInstance.setIcon("loading");
+		
+		var getFoldersReq = new dAServiceRequest(ro_cvds_daInstance.messagesURL+"?c[]=MessageCenter;get_folders&t=json");
+		getFoldersReq.onSuccess = ro_cvds_daInstance.parseFolders;
+		getFoldersReq.dataType = "json";
+		getFoldersReq.send();
+		
         if (ro_cvds_daUtils.getPref("autoupdate",ro_cvds_daUtils.boolPref))
         {
-            ro_cvds_daInstance.log("Retrieve messages: start");
+			var event = { notify: ro_cvds_daInstance.handleTimerEvent };
+			this.timer = Components.classes["@mozilla.org/timer;1"].createInstance(Components.interfaces.nsITimer);
 			
-			var getFoldersReq = new dAServiceRequest(ro_cvds_daInstance.messagesURL+"?c[]=MessageCenter;get_folders&t=json");
-			getFoldersReq.onSuccess = ro_cvds_daInstance.parseFolders;
-			getFoldersReq.dataType = "json";
-			getFoldersReq.send();
-        }
-		
-		var event = { notify: ro_cvds_daInstance.handleTimerEvent };
-		this.timer = Components.classes["@mozilla.org/timer;1"].createInstance(Components.interfaces.nsITimer);
-		
-		this.timer.initWithCallback(event,ro_cvds_daUtils.getPref("checktime",ro_cvds_daUtils.intPref)*1000,Components.interfaces.nsITimer.TYPE_ONE_SHOT);
+			this.timer.initWithCallback(event,ro_cvds_daUtils.getPref("checktime",ro_cvds_daUtils.intPref)*1000,Components.interfaces.nsITimer.TYPE_ONE_SHOT);
+		}
     },
 
 	parseFolders: function(response)
 	{
+		ro_cvds_daInstance.setIcon("normal");
 		if (response.DiFi.status == "SUCCESS")
 		{
 			ro_cvds_daInstance.log("Parsing folders");
@@ -163,7 +171,8 @@ deviantAnywhere.prototype =
 
     checkNow: function()
     {
-        this.timer.cancel();
+    	if (this.timer)
+        	this.timer.cancel();
         loginRetry = 0;
         this.retrieveMessages();
     },
@@ -193,8 +202,9 @@ deviantAnywhere.prototype =
 				var oldValue = this.messages[item]; 
 				var currentValue = newMessages[item];
 				var newSuffix = "";
-				
-	            if ((oldValue==undefined && currentValue!=0) || (oldValue && oldValue < currentValue))
+				 
+				//alert (item+" - "+oldValue+" - "+currentValue);
+	            if ((oldValue==undefined && currentValue!=0) || (oldValue == 0 && oldValue < currentValue) || (oldValue && oldValue < currentValue))
 	            {
 	                hasNew = true;
 	                thisIsNew = true;
@@ -231,7 +241,7 @@ deviantAnywhere.prototype =
             if (ro_cvds_daUtils.getPref("playsound",ro_cvds_daUtils.boolPref))
                 this.playSound(ro_cvds_daUtils.getPref("sound"));
             if (ro_cvds_daUtils.getPref("openMsgOnNew",ro_cvds_daUtils.boolPref))
-                setTimeout("ro_cvds_daInstance.openURL(ro_cvds_daInstance.inboxURL,ro_cvds_daUtils.getPref('focusTab',ro_cvds_daUtils.boolPref))",500);
+                ro_cvds_daInstance.openURL(ro_cvds_daInstance.inboxURL,ro_cvds_daUtils.getPref('focusTab',ro_cvds_daUtils.boolPref));
             ro_cvds_daUtils.setPref("lastMessages",ro_cvds_daUtils.array2JSON(newMessages),ro_cvds_daUtils.stringPref);
         }
 		ro_cvds_daInstance.log("Retrieve messages: end");

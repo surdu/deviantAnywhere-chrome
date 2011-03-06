@@ -84,7 +84,7 @@ deviantAnywhere.prototype =
     retrieveMessages: function()
     {
         ro_cvds_daInstance.log("Retrieve messages: start");
-		ro_cvds_daInstance.setIcon("loading");
+		//ro_cvds_daInstance.setIcon("loading");
 		
 		var getFoldersReq = new dAServiceRequest(ro_cvds_daInstance.messagesURL+"?c[]=MessageCenter;get_folders&t=json");
 		getFoldersReq.onSuccess = ro_cvds_daInstance.parseFolders;
@@ -102,7 +102,7 @@ deviantAnywhere.prototype =
 
 	parseFolders: function(response)
 	{
-		ro_cvds_daInstance.setIcon("normal");
+		//ro_cvds_daInstance.setIcon("normal");
 		if (response.DiFi.status == "SUCCESS")
 		{
 			ro_cvds_daInstance.log("Parsing folders");

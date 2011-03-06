@@ -15,7 +15,7 @@
 <!ENTITY settings.showFella "Pokaż deviantArt Fella">
 <!ENTITY settings.behave "Zachowanie">
 <!ENTITY settings.autoupdate "Automatyczna aktualizacja">
-<!ENTITY settings.useautoupdate "Użyj automatycznej aktualizaji">
+<!ENTITY settings.useautoupdate "Użyj automatycznej aktualizacji">
 <!--The next 2 should play well toghether as in this sentance: "Check for messages every 22 seconds"-->
 <!ENTITY settings.checkMsg "Sprawdź wiadomości co">
 <!ENTITY settings.seconds "sekund">

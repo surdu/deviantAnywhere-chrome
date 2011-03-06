@@ -220,14 +220,14 @@
 			<tabbox selectedIndex="0">
 			  <tabs>
 			    <tab label="&settings.author;"/>
-			    <!--<tab label="&settings.translators;"/>-->
+			    <tab label="&settings.translators;"/>
 				<tab label="&settings.thanks;"/>
 			  </tabs>
 			  <tabpanels>
 			    <tabpanel id="authorPanel">
 			    	<box orient="vertical">
 			    	<box id="devBox">
-						Developed by <label>Nicolae Surdu</label> aka <label>PostaL2600</label>
+						Developed by <label>Nicolae Surdu</label>
 					</box>
 					
 					<box id="linkBox" orient="vertical">
@@ -237,12 +237,22 @@
 					</box>
 				</tabpanel>
 			    
-				<!--
 				<tabpanel>
+					<box orient="vertical">
+						<label value="Bulgarian - ExaFlop" />
+						<label value="Catalan, Spanish - animarval"/>
+						<label value="Czech - Drakonee"/>
+						<label value="German - erglo"/>
+						<label value="French - CuzzaCurry, Carl Tessier"/> <!--(http://cuzzacurry.deviantart.com)-->
+						<label value="Norwegian - Christer Egon Eckermann aka Ecker00"/>
+						<label value="Polish - ecker00"/>
+						<label value="Portuguese  - Marcelo Ghelman"/> <!--(ghelman.net)-->
+						<label value="Swedish - Mikael Hiort af Ornäs"/>
+						<label value="Chinese (Simplified) - 991010"/>
+					</box>
 					
 				</tabpanel>
-				-->
-				
+					
 				<tabpanel>
 					<box orient="vertical">
 						<label id="thankMsg">&settings.thanksMsg;</label>

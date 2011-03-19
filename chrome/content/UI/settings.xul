@@ -240,12 +240,12 @@
 				<tabpanel>
 					<box orient="vertical">
 						<label value="Bulgarian - ExaFlop" />
-						<label value="Catalan, Spanish - animarval"/>
+						<label value="Catalan, Spanish - aniol"/>
 						<label value="Czech - Drakonee"/>
 						<label value="German - erglo"/>
 						<label value="French - CuzzaCurry, Carl Tessier"/> <!--(http://cuzzacurry.deviantart.com)-->
 						<label value="Norwegian - Christer Egon Eckermann aka Ecker00"/>
-						<label value="Polish - ecker00"/>
+						<label value="Polish - Tasharene"/>
 						<label value="Portuguese  - Marcelo Ghelman"/> <!--(ghelman.net)-->
 						<label value="Swedish - Mikael Hiort af Ornäs"/>
 						<label value="Chinese (Simplified) - 991010"/>
@@ -258,6 +258,7 @@
 						<label id="thankMsg">&settings.thanksMsg;</label>
 						<label id="orderLabel">&settings.order;:</label>
 						<box id="thanksBox">
+							<label href="http://sgtevmckay.deviantart.com/" class="text-link" value="sgtevmckay" onclick="window.opener.ro_cvds_daInstance.openURL(this.getAttribute('href'),true);return false;"/>,
 							<label href="http://aneolus.deviantart.com/" class="text-link" value="aneolus" onclick="window.opener.ro_cvds_daInstance.openURL(this.getAttribute('href'),true);return false;"/>,
 							<label href="http://electricjonny.deviantart.com/" class="text-link" value="electricjonny" onclick="window.opener.ro_cvds_daInstance.openURL(this.getAttribute('href'),true);return false;"/>,
 							<label href="http://samusfairchild.deviantart.com/" class="text-link" value="SamusFairchild" onclick="window.opener.ro_cvds_daInstance.openURL(this.getAttribute('href'),true);return false;"/>,

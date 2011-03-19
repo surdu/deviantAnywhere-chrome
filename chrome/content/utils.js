@@ -1,8 +1,3 @@
-function debug(text)
-{
-	dump(text+"\n");
-}
-
 function deviantAnywhereUtils()
 {
     this.boolPref = 1;

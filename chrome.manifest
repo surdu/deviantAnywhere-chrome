@@ -10,7 +10,7 @@ locale devany es-ES chrome/locale/es-ES/
 locale devany fr chrome/locale/fr/
 locale devany no-NO chrome/locale/no-NO/
 locale devany pl chrome/locale/pl/
-locale devany bt-BR chrome/locale/bt-BR/
+locale devany bt-BR chrome/locale/pt-BR/
 locale devany ro-RO chrome/locale/ro-RO/
 locale devany zh-CN chrome/locale/zh-CN/
 

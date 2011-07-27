@@ -1,0 +1,15 @@
+#devany_chrome_wrap, #devany_chrome_wrap *
+{
+  border: 0;
+  margin: 0;
+  padding: 0;
+  font-size: 100%;
+  color: transparent;
+}
+
+#devany_chrome_wrap img 
+{
+  color: transparent;
+  font-size: 0;
+  vertical-align: middle;
+}

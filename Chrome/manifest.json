@@ -7,7 +7,7 @@
 	},
 	"content_scripts": [{
 		"matches": ["*://*/*"],
-		"css": ["css/intruder.css"],
+		"css": ["css/reset.css", "css/intruder.css"],
 		"js": ["js/jquery.js", "js/intruder.js"]
 	}],
 	

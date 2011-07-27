@@ -3,8 +3,36 @@
 	background-color: #728776;
 	color: #FFFFFF;
 	height: 20px;
-	width: 100px;
 	position: fixed;
 	right: 0px;
 	bottom: 0px;
+	font-family: helvetica;
 }
+
+	#devany_chrome_wrap img
+	{
+		display: block;
+		margin-top: 4px;
+		margin-left: 9px;
+		float: left;
+	}
+	
+	#devany_chrome_wrap #devany_chrome_msg
+	{
+		float: left;
+		margin-top: 4px;
+		margin-left: 5px;
+		font-size: 11px;
+		margin-right: 10px;
+	}
+	
+		#devany_chrome_msg .devany_chrome_msg_item
+		{
+			margin-left: 3px;
+			color: white;
+		}
+		
+		#devany_chrome_msg .devany_chrome_msg_item.devany_chrome_msg_hitem
+		{
+			font-weight: bold;
+		}

@@ -1,15 +1,23 @@
-#devany_chrome_wrap
+*
 {
-	background-color: #728776;
-	color: #FFFFFF;
-	height: 20px;
-	position: fixed;
-	right: 0px;
-	bottom: 0px;
-	font-family: helvetica;
+	padding: 0px;
+	margin: 0px;
+	cursor: pointer;
 }
 
-	#devany_chrome_wrap img
+body
+{
+	background-color: #728776;
+}
+
+#da_wrap
+{
+	color: #FFFFFF;
+	font-family: helvetica;
+	display: inline-block;
+}
+
+	#da_wrap img
 	{
 		display: block;
 		margin-top: 4px;
@@ -17,7 +25,7 @@
 		float: left;
 	}
 	
-	#devany_chrome_wrap #devany_chrome_msg
+	#da_wrap #statusBar
 	{
 		float: left;
 		margin-top: 4px;
@@ -26,13 +34,12 @@
 		margin-right: 10px;
 	}
 	
-		#devany_chrome_msg .devany_chrome_msg_item
+		#statusBar .statusItem
 		{
-			margin-left: 3px;
-			color: white;
+			margin-right: 3px;
 		}
 		
-		#devany_chrome_msg .devany_chrome_msg_item.devany_chrome_msg_hitem
+		#statusBar .statusItem.new
 		{
 			font-weight: bold;
 		}

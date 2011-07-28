@@ -184,7 +184,6 @@ deviantAnywhere.prototype =
         statusBarText = "";
 
         //build the status bar message & tooltip
-        hasNew = false;
 		var statusWrap = document.getElementById("statusWrap");
 		
 		//clean old message labels

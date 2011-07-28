@@ -1,9 +1,15 @@
 function insertBody()
 {
-	$("body").append("<div id='devany_chrome_wrap'>"+
-						 "<img src='chrome-extension://cfliabmmnojpbgaaijjhnfhbjklidhfp/img/status_icons/normal.gif' />"+
-						 "<div id='devany_chrome_msg'><span class='devany_chrome_msg_item'>3CO</span><span class='devany_chrome_msg_item'>1CO</span><span class='devany_chrome_msg_item'>1CO</span></div>"+
-					 "</div>");
+	$("body").append("<iframe id='devany_chrome_iframe' frameborder='0' scrolling='no'></iframe>");
+
+	var req = new HTTPRequest('chrome-extension://cfliabmmnojpbgaaijjhnfhbjklidhfp/content/intruder.html');
+	req.onSuccess = handleFrameLoad;
+	req.send();
+}
+
+function handleFrameLoad(response)
+{
+	$('#devany_chrome_iframe').contents().find('html').html(response);
 }
 
 insertBody();

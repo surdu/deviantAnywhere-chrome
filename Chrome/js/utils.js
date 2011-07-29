@@ -41,10 +41,12 @@ HTTPRequest.prototype =
 	
 }
 
-function getPref(prefValue, defaultValue)
+function getPref(prefName)
 {
+	var prefValue = localStorage[prefName];
+	
 	if (typeof prefValue == 'undefined')
-		return defaultValue
+		return options_defaults[prefName];
 	
 	if (prefValue === "false")
 		return false;
@@ -55,13 +57,40 @@ function getPref(prefValue, defaultValue)
 	return prefValue;
 }
 
+function array2JSON(array)
+{
+    result = "{";
+    isFirst = true;
+    for (var key in array)
+    {
+        if (!isFirst)
+            result += ",";
+        else
+            isFirst = false;
+        result += key+":"+array[key];
+    }
+    result += "}";
+    return result;
+}
+
+function JSON2array(json)
+{
+    result = new Array();
+    if (json!=null && json!="")
+    {
+        json = json.replace(/{|}/g,"");
+        elements = json.split(",");
+        for (f=0;f<elements.length;f++)
+        {
+            parts = elements[f].split(":");
+            result[parts[0]] = parts[1];
+        }
+    }
+    return result;
+}
+
 function openURL(url)
 {
 	alert("Open URL: "+url);
-}
-
-function playSound(sond)
-{
-	alert("Play sound: "+sound);
 }
 

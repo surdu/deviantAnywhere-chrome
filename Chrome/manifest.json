@@ -8,10 +8,12 @@
 	"content_scripts": [{
 		"matches": ["*://*/*"],
 		"css": ["css/main.css"],
-		"js": ["js/jquery.js", "js/utils.js", "js/intruder.js", "js/main.js"]
+		"js": ["js/jquery.js", "js/utils.js", "js/intruder.js"]
 	}],
 	"permissions": [
-	    "http://www.deviantart.com/"
+	    "http://www.deviantart.com/",
+	    "tabs"
 	],
+	"background_page": "content/background.html",
 	"options_page": "content/options.html"	
 }

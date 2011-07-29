@@ -1,6 +1,7 @@
 #devany_chrome_iframe
 {
 	position: fixed;
+	z-index: 2147483647;
 	right: 0px;
 	bottom: 0px;
 	height: 20px;

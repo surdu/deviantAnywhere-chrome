@@ -22,21 +22,25 @@ var messagesInfo  = {"N":{"desc":"Notice::Notices", "pref":"followNotices"},
 
 var messages  = new Array();
 var newMessages = new Array();
-					
+
+var statusText = "";
+
 function init()
 {
 	log("Starting...");
-    var lastMessages = getPref(localStorage.lastMessages, "[]");
-    messages = JSON.parse(lastMessages);
+    var lastMessages = getPref("lastMessages");
+    messages = JSON2array(lastMessages);
 
-    if (getPref(localStorage.customLook))
+    if (getPref("customLook"))
     {
     	//TODO: make it actually work
-        backgroundColor = getPref(localStorage.bkgcolor);
-        color = getPref(localStorage.textcolor);
+        backgroundColor = getPref("bkgcolor");
+        color = getPref("textcolor");
     }
 
     retrieveMessages();
+    
+    chrome.extension.onRequest.addListener(handleGetStatusRequest);
 }
 
 function retrieveMessages()
@@ -48,10 +52,6 @@ function retrieveMessages()
 	getFoldersReq.onSuccess = parseFolders;
 	getFoldersReq.dataType = "json";
 	getFoldersReq.send();
-	
-	//TODO: Move this after you get a response
-	if (getPref(localStorage.autoupdate))
-		setTimeout(retrieveMessages, getPref(localStorage.checktime)*1000)
 }
 
 function parseFolders(response)
@@ -114,7 +114,7 @@ function parseMessages(response)
 	newMessages["NW"]= parseInt(response.DiFi.response.calls[8].response.content[0].result.matches);
 	newMessages["J"] = parseInt(response.DiFi.response.calls[9].response.content[0].result.matches);
 	newMessages["P"] = parseInt(response.DiFi.response.calls[10].response.content[0].result.matches);
-	setStatus();
+	generateStatus();
 }
 
 function log(message)
@@ -128,17 +128,16 @@ function log(message)
 
 ///////////////////////// UI /////////////////////////
 
-function setStatus()
+function generateStatus()
 {
     hasNew = false;
     statusBarText = "";
 	
-	var statusBar = $("#statusBar", document.getElementById("devany_chrome_iframe").contentDocument.body);
-	statusBar.empty();
-
+	statusText = "";
+	
     for (var item in newMessages)
     {
-		if (getPref(localStorage[messagesInfo[item].pref], true))
+		if (getPref(messagesInfo[item].pref))
 		{
             var thisIsNew = false;
 			var oldValue = messages[item]; 
@@ -181,33 +180,50 @@ function setStatus()
 				// if statusBar.append(statusItem), statusItem will loose the css attributes
 				// what we do is: make a clone of the statusItem inside a temp div, 
 				// get the content of that div and then destroy the div
-				statusBar.append($('<div>').append(statusItem.clone()).remove().html());
+				statusText += $('<div>').append(statusItem.clone()).remove().html();
             }
 		}
     }
 	
     if (hasNew)
     {
-    	fit_content();
-    	
-        if (getPref(localStorage.playsound))
-            playSound(getPref(localStorage.sound));
+        if (getPref("playsound"))
+            playSound(getPref("sound"));
             
-        if (getPref(localStorage.openMsgOnNew))
-            openURL(inboxURL,getPref(localStorage.focusTab));
+        if (getPref("openMsgOnNew"))
+            openURL(inboxURL,getPref("focusTab"));
             
-        localStorage.lastMessages = JSON.stringify(newMessages);
+        localStorage.lastMessages = array2JSON(newMessages);
     }
+	
+	if (getPref("autoupdate"))
+		setTimeout(retrieveMessages, getPref("checktime")*1000)
+	
+	updateStatus(statusText);
 	
 	log("Retrieve messages: end");	
 }
 
-function fit_content()
+function updateStatus(status)
 {
-	var  newWidth = $("#da_wrap", document.getElementById("devany_chrome_iframe").contentDocument.body).width();
-	$('#devany_chrome_iframe').width(newWidth);
+	chrome.tabs.getAllInWindow(null, function(tabs) {
+		for (var f=0; f<tabs.length; f++)
+			chrome.tabs.sendRequest(tabs[f].id, {status: status, action: "set_status"});
+	});	
 }
 
+function handleGetStatusRequest(request, sender, sendResponse)
+{
+	if (request.action = "get_status")
+		sendResponse({status: statusText})
+}
+
+function playSound(sound)
+{
+	var player = document.getElementById('notifySound');
+	player.setAttribute("src", sound)
+	player.play();
+}
 
 init();
 

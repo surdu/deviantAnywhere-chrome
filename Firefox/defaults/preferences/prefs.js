@@ -1,7 +1,7 @@
 pref("deviantAnywhere.lastMessages", "");
 
 pref("deviantAnywhere.autoupdate", true);
-pref("deviantAnywhere.checktime", 60);
+pref("deviantAnywhere.checktime", 300);
 pref("deviantAnywhere.openMsgOnNew", false);
 pref("deviantAnywhere.openNotification", true);
 pref("deviantAnywhere.playsound", true);

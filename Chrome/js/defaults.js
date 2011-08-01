@@ -5,6 +5,7 @@ options_defaults["lastMessages"] = "[]";
 options_defaults["autoupdate"] = true;
 options_defaults["checktime"] = 300; // 5 minutes
 options_defaults["openMsgOnNew"] = false;
+options_defaults["focusTab"] = true;
 options_defaults["openNotification"] = true;
 options_defaults["playsound"] = true;
 options_defaults["sound"] = "chrome-extension://cfliabmmnojpbgaaijjhnfhbjklidhfp/sounds/splat.wav";

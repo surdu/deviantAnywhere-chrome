@@ -41,6 +41,9 @@ function init()
     retrieveMessages();
     
     chrome.extension.onRequest.addListener(handleGetStatusRequest);
+    chrome.browserAction.onClicked.addListener(function(){
+    	openMessages(true, true);
+    });
 }
 
 function retrieveMessages()
@@ -117,14 +120,6 @@ function parseMessages(response)
 	generateStatus();
 }
 
-function log(message)
-{
-	//dummy for now
-	console.log(message);
-}
-
-
-
 
 ///////////////////////// UI /////////////////////////
 
@@ -192,6 +187,8 @@ function generateStatus()
             
         if (getPref("openMsgOnNew"))
             openURL(inboxURL,getPref("focusTab"));
+
+		chrome.browserAction.setBadgeText({"text":"New!"});
             
         localStorage.lastMessages = array2JSON(newMessages);
     }

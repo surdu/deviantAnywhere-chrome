@@ -3,6 +3,7 @@ pref("deviantAnywhere.lastMessages", "");
 pref("deviantAnywhere.autoupdate", true);
 pref("deviantAnywhere.checktime", 300);
 pref("deviantAnywhere.openMsgOnNew", false);
+pref("deviantAnywhere.focusTab", true);
 pref("deviantAnywhere.openNotification", true);
 pref("deviantAnywhere.playsound", true);
 pref("deviantAnywhere.sound", "chrome://devany/content/sounds/splat.wav");

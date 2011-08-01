@@ -89,8 +89,29 @@ function JSON2array(json)
     return result;
 }
 
-function openURL(url)
+function openURL(url, newtab, focus)
 {
-	alert("Open URL: "+url);
+	if (typeof focus == 'undefined' && focus !== false)
+		focus = true;
+	
+	if (newtab)
+		window.open(url)
+	else
+		window.location = url;
+		
+	if (focus === false)
+		window.focus();
+}
+
+function openMessages(newtab, focus)
+{
+	openURL("http://my.deviantart.com/messages/", newtab, focus);
+	return false;
+}
+
+function log(message)
+{
+	//dummy for now
+	console.log(message);
 }
 

@@ -26,7 +26,14 @@ function handleGetStatusResponse(response)
 
 function handleFrameLoad(response)
 {
-	$('#devany_chrome_iframe').contents().find('html').html(response);
+	// fill the iframe and initialize it
+	$('#devany_chrome_iframe').contents().find('html')
+	.html(response)
+	.dblclick(function(){openMessages(true, true);});
+
+	// disable selection
+	document.getElementById("devany_chrome_iframe").contentDocument.body.onselectstart = function() {return false;};
+	
 }
 
 function setStatus(status)

@@ -8,7 +8,7 @@ options_defaults["openMsgOnNew"] = false;
 options_defaults["focusTab"] = true;
 options_defaults["openNotification"] = true;
 options_defaults["playsound"] = true;
-options_defaults["sound"] = "chrome-extension://cfliabmmnojpbgaaijjhnfhbjklidhfp/sounds/splat.wav";
+options_defaults["sound"] = "chrome-extension://__MSG_@@extension_id__/sounds/splat.wav";
 
 options_defaults["customLook"] = true;
 options_defaults["bkgcolor"] = "#728776";

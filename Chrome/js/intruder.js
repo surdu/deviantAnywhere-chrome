@@ -2,7 +2,8 @@ function insertBody()
 {
 	$("html").append("<iframe id='devany_chrome_iframe' frameborder='0' scrolling='no'></iframe>");
 
-	var req = new HTTPRequest('chrome-extension://cfliabmmnojpbgaaijjhnfhbjklidhfp/content/intruder.html');
+	intruderURL = chrome.extension.getURL('content/intruder.html')
+	var req = new HTTPRequest(intruderURL);
 	req.onSuccess = handleFrameLoad;
 	req.send();
 	
@@ -26,6 +27,21 @@ function handleGetStatusResponse(response)
 
 function handleFrameLoad(response)
 {
+	//get extension's IDs
+	var regExp = /chrome-extension:\/\/(.*?)\//;
+	var match = regExp.exec(chrome.extension.getURL('/'));
+	if (match != null) 
+	    extId = match[1];
+	else
+	{
+		alert("There is a big problem with deviantAnywhere. Please desable it and report to the extension's developer");
+		alert(chrome.extension.getURL('/'));
+		return;
+	}
+
+	// replace all the id predefined messages in the HTML with the extension's id
+	response = response.replace(/__MSG_@@extension_id__/g, extId);
+	
 	// fill the iframe and initialize it
 	$('#devany_chrome_iframe').contents().find('html')
 	.html(response)

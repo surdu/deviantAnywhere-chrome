@@ -1,3 +1,5 @@
+var iFrameContent;
+
 function insertBody()
 {
 	$("html").append("<iframe id='devany_chrome_iframe' frameborder='0' scrolling='no'></iframe>");
@@ -47,9 +49,13 @@ function handleFrameLoad(response)
 	.html(response)
 	.dblclick(function(){openMessages(true, true);});
 
+	iFrameContent = document.getElementById("devany_chrome_iframe").contentDocument.body;
+
 	// disable selection
-	document.getElementById("devany_chrome_iframe").contentDocument.body.onselectstart = function() {return false;};
+	iFrameContent.onselectstart = disable;
 	
+	// disable right click
+	$(iFrameContent).bind("contextmenu", disable);
 }
 
 function setStatus(status)
@@ -57,7 +63,7 @@ function setStatus(status)
 	if (status)
 	{
 		// change the status
-		var statusBar = $("#statusBar", document.getElementById("devany_chrome_iframe").contentDocument.body);
+		var statusBar = $("#statusBar", iFrameContent);
 		statusBar.html(status);
 		
 		setTimeout(fitContent, 10);
@@ -67,7 +73,7 @@ function setStatus(status)
 function fitContent()
 {
 	// resize main iframe to fit content
-	var  newWidth = $("#statusBar", document.getElementById("devany_chrome_iframe").contentDocument.body).width() + 40;
+	var  newWidth = $("#statusBar", iFrameContent).width() + 40;
 	$('#devany_chrome_iframe').width(newWidth);
 }
 

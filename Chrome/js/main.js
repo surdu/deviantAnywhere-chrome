@@ -41,9 +41,6 @@ function init()
     retrieveMessages();
     
     chrome.extension.onRequest.addListener(handleGetStatusRequest);
-    chrome.browserAction.onClicked.addListener(function(){
-    	openMessages(true, true);
-    });
 }
 
 function retrieveMessages()
@@ -156,16 +153,16 @@ function generateStatus()
 				{
 					statusItem.addClass("new");
 					if (oldValue != undefined)
-						newSuffix = (currentValue - oldValue) + " New";
+						newSuffix = ", "+(currentValue - oldValue) + " New";
 					else  
-						newSuffix = currentValue + " New";
+						newSuffix = ", "+currentValue + " New";
 				}
 				
 				// build the hint
 				var tooltipOpts = messagesInfo[item].desc.split("::");
-				var tooltip = messages[item]+" "+tooltipOpts[0]+", "+newSuffix;
+				var tooltip = messages[item]+" "+tooltipOpts[0]+newSuffix;
 				if (messages[item]>1)
-					tooltip = messages[item]+" "+tooltipOpts[1]+", "+newSuffix;
+					tooltip = messages[item]+" "+tooltipOpts[1]+newSuffix;
 				
 				statusItem.attr("title", tooltip);
 				statusItem.html(messages[item]+item);

@@ -115,3 +115,9 @@ function log(message)
 	console.log(message);
 }
 
+function disable()
+{
+	// used to disable natural behaviours using jQuery
+	return false;
+}
+

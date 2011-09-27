@@ -3,7 +3,9 @@
 	"version": "1.0",
 	"description": "Keeps deviantArt allways near you.",
 	"browser_action": {
-		"default_icon": "img/fella_icon.png"
+		"default_icon": "img/fella_icon.png",
+		"default_popup": "content/popup.html",
+		"default_title": "deviantAnywhere"
 	},
 	"content_scripts": [{
 		"matches": ["*://*/*"],
@@ -15,5 +17,5 @@
 	    "tabs"
 	],
 	"background_page": "content/background.html",
-	"options_page": "content/options.html"	
+	"options_page": "content/options.html"
 }

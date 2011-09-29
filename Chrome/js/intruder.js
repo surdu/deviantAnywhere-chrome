@@ -30,7 +30,7 @@ function handleGetStatusResponse(response)
 function handleFrameLoad(response)
 {
 	//get extension's IDs
-	var regExp = /chrome-extension:\/\/(.*?)\//;
+	var regExp = /chrome-extension:\/\/(.*?)\//; 
 	var match = regExp.exec(chrome.extension.getURL('/'));
 	if (match != null) 
 	    extId = match[1];

@@ -1,0 +1,24 @@
+.colorInput
+{
+	display: none;
+}
+
+.colorSelect
+{
+	display: inline-block;
+	position: relative;
+	vertical-align: middle;
+	width: 36px;
+	height: 36px;
+	background: url("/js/colorpicker/images/select2.png"); 
+}
+
+	.colorSelect div
+	{
+		position: absolute;
+		left: 4px;
+		top: 4px;
+		width: 28px;
+		height: 28px;
+		background: red url("/js/colorpicker/images/select2.png") center;
+	}

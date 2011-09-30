@@ -3,16 +3,17 @@ var settings = new Store("settings", {
     "lastMessages": "[]",
     
     "autoupdate": true,
-    "checktime": 300, //5 minutes
-    "openMsgOnNew": false,
-    "focusTab": true,
+    "checkTime": 300, //5 minutes
+    "openInbox": false,
+    "focusInbox": true,
     "openNotification": true,
-    "playsound": true,
+    "playSound": true,
     "sound": "chrome-extension://__MSG_@@extension_id__/sounds/splat.wav",
     
     "customLook": true,
-    "bkgcolor": "#728776",
-    "textcolor": "#FFFFFF",
+    "bkgColor": "#728776",
+    "textColor": "#FFFFFF",
+    "showFella": true,
     
     "followNotices": true,
     "followActivity": true,

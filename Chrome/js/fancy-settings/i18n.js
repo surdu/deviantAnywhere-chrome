@@ -30,37 +30,35 @@ this.i18n = {
     "textColor": {
         "en": "Text color",
     },
-    "x-characters-pw": {
-        "en": "10 - 18 characters",
-        "de": "10 - 18 Zeichen"
+    "showFella": {
+        "en": "Show deviantArt Fella",
     },
-    "description": {
-        "en": "This is a description. You can write any text inside of this.<br>\
-        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut\
-        labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores\
-        et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem\
-        ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et\
-        dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.\
-        Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
-        
-        "de": "Das ist eine Beschreibung. Du kannst hier beliebigen Text einfügen.<br>\
-        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut\
-        labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores\
-        et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem\
-        ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et\
-        dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.\
-        Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
+    "behave": {
+        "en": "Behaviour",
+    },    
+    "receiveMsg": {
+        "en": "When I receive new messages",
+    },    
+    "openInbox": {
+        "en": "Open inbox page in new tab",
+    },    
+    "focusInbox": {
+        "en": "Focus the messages tab after opening"        
     },
-    "logout": {
-        "en": "Logout",
-        "de": "Abmeldung"
-    },
-    "enable": {
-        "en": "Enable",
-        "de": "Aktivieren"
-    },
-    "disconnect": {
-        "en": "Disconnect:",
-        "de": "Trennen:"
-    }
+    "sound": {
+        "en": "Sound",
+    },        
+    "playSound": {
+        "en": "Play sound",
+    },    
+    "chooseSound": {
+        "en": "Choose a sound",
+    },        
+    "notifyMsgLabel": {
+        "en": "Follow this messages",
+    },        
+    "msgNotices": {
+        "en": "Notices",
+    },        
+
 };

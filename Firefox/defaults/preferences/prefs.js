@@ -2,6 +2,7 @@ pref("deviantAnywhere.lastMessages", "");
 
 pref("deviantAnywhere.autoupdate", true);
 pref("deviantAnywhere.checktime", 300);
+pref("deviantAnywhere.useautologin", false);
 pref("deviantAnywhere.openMsgOnNew", false);
 pref("deviantAnywhere.focusTab", true);
 pref("deviantAnywhere.openNotification", true);

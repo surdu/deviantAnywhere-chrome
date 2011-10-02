@@ -60,5 +60,64 @@ this.i18n = {
     "msgNotices": {
         "en": "Notices",
     },        
-
+    "msgActivity": {
+        "en": "Activity Messages",
+    },        
+    "msgReplies": {
+        "en": "Replies",
+    },        
+    "msgNotes": {
+        "en": "Notes",
+    },        
+    "msgJournals": {
+        "en": "Journals",
+    },        
+    "msgComments": {
+        "en": "Comments",
+    },        
+    "msgDeviations": {
+        "en": "Deviations",
+    },        
+    "msgPolls": {
+        "en": "Polls",
+    },        
+    "msgContest": {
+        "en": "Contest Announcements",
+    },        
+    "msgNews": {
+        "en": "News",
+    },        
+    "msgAdmin": {
+        "en": "Admin Messages",
+    },        
+    "msgCritiques": {
+        "en": "Critiques",
+    },        
+    "msgCorrespondence": {
+        "en": "Correspondence",
+    },        
+    "connect": {
+        "en": "Connection",
+    },        
+    "autoupdate": {
+        "en": "Auto-update",
+    },        
+    "useautoupdate": {
+        "en": "Use auto-update",
+    },        
+    "checkMsg": {
+        "en": "Check for messages every",
+    },
+    "autoLogin": {
+        "en": "Automatic login",
+    },
+    "useAutoLogin": {
+        "en": "Use auto-login",
+    },
+    "deviantName": {
+        "en": "Deviant name",
+    },
+    "pass": {
+        "en": "Password",
+    },
 };

@@ -54,7 +54,7 @@ this.manifest = {
         {
             "tab": i18n.get("behave"),
             "group": i18n.get("sound"),
-            "name": "sound",
+            "name": "playSound",
             "type": "checkbox",
             "label": i18n.get("playSound")
         },
@@ -171,6 +171,51 @@ this.manifest = {
             "label": i18n.get("msgCorrespondence")
         },
 
+        {
+            "tab": i18n.get("connect"),
+            "group": i18n.get("autoupdate"),
+            "name": "autoupdate",
+            "type": "checkbox",
+            "label": i18n.get("useautoupdate")
+        },
 
+        {
+            "tab": i18n.get("connect"),
+            "group": i18n.get("autoupdate"),
+            "name": "checkTime",
+            "type": "text",
+            "label": i18n.get("checkMsg")
+        },
+
+        {
+            "tab": i18n.get("connect"),
+            "group": i18n.get("autoLogin"),
+            "name": "useautologin",
+            "type": "checkbox",
+            "label": i18n.get("useAutoLogin")
+        },
+
+        {
+            "tab": i18n.get("connect"),
+            "group": i18n.get("autoLogin"),
+            "name": "deviantName",
+            "type": "text",
+            "label": i18n.get("deviantName")
+        },
+        {
+            "tab": i18n.get("connect"),
+            "group": i18n.get("autoLogin"),
+            "name": "password",
+            "type": "text",
+            "label": i18n.get("pass")
+        },
+
+
+    ],
+    "alignment": [
+        [
+            "deviantName",
+            "password"
+        ],
     ]
 };

@@ -37,9 +37,12 @@
                 this.search.bind(tab.content.tab);
                 
                 tab.content = tab.content.content;
-                (new Element("h2", {
-                    "text": params.tab
-                })).inject(tab.content);
+                
+                var tabTitle = new Element("h2", {
+                    "html": "<img src='/img/tab_icons/icon_"+params.icon+".png' class='tabIcon' />"+params.tab
+                });
+                
+                tabTitle.inject(tab.content);
             } else {
                 tab = this.tabs[params.tab];
             }

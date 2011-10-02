@@ -5,6 +5,7 @@ this.manifest = {
     "settings": [
         {
             "tab": i18n.get("look"),
+            "icon": "look",
             "group": i18n.get("colors"),
             "name": "customLook",
             "type": "checkbox",
@@ -37,6 +38,7 @@ this.manifest = {
 
         {
             "tab": i18n.get("behave"),
+            "icon": "behave",
             "group": i18n.get("receiveMsg"),
             "name": "openInbox",
             "type": "checkbox",
@@ -173,6 +175,7 @@ this.manifest = {
 
         {
             "tab": i18n.get("connect"),
+            "icon": "connect",
             "group": i18n.get("autoupdate"),
             "name": "autoupdate",
             "type": "checkbox",

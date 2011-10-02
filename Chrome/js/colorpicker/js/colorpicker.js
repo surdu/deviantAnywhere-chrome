@@ -93,7 +93,7 @@
 				setSelector(col, cal.get(0));
 				setHue(col, cal.get(0));
 				setNewColor(col, cal.get(0));
-				cal.data('colorpicker').onChange.apply(cal, [col, HSBToHex(col), HSBToRGB(col)]);
+				cal.data('colorpicker').onChange.apply(cal, [cal.data("owner"), HSBToHex(col)]);
 			},
 			blur = function (ev) {
 				var cal = $(this).parent().parent();
@@ -203,7 +203,8 @@
 			},
 			show = function (ev) {
 				var cal = $('#' + $(this).data('colorpickerId'));
-				cal.data('colorpicker').onBeforeShow.apply(this, [cal.get(0)]);
+				cal.data('colorpicker').onBeforeShow.apply(this, [cal.get(0), $(this)]);
+				cal.data('owner', $(this));
 				var pos = $(this).offset();
 				var viewPort = getViewport();
 				var top = pos.top + this.offsetHeight;

@@ -1,3 +1,14 @@
+.tabIcon
+{
+	vertical-align: text-bottom;
+	margin-right: 10px;
+}
+
+.colorpicker input
+{
+	width: auto;
+}
+
 .colorInput
 {
 	display: none;

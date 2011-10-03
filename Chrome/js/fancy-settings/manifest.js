@@ -66,7 +66,13 @@ this.manifest = {
             "group": i18n.get("sound"),
             "name": "sound",
             "type": "popupButton",
-            "label": i18n.get("chooseSound")
+            "label": i18n.get("chooseSound")+":",
+            "options":[
+            	[ "chrome-extension://__MSG_@@extension_id__/sounds/splat.wav", "Splat"],
+            	[ "chrome-extension://__MSG_@@extension_id__/sounds/mix.wav", "Mix"],
+            	[ "chrome-extension://__MSG_@@extension_id__/sounds/slice.wav", "Slice"],
+            	[ "chrome-extension://__MSG_@@extension_id__/sounds/zing.wav", "Zing"],
+            ]
         },
 
         {
@@ -187,13 +193,13 @@ this.manifest = {
             "group": i18n.get("autoupdate"),
             "name": "checkTime",
             "type": "text",
-            "label": i18n.get("checkMsg")
+            "label": i18n.get("checkMsg")+":"
         },
 
         {
             "tab": i18n.get("connect"),
             "group": i18n.get("autoLogin"),
-            "name": "useautologin",
+            "name": "useAutoLogin",
             "type": "checkbox",
             "label": i18n.get("useAutoLogin")
         },
@@ -203,14 +209,14 @@ this.manifest = {
             "group": i18n.get("autoLogin"),
             "name": "deviantName",
             "type": "text",
-            "label": i18n.get("deviantName")
+            "label": i18n.get("deviantName")+":"
         },
         {
             "tab": i18n.get("connect"),
             "group": i18n.get("autoLogin"),
             "name": "password",
             "type": "text",
-            "label": i18n.get("pass")
+            "label": i18n.get("pass")+":"
         },
 
 

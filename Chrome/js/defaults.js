@@ -4,7 +4,7 @@ var settings = new Store("settings", {
     
     "autoupdate": true,
     "checkTime": 300, //5 minutes
-    "useautologin": false,
+    "useAutoLogin": false,
     "openInbox": false,
     "focusInbox": true,
     "openNotification": true,

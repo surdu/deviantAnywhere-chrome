@@ -9,6 +9,11 @@
 	width: auto;
 }
 
+label[disabled]
+{
+	color: gray;
+}
+
 .colorInput
 {
 	display: none;

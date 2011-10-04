@@ -8,7 +8,7 @@
 		"default_title": "deviantAnywhere"
 	},
 	"content_scripts": [{
-		"matches": ["*://*/*"],
+		"matches": ["<all_urls>"],
 		"css": ["css/main.css"],
 		"js": ["js/jquery.js", "js/utils.js", "js/intruder.js"]
 	}],

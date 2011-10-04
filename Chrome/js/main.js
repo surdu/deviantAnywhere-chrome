@@ -28,14 +28,14 @@ var statusText = "";
 function init()
 {
 	log("Starting...");
-    var lastMessages = getPref("lastMessages");
+    var lastMessages = settings.get("lastMessages");
     messages = JSON2array(lastMessages);
 
-    if (getPref("customLook"))
+    if (settings.get("customLook"))
     {
     	//TODO: make it actually work
-        backgroundColor = getPref("bkgcolor");
-        color = getPref("textcolor");
+        backgroundColor = settings.get("bkgColor");
+        color = settings.get("textColor");
     }
 
     retrieveMessages();
@@ -129,7 +129,7 @@ function generateStatus()
 	
     for (var item in newMessages)
     {
-		if (getPref(messagesInfo[item].pref))
+		if (settings.get(messagesInfo[item].pref))
 		{
             var thisIsNew = false;
 			var oldValue = messages[item]; 
@@ -179,30 +179,30 @@ function generateStatus()
 	
     if (hasNew)
     {
-        if (getPref("playsound"))
-            playSound(getPref("sound"));
+        if (settings.get("playSound"))
+            playSound(settings.get("sound"));
             
-        if (getPref("openMsgOnNew"))
-            openURL(inboxURL,getPref("focusTab"));
+        if (settings.get("openMsgOnNew"))
+            openURL(inboxURL,settings.get("focusTab"));
 
 		chrome.browserAction.setBadgeText({"text":"New!"});
             
         localStorage.lastMessages = array2JSON(newMessages);
     }
 	
-	if (getPref("autoupdate"))
-		setTimeout(retrieveMessages, getPref("checktime")*1000)
+	if (settings.get("autoupdate"))
+		setTimeout(retrieveMessages, settings.get("checkTime")*1000)
 	
-	updateStatus(statusText);
+	updateStatus();
 	
 	log("Retrieve messages: end");	
 }
 
-function updateStatus(status)
+function updateStatus()
 {
 	chrome.tabs.getAllInWindow(null, function(tabs) {
 		for (var f=0; f<tabs.length; f++)
-			chrome.tabs.sendRequest(tabs[f].id, {status: status, action: "set_status"});
+			chrome.tabs.sendRequest(tabs[f].id, {status: statusText, action: "set_status"});
 	});	
 }
 

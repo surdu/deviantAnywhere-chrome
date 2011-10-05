@@ -1,4 +1,4 @@
-var settings = new Store("settings", {
+var defaults = {
     
     "lastMessages": "[]",
     
@@ -30,4 +30,6 @@ var settings = new Store("settings", {
     "followCritiques": true,
     "followCorrespondence": true,
     
-});
+};
+
+var settings = new Store("settings", defaults);

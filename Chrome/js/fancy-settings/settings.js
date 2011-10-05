@@ -3,14 +3,17 @@ var settings_g;
 window.addEvent("domready", function () {
     new FancySettings.initWithManifest(function (settings) {
     	
-    	//we need to call the xxChanged functions manualy at first
-    	//so that's why we need this global variable
+    	//we need to call some functions outside this function
+    	//that need to acces the settings
     	settings_g = settings;
     	
-    	j(settings.manifest.bkgColor.element).addClass("colorInput").attr("id", "bkgColorInput");
-    	j(settings.manifest.textColor.element).addClass("colorInput").attr("id", "textColorInput");
+    	//insert the color pickers and buttons after color inputs
+    	var bkgInput = j(settings.manifest.bkgColor.element).addClass("colorInput").attr("id", "bkgColorInput");
+    	var textInput = j(settings.manifest.textColor.element).addClass("colorInput").attr("id", "textColorInput");
     	
-    	j("<div class='colorSelect'><div></div></div>").insertAfter(".colorInput");
+    	j("<div class='colorSelect'><div></div></div> <button class='defaultBtn'>Default color</button>").insertAfter(".colorInput");
+    	
+    	j(".defaultBtn").click(resetColor);
     	
 		// align pickers
     	var bkgLabelWidth = settings.manifest.bkgColor.label.offsetWidth;
@@ -40,12 +43,19 @@ window.addEvent("domready", function () {
 				trigger.find("div").css("backgroundColor", "#"+color);
 				
 				if (input.attr("id")=="bkgColorInput")
+				{
 					settings.manifest.bkgColor.set("#"+color);
+					applyUIChanges("#"+color, null, null);
+				}
 				else
+				{
 					settings.manifest.textColor.set("#"+color);
+					applyUIChanges(null, "#"+color, null);
+				}
 			}    		
     	});
     	
+    	j(settings.manifest.showFella.element).change(showFellaChanged);
     	j(settings.manifest.openInbox.element).change(openInboxChanged);
     	j(settings.manifest.playSound.element).change(playSoundChanged);
     	j(settings.manifest.autoupdate.element).change(autoupdateChanged);
@@ -57,6 +67,43 @@ window.addEvent("domready", function () {
     	useAutoLoginChanged();
     });
 });
+
+function applyUIChanges(bkgColor, textColor, showFella)
+{
+	chrome.windows.getAll({populate: true}, function(windows){
+		for (var f=0; f<windows.length; f++)
+			for (var g=0; g<windows[f].tabs.length; g++)
+				chrome.tabs.sendRequest(windows[f].tabs[g].id, {bkgColor: bkgColor, textColor: textColor, showFella: showFella, action: "change_ui"});
+	});
+}
+
+function resetColor()
+{
+	var parent = j(this).parent();
+	var input = parent.find("input");
+	var colorSelect = parent.find(".colorSelect div");
+
+	if (input.attr("id")=="bkgColorInput")
+	{
+		settings_g.manifest.bkgColor.set(defaults["bkgColor"]);
+		colorSelect.css("backgroundColor", defaults["bkgColor"]);
+		applyUIChanges(defaults["bkgColor"], null, null);
+	}
+	else
+	{
+		settings_g.manifest.textColor.set(defaults["textColor"]);
+		colorSelect.css("backgroundColor", defaults["textColor"]);
+		applyUIChanges(null, defaults["textColor"], null);
+	}
+}
+
+function showFellaChanged()
+{
+	if (j(settings_g.manifest.showFella.element).attr("checked"))
+		applyUIChanges(null, null, true);
+	else
+		applyUIChanges(null, null, false);
+}
 
 function openInboxChanged()
 {

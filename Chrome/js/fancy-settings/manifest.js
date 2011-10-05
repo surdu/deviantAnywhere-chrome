@@ -7,14 +7,6 @@ this.manifest = {
             "tab": i18n.get("look"),
             "icon": "look",
             "group": i18n.get("colors"),
-            "name": "customLook",
-            "type": "checkbox",
-            "label": i18n.get("usecolors")
-        },
-
-        {
-            "tab": i18n.get("look"),
-            "group": i18n.get("colors"),
             "name": "bkgColor",
             "type": "text",
             "label": i18n.get("bkgColor")+":"

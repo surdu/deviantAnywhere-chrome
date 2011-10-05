@@ -200,10 +200,11 @@ function generateStatus()
 
 function updateStatus()
 {
-	chrome.tabs.getAllInWindow(null, function(tabs) {
-		for (var f=0; f<tabs.length; f++)
-			chrome.tabs.sendRequest(tabs[f].id, {status: statusText, action: "set_status"});
-	});	
+	chrome.windows.getAll({populate: true}, function(windows){
+		for (var f=0; f<windows.length; f++)
+			for (var g=0; g<windows[f].tabs.length; g++)
+				chrome.tabs.sendRequest(windows[f].tabs[g].id, {status: statusText, action: "set_status"});
+	});
 }
 
 function handleGetStatusRequest(request, sender, sendResponse)

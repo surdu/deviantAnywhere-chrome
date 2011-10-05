@@ -9,17 +9,40 @@ function insertBody()
 	req.onSuccess = handleFrameLoad;
 	req.send();
 	
-	chrome.extension.onRequest.addListener(handleSetStatusRequest);
+	chrome.extension.onRequest.addListener(handleRequests);
 	chrome.extension.sendRequest({action: "get_status"}, handleGetStatusResponse);
 }
 
-function handleSetStatusRequest(request, sender, sendResponse)
+function initLook(bkgColor, textColor, showFella)
 {
-	if (request.action = "set_status")
+	if (bkgColor != null)
+		$(iFrameContent).css("backgroundColor", bkgColor);
+	
+	if (textColor != null)
+		$("#da_wrap", iFrameContent).css("color", textColor);
+		
+	if (showFella != null)
+	{
+		if (showFella == true)
+			$("#fellaIcon", iFrameContent).css("display", "inline").addClass("visible");
+		else
+			$("#fellaIcon", iFrameContent).css("display", "none").removeClass("visible");
+			
+		setTimeout(fitContent, 10);
+	}
+}
+
+function handleRequests(request, sender, sendResponse)
+{
+	if (request.action == "set_status")
 	{
 		setStatus(request.status)
 		sendResponse({});
 	}
+	else
+	if (request.action == "change_ui")
+		initLook(request.bkgColor, request.textColor, request.showFella);
+	
 }
 
 function handleGetStatusResponse(response)
@@ -36,8 +59,7 @@ function handleFrameLoad(response)
 	    extId = match[1];
 	else
 	{
-		alert("There is a big problem with deviantAnywhere. Please desable it and report to the extension's developer");
-		alert(chrome.extension.getURL('/'));
+		alert("There is a big problem with deviantAnywhere. Please disable it and report to the extension's developer");
 		return;
 	}
 
@@ -72,8 +94,12 @@ function setStatus(status)
 
 function fitContent()
 {
+	//icon size factor
+	var iconVisible = $("#fellaIcon", iFrameContent).hasClass("visible");
+	var iconFactor = iconVisible ? 24 : 0;
+	
 	// resize main iframe to fit content
-	var  newWidth = $("#statusBar", iFrameContent).width() + 40;
+	var  newWidth = $("#statusBar", iFrameContent).width() + 16 + iconFactor;
 	$('#devany_chrome_iframe').width(newWidth);
 }
 

@@ -8,8 +8,8 @@ window.addEvent("domready", function () {
     	settings_g = settings;
     	
     	//insert the color pickers and buttons after color inputs
-    	var bkgInput = j(settings.manifest.bkgColor.element).addClass("colorInput").attr("id", "bkgColorInput");
-    	var textInput = j(settings.manifest.textColor.element).addClass("colorInput").attr("id", "textColorInput");
+    	j(settings.manifest.bkgColor.element).addClass("colorInput").attr("id", "bkgColorInput");
+    	j(settings.manifest.textColor.element).addClass("colorInput").attr("id", "textColorInput");
     	
     	j("<div class='colorSelect'><div></div></div> <button class='defaultBtn'>Default color</button>").insertAfter(".colorInput");
     	
@@ -65,6 +65,12 @@ window.addEvent("domready", function () {
     	playSoundChanged();
     	autoupdateChanged();
     	useAutoLoginChanged();
+    	
+		settings.manifest.previewSound.addEvent("action", function () {
+			var player = document.getElementById('previewSound');
+			player.setAttribute("src", settings.manifest.sound.get());
+			player.play();
+		});    	
     });
 });
 

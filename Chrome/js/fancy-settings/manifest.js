@@ -69,6 +69,14 @@ this.manifest = {
 
         {
             "tab": i18n.get("behave"),
+            "group": i18n.get("sound"),
+            "name": "previewSound",
+            "type": "button",
+            "text": i18n.get("previewSound")
+        },
+
+        {
+            "tab": i18n.get("behave"),
             "group": i18n.get("notifyMsgLabel"),
             "name": "followNotices",
             "type": "checkbox",

@@ -1,4 +1,5 @@
 var iFrameContent;
+var settings;
 
 function insertBody()
 {
@@ -11,6 +12,11 @@ function insertBody()
 	
 	chrome.extension.onRequest.addListener(handleRequests);
 	chrome.extension.sendRequest({action: "get_status"}, handleGetStatusResponse);
+	
+	chrome.extension.sendRequest({action: 'get_settings'}, function(settings) {
+		initLook(settings.bkgColor, settings.textColor, settings.showFella); 
+  	});	
+	
 }
 
 function initLook(bkgColor, textColor, showFella)

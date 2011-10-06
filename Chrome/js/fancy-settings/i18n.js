@@ -54,6 +54,9 @@ this.i18n = {
     "chooseSound": {
         "en": "Choose a sound",
     },        
+    "previewSound": {
+        "en": "Preview",
+    },        
     "notifyMsgLabel": {
         "en": "Follow this messages",
     },        

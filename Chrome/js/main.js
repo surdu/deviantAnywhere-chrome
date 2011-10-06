@@ -31,16 +31,9 @@ function init()
     var lastMessages = settings.get("lastMessages");
     messages = JSON2array(lastMessages);
 
-    if (settings.get("customLook"))
-    {
-    	//TODO: make it actually work
-        backgroundColor = settings.get("bkgColor");
-        color = settings.get("textColor");
-    }
-
     retrieveMessages();
     
-    chrome.extension.onRequest.addListener(handleGetStatusRequest);
+    chrome.extension.onRequest.addListener(handleRequests);
 }
 
 function retrieveMessages()
@@ -207,10 +200,12 @@ function updateStatus()
 	});
 }
 
-function handleGetStatusRequest(request, sender, sendResponse)
+function handleRequests(request, sender, sendResponse)
 {
-	if (request.action = "get_status")
+	if (request.action == "get_status")
 		sendResponse({status: statusText})
+	if (request.action == "get_settings")
+		sendResponse(settings.toObject());
 }
 
 function playSound(sound)

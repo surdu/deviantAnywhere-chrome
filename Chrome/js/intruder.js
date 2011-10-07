@@ -58,12 +58,8 @@ function handleGetStatusResponse(response)
 
 function handleFrameLoad(response)
 {
-	//get extension's IDs
-	var regExp = /chrome-extension:\/\/(.*?)\//; 
-	var match = regExp.exec(chrome.extension.getURL('/'));
-	if (match != null) 
-	    extId = match[1];
-	else
+	var extId = getExtensionId;
+	if (!extId)
 	{
 		alert("There is a big problem with deviantAnywhere. Please disable it and report to the extension's developer");
 		return;

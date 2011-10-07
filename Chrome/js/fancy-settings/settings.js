@@ -66,10 +66,8 @@ window.addEvent("domready", function () {
     	autoupdateChanged();
     	useAutoLoginChanged();
     	
-		settings.manifest.previewSound.addEvent("action", function () {
-			var player = document.getElementById('previewSound');
-			player.setAttribute("src", settings.manifest.sound.get());
-			player.play();
+		j(settings.manifest.previewSound.element).click(function () {
+			playSound(getExtensionPath(settings.manifest.sound.get()));
 		});    	
     });
 });

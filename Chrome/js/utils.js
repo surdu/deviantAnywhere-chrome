@@ -41,20 +41,26 @@ HTTPRequest.prototype =
 	
 }
 
-function getPref(prefName)
+function getExtensionId()
 {
-	var prefValue = localStorage[prefName];
-	
-	if (typeof prefValue == 'undefined')
-		return options_defaults[prefName];
-	
-	if (prefValue === "false")
-		return false;
-	
-	if (prefValue === "true")
-		return true;
+	var regExp = /chrome-extension:\/\/(.*?)\//; 
+	var match = regExp.exec(chrome.extension.getURL('/'));
+	if (match != null)
+	    return match[1];
+	return null;
+}
 
-	return prefValue;
+
+function getExtensionPath(path)
+{
+	return path.replace("__MSG_@@extension_id__", getExtensionId());
+}
+
+function playSound(soundFile)
+{
+	var player = document.getElementById('soundPlayer');
+	player.setAttribute("src", soundFile);
+	player.play();
 }
 
 function array2JSON(array)

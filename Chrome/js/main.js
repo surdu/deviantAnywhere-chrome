@@ -208,13 +208,6 @@ function handleRequests(request, sender, sendResponse)
 		sendResponse(settings.toObject());
 }
 
-function playSound(sound)
-{
-	var player = document.getElementById('notifySound');
-	player.setAttribute("src", sound)
-	player.play();
-}
-
 init();
 
 

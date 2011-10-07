@@ -1,7 +1,10 @@
-function HTTPRequest(url)
+function HTTPRequest(url, method, headers)
 {
+	if (!method)
+		method = "GET";
+		
 	this.dataType = null;
-	this.method = "GET"
+	this.method = method;
 	this.onSuccess = null;
 	this.onError = null;
 
@@ -9,22 +12,28 @@ function HTTPRequest(url)
 	this.req.owner = this;
     this.req.open(this.method, url, true);   
     this.req.onreadystatechange = this.handleResponse;
-    this.req.setRequestHeader("Pragma", "no-cache");
-    this.req.setRequestHeader("Cache-Control", "no-cache");
+    for (var header in headers)
+    	this.req.setRequestHeader(header, headers[header]);
 }
 
 HTTPRequest.prototype =
 {
-	send: function()
+	send: function(data)
 	{
-	    this.req.send();
+		var query = "";
+		
+		if (data)
+			for (var item in data)
+				query += item + "=" + data[item] + "&";
+		
+	    this.req.send(query);
 	},
 
 	handleResponse: function()
 	{
 		if (this.readyState == 4)
 		{
-			if (this.status == 200 && this.owner.onSuccess) 
+			if ((Math.round(this.status/100) == 2 || Math.round(this.status/100) == 3) && this.owner.onSuccess) 
 			{
 				if (this.owner.dataType=="json")
 					this.owner.onSuccess(JSON.parse(this.responseText), this.responseText);

@@ -1,20 +1,4 @@
-// SAMPLE
 this.i18n = {
-    "settings": {
-        "en": "Settings",
-        "de": "Optionen"
-    },
-    "search": {
-        "en": "Search",
-        "de": "Suche"
-    },
-    "nothing-found": {
-        "en": "No matches were found.",
-        "de": "Keine Übereinstimmungen gefunden."
-    },
-    
-    
-    
     "look": {
         "en": "Look",
     },
@@ -117,10 +101,28 @@ this.i18n = {
     "useAutoLogin": {
         "en": "Use auto-login",
     },
-    "deviantName": {
-        "en": "Deviant name",
-    },
     "pass": {
         "en": "Password",
     },
+
+////////////// NEW ONES
+    "settings": {
+        "en": "Settings",
+        "de": "Optionen"
+    },
+    "search": {
+        "en": "Search",
+        "de": "Suche"
+    },
+    "nothing-found": {
+        "en": "No matches were found.",
+        "de": "Keine Übereinstimmungen gefunden."
+    },
+    "username": {
+        "en": "Username or e-mail",
+    },
+    "notLogged": {
+        "en": "Not logged in",
+    },
+
 };

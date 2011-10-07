@@ -207,23 +207,22 @@ this.manifest = {
         {
             "tab": i18n.get("connect"),
             "group": i18n.get("autoLogin"),
-            "name": "deviantName",
+            "name": "username",
             "type": "text",
-            "label": i18n.get("deviantName")+":"
+            "label": i18n.get("username")+":"
         },
         {
             "tab": i18n.get("connect"),
             "group": i18n.get("autoLogin"),
             "name": "password",
             "type": "text",
+            "masked": true,
             "label": i18n.get("pass")+":"
-        },
-
-
+        }
     ],
     "alignment": [
         [
-            "deviantName",
+            "username",
             "password"
         ],
     ]

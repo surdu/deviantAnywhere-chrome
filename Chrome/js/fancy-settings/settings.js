@@ -68,9 +68,23 @@ window.addEvent("domready", function () {
     	
 		j(settings.manifest.previewSound.element).click(function () {
 			playSound(getExtensionPath(settings.manifest.sound.get()));
+		});
+		
+		j(settings.manifest.loginBtn.element).click(function () {
+			var xhr = new XMLHttpRequest();
+			xhr.onreadystatechange = login;
+			xhr.open("POST", "https://www.deviantart.com/users/login", true);
+			xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			xhr.send("username=postal2600&password=udtpcssonzdszz&remember_me=1");
 		});    	
     });
 });
+
+function login() 
+{
+	if (this.readyState == 4 & this.status == 200)
+		console.log(this.responseText);
+}
 
 function applyUIChanges(bkgColor, textColor, showFella)
 {
@@ -155,16 +169,16 @@ function useAutoLoginChanged()
 {
 	if (j(settings_g.manifest.useAutoLogin.element).attr("checked"))
 	{
-		j(settings_g.manifest.deviantName.label).removeAttr("disabled");
-		j(settings_g.manifest.deviantName.element).removeAttr("disabled");
+		j(settings_g.manifest.username.label).removeAttr("disabled");
+		j(settings_g.manifest.username.element).removeAttr("disabled");
 
 		j(settings_g.manifest.password.label).removeAttr("disabled");
 		j(settings_g.manifest.password.element).removeAttr("disabled");
 	}
 	else
 	{
-		j(settings_g.manifest.deviantName.label).attr("disabled", "disabled");
-		j(settings_g.manifest.deviantName.element).attr("disabled", "disabled");
+		j(settings_g.manifest.username.label).attr("disabled", "disabled");
+		j(settings_g.manifest.username.element).attr("disabled", "disabled");
 
 		j(settings_g.manifest.password.label).attr("disabled", "disabled");
 		j(settings_g.manifest.password.element).attr("disabled", "disabled");

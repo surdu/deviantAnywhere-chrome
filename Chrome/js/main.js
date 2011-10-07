@@ -20,6 +20,8 @@ var messagesInfo  = {"N":{"desc":"Notice::Notices", "pref":"followNotices"},
 					 "CO":{"desc":"Correspondence Item::Correspondence Items", "pref":"followCritiques"}
 					};
 
+var NOCACHE_HEADERS = {"Pragma": "no-cache", "Cache-Control": "no-cache"}
+
 var messages  = new Array();
 var newMessages = new Array();
 
@@ -41,7 +43,7 @@ function retrieveMessages()
 	log("Retrieve messages: start");
 	//ro_cvds_daInstance.setIcon("loading");
 	
-	var getFoldersReq = new HTTPRequest(messagesURL+"?c[]=MessageCenter;get_folders&t=json");
+	var getFoldersReq = new HTTPRequest(messagesURL+"?c[]=MessageCenter;get_folders&t=json", "GET", NOCACHE_HEADERS);
 	getFoldersReq.onSuccess = parseFolders;
 	getFoldersReq.dataType = "json";
 	getFoldersReq.send();
@@ -67,7 +69,10 @@ function parseFolders(response)
 			getMsgContent();
 	}
 	else
-		ro_cvds_daInstance.login();
+		if (settings.get("useAutoLogin"))
+			login();
+		else
+			setStatus(i18n.get("notLogged"));
 }
 
 function getMsgContent()
@@ -87,7 +92,7 @@ function getMsgContent()
 	"c[]=MessageCenter;get_views;"+this.inboxId+",oq:devwatch:0:"+maxItems+":f:tg=polls";
 	
 	log("Requesting messages DiFi");
-	var getContentReq = new HTTPRequest(messagesURL+queryStr+"&t=json");
+	var getContentReq = new HTTPRequest(messagesURL+queryStr+"&t=json", "GET", "NOCACHE_HEADERS");
 	getContentReq.onSuccess = parseMessages;
 	getContentReq.dataType = "json";
 	getContentReq.send();		
@@ -110,6 +115,16 @@ function parseMessages(response)
 	generateStatus();
 }
 
+function login()
+{
+	var loginReq = new HTTPRequest(loginURL, "POST", {"Content-Type": "application/x-www-form-urlencoded"});
+	loginReq.onSuccess = parseLoginResponse;
+	loginReq.send({"username": settings.get("username"), "password": settings.get("password")});
+}
+
+function parseLoginResponse()
+{
+}
 
 ///////////////////////// UI /////////////////////////
 
@@ -170,6 +185,9 @@ function generateStatus()
 		}
     }
 	
+	if (newMessages.length == 0)
+		statusText = "No messages";
+	
     if (hasNew)
     {
         if (settings.get("playSound"))
@@ -189,6 +207,12 @@ function generateStatus()
 	updateStatus();
 	
 	log("Retrieve messages: end");	
+}
+
+function setStatus(status)
+{
+	statusText = status;
+	updateStatus();
 }
 
 function updateStatus()

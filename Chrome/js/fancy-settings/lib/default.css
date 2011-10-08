@@ -398,7 +398,7 @@ legend {
 }
 
 /* Form fields */
-input[type=text], input[type=password], textarea {
+input[type=text], input[type=password], input[type=number], textarea {
     background-color: white;
     border: 1px solid #BBBBBB;
 }
@@ -411,6 +411,11 @@ textarea, select {
 input[type=text], input[type=password] {
     width: 300px;
     padding: 4px;
+}
+
+input[type=number]
+{
+	padding: 4px;
 }
 
 textarea {

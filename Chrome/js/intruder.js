@@ -11,12 +11,6 @@ function insertBody()
 	req.send();
 	
 	chrome.extension.onRequest.addListener(handleRequests);
-	chrome.extension.sendRequest({action: "get_status"}, handleGetStatusResponse);
-	
-	chrome.extension.sendRequest({action: 'get_settings'}, function(settings) {
-		initLook(settings.bkgColor, settings.textColor, settings.showFella); 
-  	});	
-	
 }
 
 function initLook(bkgColor, textColor, showFella)
@@ -71,7 +65,7 @@ function handleFrameLoad(response)
 	// fill the iframe and initialize it
 	$('#devany_chrome_iframe').contents().find('html')
 	.html(response)
-	.dblclick(function(){openMessages(true, true);});
+	.dblclick(function(){openInbox(true, false);});
 
 	iFrameContent = document.getElementById("devany_chrome_iframe").contentDocument.body;
 
@@ -80,6 +74,12 @@ function handleFrameLoad(response)
 	
 	// disable right click
 	$(iFrameContent).bind("contextmenu", disable);
+
+	chrome.extension.sendRequest({action: "get_status"}, handleGetStatusResponse);
+	
+	chrome.extension.sendRequest({action: 'get_settings'}, function(settings) {
+		initLook(settings.bkgColor, settings.textColor, settings.showFella); 
+  	});	
 }
 
 function setStatus(status)

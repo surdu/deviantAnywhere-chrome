@@ -22,7 +22,7 @@ function deviantAnywhere()
 					 	 "NW":{"desc":"News Article::News Articles", "pref":"followNews"},
 					 	 "AM":{"desc":"Admin Message::Admin Messages", "pref":"followAdmin"},
 					 	 "WC":{"desc":"Watched Critique::Watched Critiques", "pref":"followCritiques"},
-						 "CO":{"desc":"Correspondence Item::Correspondence Items", "pref":"followCritiques"}
+						 "CO":{"desc":"Correspondence Item::Correspondence Items", "pref":"followCorrespondence"}
 						};
 	
 	this.messages  = new Array();

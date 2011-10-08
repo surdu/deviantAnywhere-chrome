@@ -3,7 +3,7 @@ var defaults = {
     "lastMessages": "[]",
     
     "autoupdate": true,
-    "checkTime": 300, //5 minutes
+    "checkTime": 5,
     "useAutoLogin": false,
     "openInbox": false,
     "focusInbox": true,
@@ -29,7 +29,9 @@ var defaults = {
     "followAdmin": true,
     "followCritiques": true,
     "followCorrespondence": true,
-    
+    "followSupport": true,
+    "followBulletin": true,
+    "followForum": true,
 };
 
 var settings = new Store("settings", defaults);

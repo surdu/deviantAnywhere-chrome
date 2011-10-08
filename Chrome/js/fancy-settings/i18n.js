@@ -83,6 +83,15 @@ this.i18n = {
     "msgCorrespondence": {
         "en": "Correspondence",
     },        
+    "msgSupport": {
+        "en": "Support Ticket",
+    },        
+    "msgBulletin": {
+        "en": "Bulletin",
+    },        
+    "msgForum": {
+        "en": "Forum",
+    },        
     "connect": {
         "en": "Connection",
     },        
@@ -123,6 +132,9 @@ this.i18n = {
     },
     "notLogged": {
         "en": "Not logged in",
+    },
+    "loginError": {
+        "en": "Login error",
     },
 
 };

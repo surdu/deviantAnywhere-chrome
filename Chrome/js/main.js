@@ -17,7 +17,10 @@ var messagesInfo  = {"N":{"desc":"Notice::Notices", "pref":"followNotices"},
 				 	 "NW":{"desc":"News Article::News Articles", "pref":"followNews"},
 				 	 "AM":{"desc":"Admin Message::Admin Messages", "pref":"followAdmin"},
 				 	 "WC":{"desc":"Watched Critique::Watched Critiques", "pref":"followCritiques"},
-					 "CO":{"desc":"Correspondence Item::Correspondence Items", "pref":"followCritiques"}
+					 "CO":{"desc":"Correspondence Item::Correspondence Items", "pref":"followCorrespondence6"},
+					 "ST":{"desc":"Support Ticket::Support Tickets", "pref":"followSupport"},
+					 "B":{"desc":"Bulletin::Bulletins", "pref":"followBulletin"},
+					 "F":{"desc":"Forum::Forums", "pref":"followForum"}
 					};
 
 var NOCACHE_HEADERS = {"Pragma": "no-cache", "Cache-Control": "no-cache"}
@@ -89,7 +92,10 @@ function getMsgContent()
 	"c[]=MessageCenter;get_views;"+this.inboxId+",oq:devwatch:0:"+maxItems+":f:tg=deviations&"+
 	"c[]=MessageCenter;get_views;"+this.inboxId+",oq:devwatch:0:"+maxItems+":f:tg=news&"+
 	"c[]=MessageCenter;get_views;"+this.inboxId+",oq:devwatch:0:"+maxItems+":f:tg=journals&"+
-	"c[]=MessageCenter;get_views;"+this.inboxId+",oq:devwatch:0:"+maxItems+":f:tg=polls";
+	"c[]=MessageCenter;get_views;"+this.inboxId+",oq:devwatch:0:"+maxItems+":f:tg=polls&"+
+	"c[]=MessageCenter;get_views;"+this.inboxId+",oq:devwatch:0:"+maxItems+":f:tg=forums&"+
+	"c[]=MessageCenter;get_views;"+this.inboxId+",oq:zendesk:0:"+maxItems+":f&"+
+	"c[]=MessageCenter;get_views;"+this.inboxId+",oq:bulletins:0:"+maxItems+":f";
 	
 	log("Requesting messages DiFi");
 	var getContentReq = new HTTPRequest(messagesURL+queryStr+"&t=json", "GET", "NOCACHE_HEADERS");
@@ -112,18 +118,35 @@ function parseMessages(response)
 	newMessages["NW"]= parseInt(response.DiFi.response.calls[8].response.content[0].result.matches);
 	newMessages["J"] = parseInt(response.DiFi.response.calls[9].response.content[0].result.matches);
 	newMessages["P"] = parseInt(response.DiFi.response.calls[10].response.content[0].result.matches);
+	newMessages["F"] = parseInt(response.DiFi.response.calls[11].response.content[0].result.matches);
+	newMessages["ST"] = parseInt(response.DiFi.response.calls[12].response.content[0].result.matches);
+	newMessages["B"] = parseInt(response.DiFi.response.calls[13].response.content[0].result.matches);
 	generateStatus();
 }
 
 function login()
 {
 	var loginReq = new HTTPRequest(loginURL, "POST", {"Content-Type": "application/x-www-form-urlencoded"});
-	loginReq.onSuccess = parseLoginResponse;
+	// this looks very counter-intuitive, but it's the only way i can think
+	// now how to determine a succesfull login:
+	// - In case of succesfull login, we get a redirect from https to http which triggers 
+	//   a cross-domain status 0 error. (success)
+	// - In case of a bad login, the login page is returned with status code 200 (error)
+	loginReq.onSuccess = parseLoginError;
+	loginReq.onError = parseLoginSuccess;
+	
 	loginReq.send({"username": settings.get("username"), "password": settings.get("password")});
 }
 
-function parseLoginResponse()
+function parseLoginSuccess(statusCode)
 {
+	if (statusCode == 0)
+		retrieveMessages();
+}
+
+function parseLoginError()
+{
+	setStatus(i18n.get("loginError"))
 }
 
 ///////////////////////// UI /////////////////////////
@@ -139,15 +162,14 @@ function generateStatus()
     {
 		if (settings.get(messagesInfo[item].pref))
 		{
-            var thisIsNew = false;
 			var oldValue = messages[item]; 
 			var currentValue = newMessages[item];
 			var newSuffix = "";
 			 
-            if ((oldValue==undefined && currentValue!=0) || (oldValue == 0 && oldValue < currentValue) || (oldValue && oldValue < currentValue))
+            if ((oldValue==undefined && currentValue!=0) || (oldValue < currentValue))
             {
                 hasNew = true;
-                thisIsNew = true;
+                messagesInfo[item]["has_new"] = true;
             }
             messages[item] = newMessages[item];
 			
@@ -157,7 +179,7 @@ function generateStatus()
 				
 				var statusItem = $("<span></span>").addClass("statusItem");
 				
-				if (thisIsNew)
+				if (messagesInfo[item]["has_new"])
 				{
 					statusItem.addClass("new");
 					if (oldValue != undefined)
@@ -185,7 +207,7 @@ function generateStatus()
 		}
     }
 	
-	if (newMessages.length == 0)
+	if (!statusText)
 		statusText = "No messages";
 	
     if (hasNew)
@@ -193,8 +215,8 @@ function generateStatus()
         if (settings.get("playSound"))
             playSound(settings.get("sound"));
             
-        if (settings.get("openMsgOnNew"))
-            openURL(inboxURL,settings.get("focusTab"));
+        if (settings.get("openInbox"))
+            openInbox(true,settings.get("focusTab"));
 
 		chrome.browserAction.setBadgeText({"text":"New!"});
             
@@ -202,7 +224,7 @@ function generateStatus()
     }
 	
 	if (settings.get("autoupdate"))
-		setTimeout(retrieveMessages, settings.get("checkTime")*1000)
+		setTimeout(retrieveMessages, settings.get("checkTime")*60000)
 	
 	updateStatus();
 	
@@ -230,6 +252,16 @@ function handleRequests(request, sender, sendResponse)
 		sendResponse({status: statusText})
 	if (request.action == "get_settings")
 		sendResponse(settings.toObject());
+	if (request.action == "reset_new_flag")
+	{
+		for (var item in messagesInfo)
+			messagesInfo[item]["has_new"] = false;
+		
+		// force regeneration of the statusText. I should test the hell out of this "hack"
+		generateStatus();
+		
+		sendResponse();
+	}
 }
 
 init();

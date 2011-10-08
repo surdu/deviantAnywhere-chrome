@@ -33,12 +33,15 @@ HTTPRequest.prototype =
 	{
 		if (this.readyState == 4)
 		{
-			if ((Math.round(this.status/100) == 2 || Math.round(this.status/100) == 3) && this.owner.onSuccess) 
+			if (Math.round(this.status/100) == 2) 
 			{
-				if (this.owner.dataType=="json")
-					this.owner.onSuccess(JSON.parse(this.responseText), this.responseText);
-				else
-					this.owner.onSuccess(this.responseText);
+				if (this.owner.onSuccess)
+				{
+					if (this.owner.dataType=="json")
+						this.owner.onSuccess(JSON.parse(this.responseText), this.responseText);
+					else
+						this.owner.onSuccess(this.responseText);
+				}
 			}
 			else
 				if (this.owner.onError)
@@ -48,6 +51,19 @@ HTTPRequest.prototype =
 		}
 	}
 	
+}
+
+function inContentScript()
+{
+    try 
+    {
+        if (chrome.bookmarks)
+            return false;
+		return true;
+    }
+    catch (e) {
+        return true;
+    }	
 }
 
 function getExtensionId()
@@ -106,21 +122,36 @@ function JSON2array(json)
 
 function openURL(url, newtab, focus)
 {
-	if (typeof focus == 'undefined' && focus !== false)
-		focus = true;
-	
 	if (newtab)
-		window.open(url)
+	{
+		if (typeof focus == 'undefined' && focus !== false)
+			focus = true;
+
+		if (inContentScript())
+		{
+			window.open(url)
+
+			if (focus === false)
+				window.focus();
+		}
+		else
+			chrome.tabs.create({url: url, selected: focus});
+	}
 	else
-		window.location = url;
-		
-	if (focus === false)
-		window.focus();
+	{
+		if (inContentScript())
+			window.location = url;
+		else
+			chrome.tabs.getSelected(null, function(tab){
+				chrome.tabs.update(tab.id, {url: url})
+			});
+	}
 }
 
-function openMessages(newtab, focus)
+function openInbox(newtab, focus)
 {
 	openURL("http://my.deviantart.com/messages/", newtab, focus);
+	chrome.extension.sendRequest({action: "reset_new_flag"});
 	return false;
 }
 

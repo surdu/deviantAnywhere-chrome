@@ -180,6 +180,30 @@ this.manifest = {
         },
 
         {
+            "tab": i18n.get("behave"),
+            "group": i18n.get("notifyMsgLabel"),
+            "name": "followSupport",
+            "type": "checkbox",
+            "label": i18n.get("msgSupport")
+        },
+
+        {
+            "tab": i18n.get("behave"),
+            "group": i18n.get("notifyMsgLabel"),
+            "name": "followBulletin",
+            "type": "checkbox",
+            "label": i18n.get("msgBulletin")
+        },
+
+        {
+            "tab": i18n.get("behave"),
+            "group": i18n.get("notifyMsgLabel"),
+            "name": "followForum",
+            "type": "checkbox",
+            "label": i18n.get("msgForum")
+        },
+
+        {
             "tab": i18n.get("connect"),
             "icon": "connect",
             "group": i18n.get("autoupdate"),
@@ -192,7 +216,8 @@ this.manifest = {
             "tab": i18n.get("connect"),
             "group": i18n.get("autoupdate"),
             "name": "checkTime",
-            "type": "text",
+            "type": "number",
+            "min": 1,
             "label": i18n.get("checkMsg")+":"
         },
 

@@ -162,18 +162,21 @@ function generateStatus()
     {
 		if (settings.get(messagesInfo[item].pref))
 		{
-			var oldValue = messages[item]; 
-			var currentValue = newMessages[item];
+			var oldValue = parseInt(messages[item]) || 0; 
+			var currentValue = parseInt(newMessages[item]);
 			var newSuffix = "";
 			 
-            if ((oldValue==undefined && currentValue!=0) || (oldValue < currentValue))
+            if (currentValue > oldValue)
             {
                 hasNew = true;
-                messagesInfo[item]["has_new"] = true;
+                if (messagesInfo[item]["has_new"])
+                	messagesInfo[item]["has_new"] += currentValue - oldValue;
+                else
+                	messagesInfo[item]["has_new"] = currentValue - oldValue;
             }
             messages[item] = newMessages[item];
 			
-            if (messages[item]!=0)
+            if (messages[item] != 0)
             {
 				//create statusItem node
 				
@@ -182,10 +185,7 @@ function generateStatus()
 				if (messagesInfo[item]["has_new"])
 				{
 					statusItem.addClass("new");
-					if (oldValue != undefined)
-						newSuffix = ", "+(currentValue - oldValue) + " New";
-					else  
-						newSuffix = ", "+currentValue + " New";
+					newSuffix = ", "+messagesInfo[item]["has_new"] + " New";
 				}
 				
 				// build the hint
@@ -220,11 +220,15 @@ function generateStatus()
 
 		chrome.browserAction.setBadgeText({"text":"New!"});
             
-        localStorage.lastMessages = array2JSON(newMessages);
+        settings.set("lastMessages", array2JSON(newMessages));
     }
 	
 	if (settings.get("autoupdate"))
-		setTimeout(retrieveMessages, settings.get("checkTime")*60000)
+	{
+		var checkTime = parseFloat(settings.get("checkTime"))
+		setTimeout(retrieveMessages, checkTime*60000)
+		log("New auto-update in "+checkTime+" minutes");
+	}
 	
 	updateStatus();
 	
@@ -254,8 +258,9 @@ function handleRequests(request, sender, sendResponse)
 		sendResponse(settings.toObject());
 	if (request.action == "reset_new_flag")
 	{
+		log("Resetting new flag");
 		for (var item in messagesInfo)
-			messagesInfo[item]["has_new"] = false;
+			messagesInfo[item]["has_new"] = 0;
 		
 		// force regeneration of the statusText. I should test the hell out of this "hack"
 		generateStatus();

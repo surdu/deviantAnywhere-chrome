@@ -157,8 +157,8 @@ function openInbox(newtab, focus)
 
 function log(message)
 {
-	//dummy for now
-	console.log(message);
+	var now = new Date();
+	console.log("["+now.format("m/dd/yy, HH:MM:ss")+"] "+message);
 }
 
 function disable()

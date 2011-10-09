@@ -65,7 +65,7 @@ function handleFrameLoad(response)
 	// fill the iframe and initialize it
 	$('#devany_chrome_iframe').contents().find('html')
 	.html(response)
-	.dblclick(function(){openInbox(true, false);});
+	.dblclick(function(){openInbox(true, true);});
 
 	iFrameContent = document.getElementById("devany_chrome_iframe").contentDocument.body;
 

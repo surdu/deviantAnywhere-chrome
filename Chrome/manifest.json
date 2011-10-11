@@ -10,7 +10,7 @@
 	"content_scripts": [{
 		"matches": ["<all_urls>"],
 		"css": ["css/main.css"],
-		"js": ["js/jquery.js", "js/utils.js", "js/intruder.js"]
+		"js": ["js/lib/jquery.js", "js/lib/utils.js", "js/intruder.js"]
 	}],
 	"permissions": [
 	    "*://www.deviantart.com/",

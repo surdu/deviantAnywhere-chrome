@@ -17,7 +17,7 @@ var messagesInfo  = {"N":{"desc":"Notice::Notices", "pref":"followNotices"},
 				 	 "NW":{"desc":"News Article::News Articles", "pref":"followNews"},
 				 	 "AM":{"desc":"Admin Message::Admin Messages", "pref":"followAdmin"},
 				 	 "WC":{"desc":"Watched Critique::Watched Critiques", "pref":"followCritiques"},
-					 "CO":{"desc":"Correspondence Item::Correspondence Items", "pref":"followCorrespondence6"},
+					 "CO":{"desc":"Correspondence Item::Correspondence Items", "pref":"followCorrespondence"},
 					 "ST":{"desc":"Support Ticket::Support Tickets", "pref":"followSupport"},
 					 "B":{"desc":"Bulletin::Bulletins", "pref":"followBulletin"},
 					 "F":{"desc":"Forum::Forums", "pref":"followForum"}
@@ -266,6 +266,7 @@ function handleRequests(request, sender, sendResponse)
 		generateStatus();
 		
 		sendResponse();
+		chrome.browserAction.setBadgeText({"text":""});
 	}
 }
 

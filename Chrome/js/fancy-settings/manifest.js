@@ -217,7 +217,8 @@ this.manifest = {
             "group": i18n.get("autoupdate"),
             "name": "checkTime",
             "type": "number",
-            "min": 1,
+            "min": 0.5,
+            "step": 0.5,
             "label": i18n.get("checkMsg")+":"
         },
 

@@ -26,7 +26,7 @@ label[disabled]
 	vertical-align: middle;
 	width: 36px;
 	height: 36px;
-	background: url("/js/colorpicker/images/select2.png"); 
+	background: url("/js/lib/colorpicker/images/select2.png"); 
 }
 
 	.colorSelect div
@@ -36,5 +36,5 @@ label[disabled]
 		top: 4px;
 		width: 28px;
 		height: 28px;
-		background: red url("/js/colorpicker/images/select2.png") center;
+		background: red url("/js/lib/colorpicker/images/select2.png") center;
 	}

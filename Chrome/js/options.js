@@ -1,3 +1,7 @@
+//
+// Copyright (c) 2011 Nicolae Surdu
+//
+
 var settings_g;
 
 window.addEvent("domready", function () {

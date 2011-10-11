@@ -1,3 +1,7 @@
+//
+// Copyright (c) 2011 Nicolae Surdu
+//
+
 var messagesURL = "http://www.deviantart.com/global/difi.php";
 var inboxURL 	= "http://my.deviantart.com/messages/";
 var loginURL    = "https://www.deviantart.com/users/login";
@@ -268,6 +272,8 @@ function handleRequests(request, sender, sendResponse)
 		sendResponse();
 		chrome.browserAction.setBadgeText({"text":""});
 	}
+	if (request.action == "check_now")
+		retrieveMessages()
 }
 
 init();

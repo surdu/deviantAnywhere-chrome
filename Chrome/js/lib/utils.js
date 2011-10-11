@@ -1,3 +1,7 @@
+//
+// Copyright (c) 2011 Nicolae Surdu
+//
+
 function HTTPRequest(url, method, headers)
 {
 	if (!method)

@@ -1,14 +1,20 @@
-$(document).ready(function(){
-	$(document).contextPopup({
-	  title: null,
-	  items: [
-	    {label:'Go to messages', bold: true, icon:null, action:function() { alert('hi'); }},
-	    {label:'Check now', icon:null, action:function() { alert('yo'); }},
-	    null,
-	    {label:'Settings...', icon:null, action:function() { alert('bye'); }},
-	    null,
-	    {label:'Donate...', icon:null, action:function() { alert('bye'); }},
-	    {label:'About...', icon:null, action:function() { alert('bye'); }},
-	  ]
-	});
-});
+function goToMessages()
+{
+	openInbox(true, true);
+	window.close();	
+	return false;
+}
+
+function checkNow()
+{
+	chrome.extension.sendRequest({action: "check_now"});
+	window.close();	
+	return false;
+}
+
+function settings()
+{
+	openURL(chrome.extension.getURL("/content/options.html"), true);
+	window.close();	
+	return false;
+}

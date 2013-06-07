@@ -150,14 +150,6 @@ this.manifest = {
         {
             "tab": i18n.get("behave"),
             "group": i18n.get("notifyMsgLabel"),
-            "name": "followNews",
-            "type": "checkbox",
-            "label": i18n.get("msgNews")
-        },
-
-        {
-            "tab": i18n.get("behave"),
-            "group": i18n.get("notifyMsgLabel"),
             "name": "followAdmin",
             "type": "checkbox",
             "label": i18n.get("msgAdmin")

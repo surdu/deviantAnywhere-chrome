@@ -22,7 +22,6 @@ pref("deviantAnywhere.followComments", true);
 pref("deviantAnywhere.followDeviations", true);
 pref("deviantAnywhere.followPolls", true);
 pref("deviantAnywhere.followContest", true);
-pref("deviantAnywhere.followNews", true);
 pref("deviantAnywhere.followAdmin", true);
 pref("deviantAnywhere.followCritiques", true);
 pref("deviantAnywhere.followCorrespondence", true);

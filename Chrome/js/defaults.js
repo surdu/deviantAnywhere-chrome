@@ -25,7 +25,6 @@ var defaults = {
     "followDeviations": true,
     "followPolls": true,
     "followContest": true,
-    "followNews": true,
     "followAdmin": true,
     "followCritiques": true,
     "followCorrespondence": true,

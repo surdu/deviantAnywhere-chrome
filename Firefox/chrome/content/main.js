@@ -19,7 +19,6 @@ function deviantAnywhere()
 					 	 "D":{"desc":"Deviation::Deviations", "pref":"followDeviations"},
 					 	 "P":{"desc":"Poll::Polls", "pref":"followPolls"},
 					 	 "CA":{"desc":"Contest Announcement::Contest Announcements", "pref":"followContest"},
-					 	 "NW":{"desc":"News Article::News Articles", "pref":"followNews"},
 					 	 "AM":{"desc":"Admin Message::Admin Messages", "pref":"followAdmin"},
 					 	 "WC":{"desc":"Watched Critique::Watched Critiques", "pref":"followCritiques"},
 						 "CO":{"desc":"Correspondence Item::Correspondence Items", "pref":"followCorrespondence"}
@@ -136,7 +135,6 @@ deviantAnywhere.prototype =
 		"c[]=MessageCenter;get_views;"+this.inboxId+",oq:fb_activity:0:"+maxItems+":f&"+
 		"c[]=MessageCenter;get_views;"+this.inboxId+",oq:correspondence:0:"+maxItems+":f&"+
 		"c[]=MessageCenter;get_views;"+this.inboxId+",oq:devwatch:0:"+maxItems+":f:tg=deviations&"+
-		"c[]=MessageCenter;get_views;"+this.inboxId+",oq:devwatch:0:"+maxItems+":f:tg=news&"+
 		"c[]=MessageCenter;get_views;"+this.inboxId+",oq:devwatch:0:"+maxItems+":f:tg=journals&"+
 		"c[]=MessageCenter;get_views;"+this.inboxId+",oq:devwatch:0:"+maxItems+":f:tg=polls";
 		
@@ -158,9 +156,8 @@ deviantAnywhere.prototype =
 		ro_cvds_daInstance.newMessages["A"] = response.DiFi.response.calls[5].response.content[0].result.matches;
 		ro_cvds_daInstance.newMessages["CO"]= response.DiFi.response.calls[6].response.content[0].result.matches;
 		ro_cvds_daInstance.newMessages["D"] = response.DiFi.response.calls[7].response.content[0].result.matches;
-		ro_cvds_daInstance.newMessages["NW"]= response.DiFi.response.calls[8].response.content[0].result.matches;
-		ro_cvds_daInstance.newMessages["J"] = response.DiFi.response.calls[9].response.content[0].result.matches;
-		ro_cvds_daInstance.newMessages["P"] = response.DiFi.response.calls[10].response.content[0].result.matches;
+		ro_cvds_daInstance.newMessages["J"] = response.DiFi.response.calls[8].response.content[0].result.matches;
+		ro_cvds_daInstance.newMessages["P"] = response.DiFi.response.calls[9].response.content[0].result.matches;
 		ro_cvds_daInstance.setStatus();
 	},
 

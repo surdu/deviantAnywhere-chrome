@@ -74,7 +74,6 @@
 			<preference id="fDeviations" name="deviantAnywhere.followDeviations" type="bool"/>
 			<preference id="fPolls" name="deviantAnywhere.followPolls" type="bool"/>
 			<preference id="fContest" name="deviantAnywhere.followContest" type="bool"/>
-			<preference id="fNews" name="deviantAnywhere.followNews" type="bool"/>
 			<preference id="fAdmin" name="deviantAnywhere.followAdmin" type="bool"/>
 			<preference id="fCritiques" name="deviantAnywhere.followCritiques" type="bool"/>
 			<preference id="fCorrespondence" name="deviantAnywhere.followCorrespondence" type="bool"/>
@@ -146,15 +145,10 @@
 					</row>
 	
 					<row>
-						 <checkbox label="&settings.msgNews;" preference="fNews"/>
 						 <checkbox label="&settings.msgAdmin;" preference="fAdmin"/>
 						 <checkbox label="&settings.msgCritiques;" preference="fCritiques"/>
-					</row>
-
-					<row>
 						 <checkbox label="&settings.msgCorrespondence;" preference="fCorrespondence"/>
 					</row>
-
 				</rows>
 			</grid>
 		</groupbox>		

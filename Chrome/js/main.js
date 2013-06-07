@@ -18,7 +18,6 @@ var messagesInfo  = {"N":{"desc":"Notice::Notices", "pref":"followNotices"},
 				 	 "D":{"desc":"Deviation::Deviations", "pref":"followDeviations"},
 				 	 "P":{"desc":"Poll::Polls", "pref":"followPolls"},
 				 	 "CA":{"desc":"Contest Announcement::Contest Announcements", "pref":"followContest"},
-				 	 "NW":{"desc":"News Article::News Articles", "pref":"followNews"},
 				 	 "AM":{"desc":"Admin Message::Admin Messages", "pref":"followAdmin"},
 				 	 "WC":{"desc":"Watched Critique::Watched Critiques", "pref":"followCritiques"},
 					 "CO":{"desc":"Correspondence Item::Correspondence Items", "pref":"followCorrespondence"},
@@ -94,7 +93,6 @@ function getMsgContent()
 	"c[]=MessageCenter;get_views;"+this.inboxId+",oq:fb_activity:0:"+maxItems+":f&"+
 	"c[]=MessageCenter;get_views;"+this.inboxId+",oq:correspondence:0:"+maxItems+":f&"+
 	"c[]=MessageCenter;get_views;"+this.inboxId+",oq:devwatch:0:"+maxItems+":f:tg=deviations&"+
-	"c[]=MessageCenter;get_views;"+this.inboxId+",oq:devwatch:0:"+maxItems+":f:tg=news&"+
 	"c[]=MessageCenter;get_views;"+this.inboxId+",oq:devwatch:0:"+maxItems+":f:tg=journals&"+
 	"c[]=MessageCenter;get_views;"+this.inboxId+",oq:devwatch:0:"+maxItems+":f:tg=polls&"+
 	"c[]=MessageCenter;get_views;"+this.inboxId+",oq:devwatch:0:"+maxItems+":f:tg=forums&"+
@@ -119,12 +117,11 @@ function parseMessages(response)
 	newMessages["A"] = parseInt(response.DiFi.response.calls[5].response.content[0].result.matches);
 	newMessages["CO"]= parseInt(response.DiFi.response.calls[6].response.content[0].result.matches);
 	newMessages["D"] = parseInt(response.DiFi.response.calls[7].response.content[0].result.matches);
-	newMessages["NW"]= parseInt(response.DiFi.response.calls[8].response.content[0].result.matches);
-	newMessages["J"] = parseInt(response.DiFi.response.calls[9].response.content[0].result.matches);
-	newMessages["P"] = parseInt(response.DiFi.response.calls[10].response.content[0].result.matches);
-	newMessages["F"] = parseInt(response.DiFi.response.calls[11].response.content[0].result.matches);
-	newMessages["ST"] = parseInt(response.DiFi.response.calls[12].response.content[0].result.matches);
-	newMessages["B"] = parseInt(response.DiFi.response.calls[13].response.content[0].result.matches);
+	newMessages["J"] = parseInt(response.DiFi.response.calls[8].response.content[0].result.matches);
+	newMessages["P"] = parseInt(response.DiFi.response.calls[9].response.content[0].result.matches);
+	newMessages["F"] = parseInt(response.DiFi.response.calls[10].response.content[0].result.matches);
+	newMessages["ST"] = parseInt(response.DiFi.response.calls[11].response.content[0].result.matches);
+	newMessages["B"] = parseInt(response.DiFi.response.calls[12].response.content[0].result.matches);
 	generateStatus();
 }
 

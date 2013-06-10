@@ -12,25 +12,54 @@ window.addEvent("domready", function () {
     	settings_g = settings;
     	
     	//insert the color pickers and buttons after color inputs
-    	j(settings.manifest.bkgColor.element).addClass("colorInput").attr("id", "bkgColorInput");
-    	j(settings.manifest.textColor.element).addClass("colorInput").attr("id", "textColorInput");
-    	
-    	j("<div class='colorSelect'><div></div></div> <button class='defaultBtn'>Default color</button>").insertAfter(".colorInput");
-    	
-    	j(".defaultBtn").click(resetColor);
+    	makeColorPicker("bkgColor", "bkgColor");
+    	makeColorPicker("textColor", "textColor");
+    	makeColorPicker("newTextColor", "newTextColor");
+
+		var groups = JSON.parse(localStorage.getItem("store.settings.groups")) || {};
     	
 		// align pickers
-    	var bkgLabelWidth = settings.manifest.bkgColor.label.offsetWidth;
-    	var textLabelWidth = settings.manifest.textColor.label.offsetWidth;
+    	var labels = [
+    		settings.manifest.bkgColor.label,
+    		settings.manifest.textColor.label,
+    		settings.manifest.newTextColor.label
+    	]
+		
+		//build the grups' color pickers here to save one itteration
+    	for (var iid in groups)
+		{
+	    	makeColorPicker("bkgColor_"+iid, "bkgColor");
+	    	makeColorPicker("textColor_"+iid, "textColor");
+	    	makeColorPicker("newTextColor_"+iid, "newTextColor");
+	    	
+	    	labels.push(settings.manifest["bkgColor_"+iid].label);
+	    	labels.push(settings.manifest["textColor_"+iid].label);
+	    	labels.push(settings.manifest["newTextColor_"+iid].label);
+	    	
+	    	if (localStorage.getItem("store.settings.followGroup_"+iid) === null)
+	    		settings.manifest["followGroup_"+iid].set(true);
+	    	
+	    	settings.manifest["followGroup_"+iid].addEvent("action", redrawMessages);
+    	}
+
     	
-    	if (bkgLabelWidth < textLabelWidth)
-    		j(settings.manifest.bkgColor.label).css("marginRight", textLabelWidth - bkgLabelWidth +14);
-    	else
-    		j(settings.manifest.textColor.label).css("marginRight", bkgLabelWidth - textLabelWidth +14);
+    	var labelWidts = new Array();
+    	for (var f=0; f<labels.length; f++)
+    		labelWidts.push(labels[f].offsetWidth)
     	
+    	var maxWidth = Math.max.apply(null, labelWidts);
+    	
+    	for (var f=0; f<labels.length; f++)
+    		j(labels[f]).css("marginRight", maxWidth - labels[f].offsetWidth +14);
+
+		    	
     	j(".colorSelect").each(function(){
 			var input = j(this).parent().find("input");
-			j(this).find("div").css("backgroundColor", input.val());
+			if (input.val())
+				j(this).find("div").css("backgroundColor", input.val());
+			else
+			console.log(j(this).find("div").css("backgroundColor"))
+				// input.val();
     	});
     	
     	// create the color pickers
@@ -46,24 +75,15 @@ window.addEvent("domready", function () {
 				input.val("#"+color);
 				trigger.find("div").css("backgroundColor", "#"+color);
 				
-				if (input.attr("id")=="bkgColorInput")
-				{
-					settings.manifest.bkgColor.set("#"+color);
-					applyUIChanges("#"+color, null, null);
-				}
-				else
-				{
-					settings.manifest.textColor.set("#"+color);
-					applyUIChanges(null, "#"+color, null);
-				}
+				settings.manifest[input.attr("id")].set("#"+color);
+				applyUIChanges();
 			}    		
     	});
     	
-    	j(settings.manifest.showFella.element).change(showFellaChanged);
-    	j(settings.manifest.openInbox.element).change(openInboxChanged);
-    	j(settings.manifest.playSound.element).change(playSoundChanged);
-    	j(settings.manifest.autoupdate.element).change(autoupdateChanged);
-    	j(settings.manifest.useAutoLogin.element).change(useAutoLoginChanged);
+    	settings.manifest.openInbox.addEvent("action", openInboxChanged);
+    	settings.manifest.playSound.addEvent("action", playSoundChanged);
+    	settings.manifest.autoupdate.addEvent("action", autoupdateChanged);
+    	settings.manifest.useAutoLogin.addEvent("action", useAutoLoginChanged);
     	
     	openInboxChanged();
     	playSoundChanged();
@@ -74,57 +94,61 @@ window.addEvent("domready", function () {
 			playSound(getExtensionPath(settings.manifest.sound.get()));
 		});
 		
-		j(settings.manifest.loginBtn.element).click(function () {
-			var xhr = new XMLHttpRequest();
-			xhr.onreadystatechange = login;
-			xhr.open("POST", "https://www.deviantart.com/users/login", true);
-			xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-			xhr.send("username=postal2600&password=udtpcssonzdszz&remember_me=1");
-		});    	
+		for (var name in messagesInfo)
+	        settings.manifest[messagesInfo[name].pref].addEvent("action", redrawMessages);
     });
 });
 
-function login() 
+function redrawMessages()
 {
-	if (this.readyState == 4 & this.status == 200)
-		console.log(this.responseText);
-}
-
-function applyUIChanges(bkgColor, textColor, showFella)
-{
+	var settings = {};
+	for(var item in settings_g.manifest)
+		if (settings_g.manifest[item].params.type != "button")
+			settings[item] = settings_g.manifest[item].get();
+	
 	chrome.windows.getAll({populate: true}, function(windows){
 		for (var f=0; f<windows.length; f++)
 			for (var g=0; g<windows[f].tabs.length; g++)
-				chrome.tabs.sendRequest(windows[f].tabs[g].id, {bkgColor: bkgColor, textColor: textColor, showFella: showFella, action: "change_ui"});
+				chrome.tabs.sendMessage(windows[f].tabs[g].id, {action: "redraw_messages", settings: settings});
+	});
+}
+
+function makeColorPicker(inputName, className)
+{
+	var input = j(settings_g.manifest[inputName].element);
+	input.addClass("colorInput").attr("id", inputName);
+	
+	if (!input.val())
+		input.val(defaults[className])
+	
+	var defaultBtn = j("<button>Default color</button>").addClass(className).attr("data-input", inputName).click(resetColor);
+	var selectorCore = j("<div></div>");
+	var selector = j("<div class='colorSelect'></div>").append(selectorCore);
+	selector.insertAfter("#"+inputName);
+	defaultBtn.insertAfter(selector);
+}
+
+function applyUIChanges()
+{
+	var settings = {};
+	for(var item in settings_g.manifest)
+		if (settings_g.manifest[item].params.type != "button")
+			settings[item] = settings_g.manifest[item].get();
+	
+	chrome.windows.getAll({populate: true}, function(windows){
+		for (var f=0; f<windows.length; f++)
+			for (var g=0; g<windows[f].tabs.length; g++)
+				chrome.tabs.sendMessage(windows[f].tabs[g].id, {action: "change_ui", settings: settings});
 	});
 }
 
 function resetColor()
 {
-	var parent = j(this).parent();
-	var input = parent.find("input");
-	var colorSelect = parent.find(".colorSelect div");
+	var colorSelect = j(this).parent().find(".colorSelect div");;
 
-	if (input.attr("id")=="bkgColorInput")
-	{
-		settings_g.manifest.bkgColor.set(defaults["bkgColor"]);
-		colorSelect.css("backgroundColor", defaults["bkgColor"]);
-		applyUIChanges(defaults["bkgColor"], null, null);
-	}
-	else
-	{
-		settings_g.manifest.textColor.set(defaults["textColor"]);
-		colorSelect.css("backgroundColor", defaults["textColor"]);
-		applyUIChanges(null, defaults["textColor"], null);
-	}
-}
-
-function showFellaChanged()
-{
-	if (j(settings_g.manifest.showFella.element).attr("checked"))
-		applyUIChanges(null, null, true);
-	else
-		applyUIChanges(null, null, false);
+	settings_g.manifest[j(this).attr("data-input")].set(defaults[j(this).attr("class")]);
+	colorSelect.css("backgroundColor", defaults[j(this).attr("class")]);
+	applyUIChanges();
 }
 
 function openInboxChanged()
@@ -147,11 +171,13 @@ function playSoundChanged()
 	{
 		j(settings_g.manifest.sound.label).removeAttr("disabled");
 		j(settings_g.manifest.sound.element).removeAttr("disabled");
+		j(settings_g.manifest.previewSound.element).removeAttr("disabled");
 	}
 	else
 	{
 		j(settings_g.manifest.sound.label).attr("disabled", "disabled");
 		j(settings_g.manifest.sound.element).attr("disabled", "disabled");
+		j(settings_g.manifest.previewSound.element).attr("disabled", "disabled");
 	}
 }
 

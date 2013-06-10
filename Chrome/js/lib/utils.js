@@ -57,6 +57,11 @@ HTTPRequest.prototype =
 	
 }
 
+function str(value)
+{
+	return ""+value;
+}
+
 function inContentScript()
 {
     try 
@@ -92,6 +97,7 @@ function playSound(soundFile)
 	player.play();
 }
 
+//deprecated
 function array2JSON(array)
 {
     result = "{";
@@ -108,6 +114,7 @@ function array2JSON(array)
     return result;
 }
 
+//deprecated
 function JSON2array(json)
 {
     result = new Array();
@@ -126,36 +133,16 @@ function JSON2array(json)
 
 function openURL(url, newtab, focus)
 {
-	if (newtab)
-	{
-		if (typeof focus == 'undefined' && focus !== false)
-			focus = true;
-
-		if (inContentScript())
-		{
-			window.open(url)
-
-			if (focus === false)
-				window.focus();
-		}
-		else
-			chrome.tabs.create({url: url, selected: focus});
-	}
-	else
-	{
-		if (inContentScript())
-			window.location = url;
-		else
-			chrome.tabs.getSelected(null, function(tab){
-				chrome.tabs.update(tab.id, {url: url})
-			});
-	}
+	chrome.extension.sendMessage({action: "open_url", url: url, newtab: newtab, focus: focus});
 }
 
-function openInbox(newtab, focus)
+function openInbox(newtab, focus, groupid)
 {
-	openURL("http://my.deviantart.com/messages/", newtab, focus);
-	chrome.extension.sendRequest({action: "reset_new_flag"});
+	var suffix = "";
+	if (groupid)
+		suffix = "#view="+groupid;
+	openURL("http://my.deviantart.com/messages/"+suffix, newtab, focus);
+	chrome.extension.sendMessage({action: "reset_new_flag"});
 	return false;
 }
 

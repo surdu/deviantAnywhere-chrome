@@ -416,6 +416,7 @@ input[type=text], input[type=password] {
 input[type=number]
 {
 	padding: 4px;
+	width: 5em;
 }
 
 textarea {

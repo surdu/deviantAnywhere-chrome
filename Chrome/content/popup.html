@@ -5,23 +5,25 @@
 		<title>deviantAnywhere</title>
 		<link href="/css/popup.css" rel="stylesheet" media="screen">
 		<script src='/js/lib/utils.js' type="text/javascript" ></script>
+		<script src='/js/lib/jquery.js' type="text/javascript" ></script>
 		<script src="/js/popup.js" type="text/javascript"></script>
 		<meta name="author" content="Nicolae Surdu" />
 	</head>
 	<body>
-		<ul class="contextMenuPlugin" style="z-index: 1000001; ">
+		<ul class="contextMenuPlugin">
 			<div class="gutterLine"></div>
-			
-			<li><a href="#" onclick="goToMessages()"><b><span>Go to messages</span></b></a></li>
-			<li><a href="#" onclick="checkNow()"><span>Check now</span></a></li>
-			
-			<li class="divider"></li>
-			
-			<li><a href="#" onclick="settings()"><span>Settings...</span></a></li>
+			<li><a href="#" id="gotoBtn"><b><span>Go to messages</span></b></a></li>
+			<li><a href="#" id="checkBtn"><span>Check now</span></a></li>
+			<li><a href="#" id="markReadBtn"><span>Mark as read</span></a></li>
 			
 			<li class="divider"></li>
 			
-			<li><a href="#"><span>About...</span></a></li>
+			<li><a href="#" id="settingsBtn"><span>Options...</span></a></li>
+			
+			<li class="divider"></li>
+			
+			<li><a href="#" id="donateBtn"><img src="/img/dev_icons/points.gif" /><span>Donate...</span></a></li>
+			<li><a href="#" id="aboutBtn"><span>dA Group...</span></a></li>
 		</ul>		
 	</body>
 </html>

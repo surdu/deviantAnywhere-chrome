@@ -13,8 +13,8 @@ var defaults = {
     
     "customLook": true,
     "bkgColor": "#728776",
-    "textColor": "#FFFFFF",
-    "showFella": true,
+    "textColor": "#bad4c1",
+    "newTextColor": "#ffffff",
     
     "followNotices": true,
     "followActivity": true,
@@ -25,7 +25,7 @@ var defaults = {
     "followDeviations": true,
     "followPolls": true,
     "followContest": true,
-    "followAdmin": true,
+    "followNews": true,
     "followCritiques": true,
     "followCorrespondence": true,
     "followSupport": true,
@@ -33,4 +33,5 @@ var defaults = {
     "followForum": true,
 };
 
-var settings = new Store("settings", defaults);
+if (typeof Store != 'undefined')
+	var settings = new Store("settings", defaults);

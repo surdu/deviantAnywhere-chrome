@@ -1,117 +1,123 @@
 this.i18n = {
     "look": {
-        "en": "Look",
+        "en": "Look"
     },
     "colors": {
-        "en": "Colors",
+        "en": "Colors"
     },
     "usecolors": {
-        "en": "Use custom colors",
+        "en": "Use custom colors"
     },
     "bkgColor": {
-        "en": "Background color",
+        "en": "Background color"
     },
     "textColor": {
-        "en": "Text color",
+        "en": "Text color"
     },
     "showFella": {
-        "en": "Show deviantArt Fella",
+        "en": "Show deviantArt Fella"
     },
     "behave": {
-        "en": "Behaviour",
+        "en": "Behaviour"
     },    
     "receiveMsg": {
-        "en": "When I receive new messages",
+        "en": "New messages action"
     },    
     "openInbox": {
-        "en": "Open inbox page in new tab",
+        "en": "Open inbox page in new tab"
     },    
     "focusInbox": {
         "en": "Focus the messages tab after opening"        
     },
     "sound": {
-        "en": "Sound",
+        "en": "Sound"
     },        
+    "widget": {
+        "en": "Widget"
+    },
+    "noMsgtext":{
+        "en": "What the widget displays when no messages ?"
+    },
     "playSound": {
-        "en": "Play sound",
+        "en": "Play sound"
     },    
     "chooseSound": {
-        "en": "Choose a sound",
+        "en": "Choose a sound"
     },        
     "previewSound": {
-        "en": "Preview",
+        "en": "Preview"
     },        
     "notifyMsgLabel": {
-        "en": "Follow this messages",
+        "en": "Follow this messages"
     },        
     "msgNotices": {
-        "en": "Notices",
+        "en": "Notices"
     },        
     "msgActivity": {
-        "en": "Activity Messages",
+        "en": "Activity Messages"
     },        
     "msgReplies": {
-        "en": "Replies",
+        "en": "Replies"
     },        
     "msgNotes": {
-        "en": "Notes",
+        "en": "Notes"
     },        
     "msgJournals": {
-        "en": "Journals",
+        "en": "Journals"
     },        
     "msgComments": {
-        "en": "Comments",
+        "en": "Comments"
     },        
     "msgDeviations": {
-        "en": "Deviations",
+        "en": "Deviations"
     },        
     "msgPolls": {
-        "en": "Polls",
+        "en": "Polls"
     },        
     "msgContest": {
-        "en": "Contest Announcements",
+        "en": "Contest Announcements"
     },        
     "msgNews": {
-        "en": "News",
+        "en": "News"
     },        
     "msgAdmin": {
-        "en": "Admin Messages",
+        "en": "Admin Messages"
     },        
     "msgCritiques": {
-        "en": "Critiques",
+        "en": "Critiques"
     },        
     "msgCorrespondence": {
-        "en": "Correspondence",
+        "en": "Correspondence"
     },        
     "msgSupport": {
-        "en": "Support Ticket",
+        "en": "Support Ticket"
     },        
     "msgBulletin": {
-        "en": "Bulletin",
+        "en": "Bulletin"
     },        
     "msgForum": {
-        "en": "Forum",
+        "en": "Forum"
     },        
     "connect": {
-        "en": "Connection",
+        "en": "Connection"
     },        
     "autoupdate": {
-        "en": "Auto-update",
+        "en": "Auto-update"
     },        
     "useautoupdate": {
-        "en": "Use auto-update",
+        "en": "Use auto-update"
     },        
     "checkMsg": {
-        "en": "Check for messages every",
+        "en": "Check for messages every"
     },
     "autoLogin": {
-        "en": "Automatic login",
+        "en": "Automatic login"
     },
     "useAutoLogin": {
-        "en": "Use auto-login",
+        "en": "Use auto-login"
     },
     "pass": {
-        "en": "Password",
+        "en": "Password"
     },
 
 ////////////// NEW ONES
@@ -128,13 +134,13 @@ this.i18n = {
         "de": "Keine Übereinstimmungen gefunden."
     },
     "username": {
-        "en": "Username or e-mail",
+        "en": "Username or e-mail"
     },
     "notLogged": {
-        "en": "Not logged in",
+        "en": "Not logged in"
     },
     "loginError": {
-        "en": "Login error",
-    },
+        "en": "Login error"
+    }
 
 };

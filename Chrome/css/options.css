@@ -4,6 +4,11 @@
 	margin-right: 10px;
 }
 
+.postLabel
+{
+	margin-left: 5px;
+}
+
 .colorpicker input
 {
 	width: auto;
@@ -36,5 +41,5 @@ label[disabled]
 		top: 4px;
 		width: 28px;
 		height: 28px;
-		background: red url("/js/lib/colorpicker/images/select2.png") center;
+		background: url("/js/lib/colorpicker/images/select2.png") center;
 	}

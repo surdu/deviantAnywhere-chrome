@@ -1,7 +1,6 @@
-// SAMPLE
 this.manifest = {
-    "name": "deviantAnywhere settings",
-    "icon": "/img/fella_icon.png",
+    "name": "deviantAnywhere options",
+    "icon": "/img/icons/fella_48.png",
     "settings": [
         {
             "tab": i18n.get("look"),
@@ -23,9 +22,9 @@ this.manifest = {
         {
             "tab": i18n.get("look"),
             "group": i18n.get("colors"),
-            "name": "showFella",
-            "type": "checkbox",
-            "label": i18n.get("showFella")
+            "name": "newTextColor",
+            "type": "text",
+            "label": i18n.get("newTextColor")+":"
         },
 
         {
@@ -77,122 +76,9 @@ this.manifest = {
 
         {
             "tab": i18n.get("behave"),
-            "group": i18n.get("notifyMsgLabel"),
-            "name": "followNotices",
-            "type": "checkbox",
-            "label": i18n.get("msgNotices")
-        },
-
-        {
-            "tab": i18n.get("behave"),
-            "group": i18n.get("notifyMsgLabel"),
-            "name": "followNotices",
-            "type": "checkbox",
-            "label": i18n.get("msgActivity")
-        },
-
-        {
-            "tab": i18n.get("behave"),
-            "group": i18n.get("notifyMsgLabel"),
-            "name": "followReplies",
-            "type": "checkbox",
-            "label": i18n.get("msgReplies")
-        },
-
-        {
-            "tab": i18n.get("behave"),
-            "group": i18n.get("notifyMsgLabel"),
-            "name": "followNotes",
-            "type": "checkbox",
-            "label": i18n.get("msgNotes")
-        },
-
-        {
-            "tab": i18n.get("behave"),
-            "group": i18n.get("notifyMsgLabel"),
-            "name": "followJournals",
-            "type": "checkbox",
-            "label": i18n.get("msgJournals")
-        },
-
-        {
-            "tab": i18n.get("behave"),
-            "group": i18n.get("notifyMsgLabel"),
-            "name": "followComments",
-            "type": "checkbox",
-            "label": i18n.get("msgComments")
-        },
-
-        {
-            "tab": i18n.get("behave"),
-            "group": i18n.get("notifyMsgLabel"),
-            "name": "followDeviations",
-            "type": "checkbox",
-            "label": i18n.get("msgDeviations")
-        },
-
-        {
-            "tab": i18n.get("behave"),
-            "group": i18n.get("notifyMsgLabel"),
-            "name": "followPolls",
-            "type": "checkbox",
-            "label": i18n.get("msgPolls")
-        },
-
-        {
-            "tab": i18n.get("behave"),
-            "group": i18n.get("notifyMsgLabel"),
-            "name": "followContest",
-            "type": "checkbox",
-            "label": i18n.get("msgContest")
-        },
-
-        {
-            "tab": i18n.get("behave"),
-            "group": i18n.get("notifyMsgLabel"),
-            "name": "followAdmin",
-            "type": "checkbox",
-            "label": i18n.get("msgAdmin")
-        },
-
-        {
-            "tab": i18n.get("behave"),
-            "group": i18n.get("notifyMsgLabel"),
-            "name": "followCritiques",
-            "type": "checkbox",
-            "label": i18n.get("msgCritiques")
-        },
-
-        {
-            "tab": i18n.get("behave"),
-            "group": i18n.get("notifyMsgLabel"),
-            "name": "followCorrespondence",
-            "type": "checkbox",
-            "label": i18n.get("msgCorrespondence")
-        },
-
-        {
-            "tab": i18n.get("behave"),
-            "group": i18n.get("notifyMsgLabel"),
-            "name": "followSupport",
-            "type": "checkbox",
-            "label": i18n.get("msgSupport")
-        },
-
-        {
-            "tab": i18n.get("behave"),
-            "group": i18n.get("notifyMsgLabel"),
-            "name": "followBulletin",
-            "type": "checkbox",
-            "label": i18n.get("msgBulletin")
-        },
-
-        {
-            "tab": i18n.get("behave"),
-            "group": i18n.get("notifyMsgLabel"),
-            "name": "followForum",
-            "type": "checkbox",
-            "label": i18n.get("msgForum")
+            "group": i18n.get("widget"),
+            "type": "description",
+            "text": i18n.get("noMsgtext")
         },
 
         {
@@ -211,6 +97,7 @@ this.manifest = {
             "type": "number",
             "min": 1,
             "step": 1,
+            "postLabel": "minutes",
             "label": i18n.get("checkMsg")+":"
         },
 
@@ -245,3 +132,62 @@ this.manifest = {
         ],
     ]
 };
+
+var groups = JSON.parse(localStorage.getItem("store.settings.groups")) || {};
+
+if (groups)
+	for (var iid in groups)
+	{
+		this.manifest.settings.push({
+		            "tab": i18n.get("interests"),
+		            "icon": "interests",
+		            "group": i18n.get("groupFollow"),
+		            "name": "followGroup_"+iid,
+		            "type": "checkbox",
+		            "label": groups[iid]
+		});	
+		
+		this.manifest.settings.push({
+		            "tab": i18n.get("look"),
+		            "group": groups[iid],
+		            "name": "bkgColor_"+iid,
+		            "type": "text",
+		            "label": i18n.get("bkgColor")+":"
+		});	
+
+		this.manifest.settings.push({
+		            "tab": i18n.get("look"),
+		            "group": groups[iid],
+		            "name": "textColor_"+iid,
+		            "type": "text",
+		            "label": i18n.get("textColor")+":"
+		});	
+
+		this.manifest.settings.push({
+		            "tab": i18n.get("look"),
+		            "group": groups[iid],
+		            "name": "newTextColor_"+iid,
+		            "type": "text",
+		            "label": i18n.get("newTextColor")+":"
+		});	
+
+	}
+else
+	this.manifest.settings.push({
+	            "tab": i18n.get("look"),
+	            "group": i18n.get("gcolors"),
+	            "type": "description",
+	            "text": "Once deviantArt syncs with your account, here you'll be able to colorize all your grups."
+	});	
+
+for (var name in messagesInfo)
+{
+	this.manifest.settings.push({
+	            "tab": i18n.get("interests"),
+	            "icon": "interests",
+	            "group": i18n.get("notifyMsgLabel"),
+	            "name": messagesInfo[name].pref,
+	            "type": "checkbox",
+	            "label": messagesInfo[name].desc.split("::")[1]+" ("+name+")"
+	});	
+}

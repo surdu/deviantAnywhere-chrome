@@ -1,0 +1,60 @@
+*
+{
+	padding: 0px;
+	margin: 0px;
+}
+
+body
+{
+	width: 10000px;
+}
+
+#collapseBtn
+{
+	width: 13px;
+	height: 20px;
+	background: url("chrome-extension://__MSG_@@extension_id__/img/collapse_right.png") no-repeat left top;
+	float: left;
+	cursor: pointer;
+}
+
+.messagesWrap
+{
+	font-family: helvetica;
+	display: inline-block;
+	cursor: pointer;
+	background-color: #728776;
+	color: #FFFFFF;
+}
+
+.messagesWrap.empty
+{
+	display: none;
+}
+
+	.messagesWrap .messagesIcon
+	{
+		margin-top: 2px;
+		margin-left: 5px;
+		vertical-align: text-bottom;
+	}
+	
+	.messagesWrap .messagesText
+	{
+		margin-top: 2px;
+		margin-left: 5px;
+		font-size: 11px;
+		margin-right: 5px;
+		height: 100%;
+		display: inline-block;
+	}
+	
+		.messagesText span, .messagesText b 
+		{
+			margin-right: 3px;
+		}
+	
+	#sysMessages .messagesText
+	{
+		margin-left: 0px;
+	}

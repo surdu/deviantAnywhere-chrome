@@ -581,6 +581,10 @@
 	        this.label = new Element("label", {
 	            "class": "setting label number"
 	        });
+
+	        this.postLabel = new Element("label", {
+	            "class": "setting label postLabel number"
+	        });
 	    },
 	    
 	    "setupDOM": function () {
@@ -590,19 +594,21 @@
 	            this.params.searchString += this.params.label + "•";
 	        }
 
-            if (this.params.min !== undefined) {
+            if (this.params.min !== undefined)
                 this.element.set("min", this.params.min);
-            }
 
-            if (this.params.max !== undefined) {
+            if (this.params.max !== undefined)
                 this.element.set("max", this.params.max);
-            }
 
-            if (this.params.step !== undefined) {
+            if (this.params.step !== undefined)
                 this.element.set("step", this.params.step);
-            }
+
+            if (this.params.postLabel !== undefined)
+                this.postLabel.set("html", this.params.postLabel);
 
 	        this.element.inject(this.container);
+	        if (this.params.postLabel !== undefined)
+	        	this.postLabel.inject(this.container);
 	        this.container.inject(this.bundle);
 	    },
 	    

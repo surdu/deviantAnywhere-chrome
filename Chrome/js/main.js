@@ -2,135 +2,96 @@
 // Copyright (c) 2011 Nicolae Surdu
 //
 
-var messagesURL = "http://www.deviantart.com/global/difi.php";
+var difiURL = "http://www.deviantart.com/global/difi.php";
 var inboxURL 	= "http://my.deviantart.com/messages/";
 var loginURL    = "https://www.deviantart.com/users/login";
 var donateURL   = "https://www.paypal.com/cgi-bin/webscr"
 
-var inboxId = null;
-
-var messagesInfo  = {"N":{"desc":"Notice::Notices", "pref":"followNotices"},
-				 	 "A":{"desc":"Activity Message::Activity Messages", "pref":"followActivity"},
-				 	 "R":{"desc":"Reply::Replies", "pref":"followReplies"},
-				 	 "UN":{"desc":"Unread Note::Unread Notes", "pref":"followNotes"},
-				 	 "J":{"desc":"Journal::Journals", "pref":"followJournals"},
-				 	 "C":{"desc":"Comment::Comments", "pref":"followComments"},
-				 	 "D":{"desc":"Deviation::Deviations", "pref":"followDeviations"},
-				 	 "P":{"desc":"Poll::Polls", "pref":"followPolls"},
-				 	 "CA":{"desc":"Contest Announcement::Contest Announcements", "pref":"followContest"},
-				 	 "AM":{"desc":"Admin Message::Admin Messages", "pref":"followAdmin"},
-				 	 "WC":{"desc":"Watched Critique::Watched Critiques", "pref":"followCritiques"},
-					 "CO":{"desc":"Correspondence Item::Correspondence Items", "pref":"followCorrespondence"},
-					 "ST":{"desc":"Support Ticket::Support Tickets", "pref":"followSupport"},
-					 "B":{"desc":"Bulletin::Bulletins", "pref":"followBulletin"},
-					 "F":{"desc":"Forum::Forums", "pref":"followForum"}
-					};
-
 var NOCACHE_HEADERS = {"Pragma": "no-cache", "Cache-Control": "no-cache"}
 
-var messages  = new Array();
-var newMessages = new Array();
+var statusList = {};
+var newFlags = new Array();
 
-var statusText = "";
+var badgeHint;
+var recheckTimeout;
+
+var groupsCount;
+var totalGroupsCount;
+
+var hasNewThisRound;
 
 function init()
 {
 	log("Starting...");
-    var lastMessages = settings.get("lastMessages");
-    messages = JSON2array(lastMessages);
-
     retrieveMessages();
-    
-    chrome.extension.onRequest.addListener(handleRequests);
+    chrome.extension.onMessage.addListener(handleRequests);
 }
 
 function retrieveMessages()
 {
+	badgeHint = "";
 	log("Retrieve messages: start");
-	//ro_cvds_daInstance.setIcon("loading");
 	
-	var getFoldersReq = new HTTPRequest(messagesURL+"?c[]=MessageCenter;get_folders&t=json", "GET", NOCACHE_HEADERS);
+	var getFoldersReq = new HTTPRequest(difiURL+'?c[]="MessageCenter","get_folders",[]&t=json', "GET", NOCACHE_HEADERS);
 	getFoldersReq.onSuccess = parseFolders;
+	getFoldersReq.onError = autoupdate;
 	getFoldersReq.dataType = "json";
 	getFoldersReq.send();
 }
 
 function parseFolders(response)
 {
-	//ro_cvds_daInstance.setIcon("normal");
 	if (response.DiFi.status == "SUCCESS")
 	{
 		log("Parsing folders");
 		var folders = response.DiFi.response.calls[0].response.content;
+
+		groupsCount = 0;
+		totalGroupsCount = 0;
+		hasNewThisRound = false;
+
+		var groups = {};
 		
 		// get the inbox folder id
-		for (f=0; f<folders.length;f++)
-			if (folders[f].is_inbox)
-			{
-				inboxId = folders[f].folderid;
-				continue;							 		
-			}
-	
-		if (inboxId)
-			getMsgContent();
+		for (var f=0; f<folders.length;f++)
+		{
+			new MessEx(folders[f].folderid, folders[f].title, folders[f].is_inbox, generateStatus);
+			if (folders[f].title)
+				groups["i"+folders[f].folderid] = folders[f].title;
+			totalGroupsCount ++
+		}
+		
+		settings.set("groups", groups);
+			
+		autoupdate();
 	}
 	else
 		if (settings.get("useAutoLogin"))
 			login();
 		else
-			setStatus(i18n.get("notLogged"));
+		{
+			updateBadge("Oops", true, "You are not logged in deviantArt.\nPlease use the auto-login option in deviantAnywhere \nor login on deviantArt.");
+			//TODO: when you click badge, go to login
+		}
+			
 }
 
-function getMsgContent()
+function autoupdate()
 {
-	maxItems = 20;
-	queryStr = "?"+
-	"c[]=MessageCenter;get_views;"+this.inboxId+",oq:fb_comments:0:"+maxItems+":f&"+
-	"c[]=MessageCenter;get_views;"+this.inboxId+",oq:fb_replies:0:"+maxItems+":f&"+
-	"c[]=MessageCenter;get_views;"+this.inboxId+",oq:notes_unread:0:"+maxItems+":f&"+
-	"c[]=MessageCenter;get_views;"+this.inboxId+",oq:notices:0:"+maxItems+":f&"+
-	"c[]=MessageCenter;get_views;"+this.inboxId+",oq:contests:0:"+maxItems+":f&"+
-	"c[]=MessageCenter;get_views;"+this.inboxId+",oq:fb_activity:0:"+maxItems+":f&"+
-	"c[]=MessageCenter;get_views;"+this.inboxId+",oq:correspondence:0:"+maxItems+":f&"+
-	"c[]=MessageCenter;get_views;"+this.inboxId+",oq:devwatch:0:"+maxItems+":f:tg=deviations&"+
-	"c[]=MessageCenter;get_views;"+this.inboxId+",oq:devwatch:0:"+maxItems+":f:tg=journals&"+
-	"c[]=MessageCenter;get_views;"+this.inboxId+",oq:devwatch:0:"+maxItems+":f:tg=polls&"+
-	"c[]=MessageCenter;get_views;"+this.inboxId+",oq:devwatch:0:"+maxItems+":f:tg=forums&"+
-	"c[]=MessageCenter;get_views;"+this.inboxId+",oq:zendesk:0:"+maxItems+":f&"+
-	"c[]=MessageCenter;get_views;"+this.inboxId+",oq:bulletins:0:"+maxItems+":f";
-	
-	log("Requesting messages DiFi");
-	var getContentReq = new HTTPRequest(messagesURL+queryStr+"&t=json", "GET", "NOCACHE_HEADERS");
-	getContentReq.onSuccess = parseMessages;
-	getContentReq.dataType = "json";
-	getContentReq.send();		
-}
-
-function parseMessages(response)
-{
-	log("Requesting messages DiFi: success");
-	newMessages["C"] = parseInt(response.DiFi.response.calls[0].response.content[0].result.matches);
-	newMessages["R"] = parseInt(response.DiFi.response.calls[1].response.content[0].result.matches);
-	newMessages["UN"]= parseInt(response.DiFi.response.calls[2].response.content[0].result.matches);
-	newMessages["N"] = parseInt(response.DiFi.response.calls[3].response.content[0].result.matches);
-	newMessages["CA"]= parseInt(response.DiFi.response.calls[4].response.content[0].result.matches);
-	newMessages["A"] = parseInt(response.DiFi.response.calls[5].response.content[0].result.matches);
-	newMessages["CO"]= parseInt(response.DiFi.response.calls[6].response.content[0].result.matches);
-	newMessages["D"] = parseInt(response.DiFi.response.calls[7].response.content[0].result.matches);
-	newMessages["J"] = parseInt(response.DiFi.response.calls[8].response.content[0].result.matches);
-	newMessages["P"] = parseInt(response.DiFi.response.calls[9].response.content[0].result.matches);
-	newMessages["F"] = parseInt(response.DiFi.response.calls[10].response.content[0].result.matches);
-	newMessages["ST"] = parseInt(response.DiFi.response.calls[11].response.content[0].result.matches);
-	newMessages["B"] = parseInt(response.DiFi.response.calls[12].response.content[0].result.matches);
-	generateStatus();
+	if (settings.get("autoupdate"))
+	{
+		var checkTime = parseFloat(settings.get("checkTime"));
+		recheckTimeout = setTimeout(retrieveMessages, checkTime*60000);
+		log("New auto-update in "+checkTime+" minutes");
+	}
 }
 
 function login()
 {
 	var loginReq = new HTTPRequest(loginURL, "POST", {"Content-Type": "application/x-www-form-urlencoded"});
 	// this looks very counter-intuitive, but it's the only way i can think
-	// now how to determine a succesfull login:
-	// - In case of succesfull login, we get a redirect from https to http which triggers 
+	// now how to determine a successful login:
+	// - In case of successful login, we get a redirect from https to http which triggers 
 	//   a cross-domain status 0 error. (success)
 	// - In case of a bad login, the login page is returned with status code 200 (error)
 	loginReq.onSuccess = parseLoginError;
@@ -147,130 +108,243 @@ function parseLoginSuccess(statusCode)
 
 function parseLoginError()
 {
-	setStatus(i18n.get("loginError"))
+	//TODO: check this
+	updateBadge("Oops", true, "The auto-login has failed.\nPlease check the supplied username and password.");
 }
 
 ///////////////////////// UI /////////////////////////
 
-function generateStatus()
+function generateStatus(result)
 {
-    hasNew = false;
-    statusBarText = "";
+    var hasNew = false;
+	groupsCount ++;
 	
-	statusText = "";
+	var lastMessages = settings.get("lastMessages_"+result.id, "[]");
+	
+	var messages = JSON.parse(lastMessages);
+	var newMessages = result.newMessages;
+	var hintMessages = ""
+
+	var folderName = result.folderName
+	if (result.isInbox)
+		folderName = settings.get("username") || "Main account";
+	
+	if (!statusList["i"+result.id])
+		statusList["i"+result.id] = {
+			id: 			result.id, 
+			folderName: 	folderName, 
+			isInbox: 		result.isInbox, 
+			messages:		{}
+		};
+	
+	statusList["i"+result.id].hasMessages = false;
 	
     for (var item in newMessages)
     {
-		if (settings.get(messagesInfo[item].pref))
-		{
-			var oldValue = parseInt(messages[item]) || 0; 
-			var currentValue = parseInt(newMessages[item]);
-			var newSuffix = "";
-			 
-            if (currentValue > oldValue)
-            {
-                hasNew = true;
-                if (messagesInfo[item]["has_new"])
-                	messagesInfo[item]["has_new"] += currentValue - oldValue;
-                else
-                	messagesInfo[item]["has_new"] = currentValue - oldValue;
-            }
-            messages[item] = newMessages[item];
-			
-            if (messages[item] != 0)
-            {
-				//create statusItem node
-				
-				var statusItem = $("<span></span>").addClass("statusItem");
-				
-				if (messagesInfo[item]["has_new"])
-				{
-					statusItem.addClass("new");
-					newSuffix = ", "+messagesInfo[item]["has_new"] + " New";
-				}
-				
-				// build the hint
-				var tooltipOpts = messagesInfo[item].desc.split("::");
-				var tooltip = messages[item]+" "+tooltipOpts[0]+newSuffix;
-				if (messages[item]>1)
-					tooltip = messages[item]+" "+tooltipOpts[1]+newSuffix;
-				
-				statusItem.attr("title", tooltip);
-				statusItem.html(messages[item]+item);
+    	if (!statusList["i"+result.id].messages[item])
+    		statusList["i"+result.id].messages[item] = {
+    			newCount: 0, 
+    			desc: messagesInfo[item].desc.split("::")
+    		};
+    	
+		var oldValue = parseInt(messages[item]) || 0; 
+		var currentValue = parseInt(newMessages[item]);
+		var newSuffix = "";
+		 
+        if (currentValue > oldValue && (settings.get("followGroup_i"+result.id, true) || result.isInbox))
+        {
+        	if (!hasNew)
+        		hasNew = settings.get(messagesInfo[item].pref);
+        	
+        	if (statusList["i"+result.id].messages[item].newCount)
+        		statusList["i"+result.id].messages[item].newCount += currentValue - oldValue;
+        	else
+        		statusList["i"+result.id].messages[item].newCount = currentValue - oldValue;
 
-				// jQuery bug ?
-				// hack in order to append the HTML string of the node, instead the node itself
-				// if statusBar.append(statusItem), statusItem will loose the css attributes
-				// what we do is: make a clone of the statusItem inside a temp div, 
-				// get the content of that div and then destroy the div
-				statusText += $('<div>').append(statusItem.clone()).remove().html();
-            }
-		}
+        	if (settings.get(messagesInfo[item].pref))
+            	hintMessages += statusList["i"+result.id].messages[item].newCount + item + " ";
+        }
+        
+        if (currentValue < oldValue)
+        	statusList["i"+result.id].messages[item].newCount = 0;
+        
+        if (newMessages[item] != 0 && settings.get(messagesInfo[item].pref))
+        	statusList["i"+result.id].hasMessages = true;
+        
+        statusList["i"+result.id].messages[item].count = newMessages[item];
+        statusList["i"+result.id].messages[item].shouldRender = settings.get(messagesInfo[item].pref);
+		
     }
-	
-	if (!statusText)
-		statusText = "No messages";
 	
     if (hasNew)
     {
-        if (settings.get("playSound"))
-            playSound(settings.get("sound"));
-            
-        if (settings.get("openInbox"))
-            openInbox(true,settings.get("focusTab"));
+    	hasNewThisRound = true;
 
-		chrome.browserAction.setBadgeText({"text":"New!"});
-            
-        settings.set("lastMessages", array2JSON(newMessages));
+		if (result.isInbox)
+			badgeHint += "New for "+folderName + "\n" + hintMessages + "\n";
+		else
+			badgeHint += "New for "+folderName + "\n" + hintMessages + "\n";
+		updateBadge("New", false, badgeHint);
     }
+
+	settings.set("lastMessages_"+result.id, JSON.stringify(newMessages));	
+	updateStatus("i"+result.id);
 	
-	if (settings.get("autoupdate"))
+	if (groupsCount == totalGroupsCount)
 	{
-		var checkTime = parseFloat(settings.get("checkTime"))
-		setTimeout(retrieveMessages, checkTime*60000)
-		log("New auto-update in "+checkTime+" minutes");
+		var globalHasNew = false;
+		for (var iid in statusList)
+		{
+			if (!globalHasNew)
+				for (var name in statusList[iid].messages)
+				{
+					if (statusList[iid].messages[name].newCount)
+					{
+						globalHasNew = true;
+						break;
+					}
+				}
+			else
+				break;
+		}
+		
+		if (!globalHasNew)
+			updateBadge("", false, "deviantAnywhere");
+		
+		if (hasNewThisRound)
+		{
+	        if (settings.get("playSound"))
+	            playSound(getExtensionPath(settings.get("sound")));
+	        
+	        if (settings.get("openInbox"))
+	        {
+	            openInbox(true,settings.get("focusTab"));
+	            resetNewFlag();
+	        }
+        }
+
 	}
 	
-	updateStatus();
-	
-	log("Retrieve messages: end");	
+	log("Retrieve messages: end");
 }
 
-function setStatus(status)
-{
-	statusText = status;
-	updateStatus();
-}
-
-function updateStatus()
+function sendMessage(request)
 {
 	chrome.windows.getAll({populate: true}, function(windows){
 		for (var f=0; f<windows.length; f++)
 			for (var g=0; g<windows[f].tabs.length; g++)
-				chrome.tabs.sendRequest(windows[f].tabs[g].id, {status: statusText, action: "set_status"});
+				chrome.tabs.sendMessage(windows[f].tabs[g].id, request);
 	});
+	
+}
+
+function updateBadge(text, error, details)
+{
+	if (error)
+		chrome.browserAction.setBadgeBackgroundColor({color: [207, 0, 22, 255]});
+	else
+		chrome.browserAction.setBadgeBackgroundColor({color: [22, 207, 0, 255]});
+		
+	chrome.browserAction.setBadgeText({"text": text});
+	
+	if (details)
+		chrome.browserAction.setTitle({title: details})
+	else
+		chrome.browserAction.setTitle({title: ""});
+}
+
+function updateStatus(iid)
+{
+	sendMessage({action: "set_status", status: statusList[iid]});
+}
+
+function openURL(url, newtab, focus)
+{
+	if (newtab)
+	{
+		if (typeof focus == 'undefined' && focus !== false)
+			focus = true;
+
+		chrome.windows.getAll({populate: true}, function(windows){
+			for (var f=0; f<windows.length; f++)
+				for (var g=0; g<windows[f].tabs.length; g++)
+					if (windows[f].tabs[g].url == url)
+					{
+						chrome.tabs.update(windows[f].tabs[g].id, {selected: true});
+						return;
+					}
+			chrome.tabs.create({url: url, selected: focus});
+		});
+	}
+	else
+		chrome.tabs.getSelected(null, function(tab){
+			chrome.tabs.update(tab.id, {url: url})
+		});
+}
+
+function resetNewFlag()
+{
+	log("Resetting new flag");
+	
+	for (var iid in statusList)
+	{
+		for (var name in statusList[iid].messages)
+			statusList[iid].messages[name].newCount = 0;
+		
+		updateStatus(iid);
+	}
+	
+	updateBadge("", false, "deviantAnywhere");
 }
 
 function handleRequests(request, sender, sendResponse)
 {
 	if (request.action == "get_status")
-		sendResponse({status: statusText})
+	{
+		for (var iid in statusList)
+		{
+			statusList[iid].hasMessages = false
+			for (var name in statusList[iid].messages)
+			{
+				var shouldRender = settings.get(messagesInfo[name].pref);
+				statusList[iid].messages[name].shouldRender = shouldRender;
+				if (statusList[iid].messages[name].count != 0 &&  shouldRender)
+					statusList[iid].hasMessages = true;
+			}
+		}
+		
+		sendResponse({statusList: statusList});
+		return;
+	}
+	else
 	if (request.action == "get_settings")
+	{
 		sendResponse(settings.toObject());
+		return;
+	}
+	else
 	if (request.action == "reset_new_flag")
 	{
-		log("Resetting new flag");
-		for (var item in messagesInfo)
-			messagesInfo[item]["has_new"] = 0;
-		
-		// force regeneration of the statusText. I should test the hell out of this "hack"
-		generateStatus();
-		
-		sendResponse();
-		chrome.browserAction.setBadgeText({"text":""});
+		resetNewFlag();
+		sendResponse({});
+		return;
 	}
+	else
 	if (request.action == "check_now")
-		retrieveMessages()
+	{
+		if (recheckTimeout)
+			clearTimeout(recheckTimeout);
+		retrieveMessages();
+		sendResponse({});
+		return;
+	}
+	else
+	if (request.action == "open_url")
+	{
+		openURL(request.url, request.newtab, request.focus);
+		sendResponse({});
+		return;
+	}
 }
 
 init();

@@ -10,6 +10,7 @@ var defaults = {
     "openNotification": true,
     "playSound": true,
     "sound": "chrome-extension://__MSG_@@extension_id__/sounds/splat.wav",
+    "noMsgText": 0,
     
     "customLook": true,
     "bkgColor": "#728776",
@@ -30,8 +31,5 @@ var defaults = {
     "followCorrespondence": true,
     "followSupport": true,
     "followBulletin": true,
-    "followForum": true,
+    "followForum": true
 };
-
-if (typeof Store != 'undefined')
-	var settings = new Store("settings", defaults);

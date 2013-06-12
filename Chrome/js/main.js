@@ -3,14 +3,11 @@
 //
 
 var difiURL = "http://www.deviantart.com/global/difi.php";
-var inboxURL 	= "http://my.deviantart.com/messages/";
 var loginURL    = "https://www.deviantart.com/users/login";
-var donateURL   = "https://www.paypal.com/cgi-bin/webscr"
 
 var NOCACHE_HEADERS = {"Pragma": "no-cache", "Cache-Control": "no-cache"}
 
 var statusList = {};
-var newFlags = new Array();
 
 var badgeHint;
 var recheckTimeout;
@@ -19,6 +16,8 @@ var groupsCount;
 var totalGroupsCount;
 
 var hasNewThisRound;
+
+var settings = new Store("settings", defaults);
 
 function init()
 {
@@ -149,8 +148,7 @@ function generateStatus(result)
     	
 		var oldValue = parseInt(messages[item]) || 0; 
 		var currentValue = parseInt(newMessages[item]);
-		var newSuffix = "";
-		 
+
         if (currentValue > oldValue && (settings.get("followGroup_i"+result.id, true) || result.isInbox))
         {
         	if (!hasNew)

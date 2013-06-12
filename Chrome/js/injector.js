@@ -29,7 +29,7 @@ function initLook()
 		$("#inbox", iFrameContent).css("color", textColor);
 		$("#inbox b", iFrameContent).css("color", newTextColor);
 		
-		var groups = JSON.parse(settings.groups || "{}");
+		var groups = settings.groups || "{}";
 		
 		for (var iid in groups)
 		{
@@ -141,128 +141,128 @@ function showBar()
 
 function setStatus(status)
 {
-	var inboxId = "inbox_"+status.id;
-	if (status.isInbox)
-		inboxId = "inbox";
+    chrome.extension.sendMessage({action: 'get_settings'}, function(settings) {
 
-	$("#sysMessages", iFrameContent).addClass("empty");
-	
-	var interesting = typeof settings["followGroup_i"+status.id] == 'undefined' ? true : settings["followGroup_i"+status.id]; 
-	
-	if (status.hasMessages && (interesting || status.isInbox ))
-	{
-		var msgText = $("#"+inboxId+" .messagesText", iFrameContent);
-	
-		if ($("#"+inboxId, iFrameContent).length == 0)
-		{
-			var msgWrap = $("<div></div>").attr("id", inboxId);
-			
-			
-			if (status.isInbox)
-			{
-				msgWrap.dblclick(function(){openInbox(true, true);})
-				// this peace of shit bug must be investigated
-				msgWrap.css("marginRight", "-4px");
-			}
-			else
-				msgWrap.dblclick(function(){openInbox(true, true, status.id);})
-			
-			
-			var msgIcon = $("<img />");
-			
-			if (status.isInbox)
-				msgIcon.attr("src", getExtensionPath("chrome-extension://__MSG_@@extension_id__/img/status_icons/normal.gif"));
-			else
-				msgIcon.attr("src", getExtensionPath("chrome-extension://__MSG_@@extension_id__/img/status_icons/group.gif"));
-			
-			msgIcon.attr("title", status.folderName);
-			
-			msgText = $("<div></div>");
-			
-			msgWrap.append(msgIcon);
-			msgWrap.append(msgText)
-			
-			if (status.isInbox)
-				$("#collapseBtn", iFrameContent).after(msgWrap);
-			else
-				$(iFrameContent).append(msgWrap);
-	
-			msgWrap.addClass("messagesWrap");
-			msgIcon.addClass("messagesIcon");
-			msgText.addClass("messagesText");
-		}
-		else
-		{
-			$("#"+inboxId, iFrameContent).removeClass("empty");
-			msgText.empty();
-		}
-	
-		for (var name in status.messages)
-		{
-			if (status.messages[name].count != 0 && status.messages[name].shouldRender)
-			{
-				var statusItem = $("<span></span>");
-				var newSuffix = "";
-				
-				if (status.messages[name].newCount)
-				{
-					statusItem = $("<b></b>");
-					newSuffix = status.messages[name].newCount + " New";
-				}
-				
-				// detect singular or plural
-				var suffix = status.messages[name].desc[Math.abs(status.messages[name].count > 1)];
-				
-				var tooltip = "";
-				
-				if (status.messages[name].newCount == status.messages[name].count)
-					tooltip = status.folderName+"\n"+newSuffix+" "+suffix;
-				else
-				{
-					if (newSuffix)
-						newSuffix = ", "+newSuffix;
-					tooltip = status.folderName+"\n"+status.messages[name].count+" "+suffix+newSuffix;
-				}
-				
-				statusItem.attr("title", tooltip);
-				statusItem.text(status.messages[name].count+name);
-				
-				msgText.append(statusItem);
-			}
-		}
-	}
-	else
-		$("#"+inboxId, iFrameContent).addClass("empty");
+        var inboxId = "inbox_"+status.id;
+        if (status.isInbox)
+            inboxId = "inbox";
 
-	var barWidth = 0;
-	var ICON_WIDTH = 16;
-	var PADDING_WIDTH = 15;
-	var allEmpty = true;
-	
-	$(".messagesText", iFrameContent).each(function(){
-		if (!$(this).parent().hasClass("empty"))
-		{
-			barWidth += $(this).width() + ICON_WIDTH + PADDING_WIDTH;
-			allEmpty = false;
-		}
-	});
-	
-	if (allEmpty)
-	{
-		$("#sysMessages", iFrameContent).removeClass("empty");
-		$("#sysMessages .messageItem", iFrameContent).text("No messages");
-		barWidth = $("#sysMessages .messagesText", iFrameContent).width() + ICON_WIDTH + PADDING_WIDTH;
-	}
+        $("#sysMessages", iFrameContent).addClass("empty");
 
-	$('#devany_chrome_iframe').width(barWidth+13);
+        var interesting = typeof settings["followGroup_i"+status.id] == 'undefined' ? true : settings["followGroup_i"+status.id];
 
-	if ($.cookie('hide_devanybar'))
-		$('#devany_chrome_iframe').css("right", -barWidth);
-		
-	chrome.extension.sendMessage({action: 'get_settings'}, function(settings) {
-		initLook();
-  	});	
-		
+        if (status.hasMessages && (interesting || status.isInbox ))
+        {
+            var msgText = $("#"+inboxId+" .messagesText", iFrameContent);
+
+            if ($("#"+inboxId, iFrameContent).length == 0)
+            {
+                var msgWrap = $("<div></div>").attr("id", inboxId);
+
+
+                if (status.isInbox)
+                {
+                    msgWrap.dblclick(function(){openInbox(true, true);})
+                    // this peace of shit bug must be investigated
+                    msgWrap.css("marginRight", "-4px");
+                }
+                else
+                    msgWrap.dblclick(function(){openInbox(true, true, status.id);})
+
+
+                var msgIcon = $("<img />");
+
+                if (status.isInbox)
+                    msgIcon.attr("src", getExtensionPath("chrome-extension://__MSG_@@extension_id__/img/status_icons/normal.gif"));
+                else
+                    msgIcon.attr("src", getExtensionPath("chrome-extension://__MSG_@@extension_id__/img/status_icons/group.gif"));
+
+                msgIcon.attr("title", status.folderName);
+
+                msgText = $("<div></div>");
+
+                msgWrap.append(msgIcon);
+                msgWrap.append(msgText)
+
+                if (status.isInbox)
+                    $("#collapseBtn", iFrameContent).after(msgWrap);
+                else
+                    $(iFrameContent).append(msgWrap);
+
+                msgWrap.addClass("messagesWrap");
+                msgIcon.addClass("messagesIcon");
+                msgText.addClass("messagesText");
+            }
+            else
+            {
+                $("#"+inboxId, iFrameContent).removeClass("empty");
+                msgText.empty();
+            }
+
+            for (var name in status.messages)
+            {
+                if (status.messages[name].count != 0 && status.messages[name].shouldRender)
+                {
+                    var statusItem = $("<span></span>");
+                    var newSuffix = "";
+
+                    if (status.messages[name].newCount)
+                    {
+                        statusItem = $("<b></b>");
+                        newSuffix = status.messages[name].newCount + " New";
+                    }
+
+                    // detect singular or plural
+                    var suffix = status.messages[name].desc[Math.abs(status.messages[name].count > 1)];
+
+                    var tooltip = "";
+
+                    if (status.messages[name].newCount == status.messages[name].count)
+                        tooltip = status.folderName+"\n"+newSuffix+" "+suffix;
+                    else
+                    {
+                        if (newSuffix)
+                            newSuffix = ", "+newSuffix;
+                        tooltip = status.folderName+"\n"+status.messages[name].count+" "+suffix+newSuffix;
+                    }
+
+                    statusItem.attr("title", tooltip);
+                    statusItem.text(status.messages[name].count+name);
+
+                    msgText.append(statusItem);
+                }
+            }
+        }
+        else
+            $("#"+inboxId, iFrameContent).addClass("empty");
+
+        var barWidth = 0;
+        var ICON_WIDTH = 16;
+        var PADDING_WIDTH = 15;
+        var allEmpty = true;
+
+        $(".messagesText", iFrameContent).each(function(){
+            if (!$(this).parent().hasClass("empty"))
+            {
+                barWidth += $(this).width() + ICON_WIDTH + PADDING_WIDTH;
+                allEmpty = false;
+            }
+        });
+
+        if (allEmpty)
+        {
+            $("#sysMessages", iFrameContent).removeClass("empty");
+            $("#sysMessages .messageItem", iFrameContent).text("No messages");
+            barWidth = $("#sysMessages .messagesText", iFrameContent).width() + ICON_WIDTH + PADDING_WIDTH;
+        }
+
+        $('#devany_chrome_iframe').width(barWidth+13);
+
+        if ($.cookie('hide_devanybar'))
+            $('#devany_chrome_iframe').css("right", -barWidth);
+
+        initLook();
+    });
 }
 
 insertBody();

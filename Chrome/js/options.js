@@ -82,11 +82,13 @@ window.addEvent("domready", function () {
     	
     	settings.manifest.openInbox.addEvent("action", openInboxChanged);
     	settings.manifest.playSound.addEvent("action", playSoundChanged);
+        settings.manifest.noMsgLook.addEvent("action", noMsgLookChanged);
     	settings.manifest.autoupdate.addEvent("action", autoupdateChanged);
     	settings.manifest.useAutoLogin.addEvent("action", useAutoLoginChanged);
-    	
+
     	openInboxChanged();
     	playSoundChanged();
+        noMsgLookChanged();
     	autoupdateChanged();
     	useAutoLoginChanged();
     	
@@ -101,15 +103,10 @@ window.addEvent("domready", function () {
 
 function redrawMessages()
 {
-	var settings = {};
-	for(var item in settings_g.manifest)
-		if (settings_g.manifest[item].params.type != "button")
-			settings[item] = settings_g.manifest[item].get();
-	
 	chrome.windows.getAll({populate: true}, function(windows){
 		for (var f=0; f<windows.length; f++)
 			for (var g=0; g<windows[f].tabs.length; g++)
-				chrome.tabs.sendMessage(windows[f].tabs[g].id, {action: "redraw_messages", settings: settings});
+				chrome.tabs.sendMessage(windows[f].tabs[g].id, {action: "redraw_messages"});
 	});
 }
 
@@ -179,6 +176,25 @@ function playSoundChanged()
 		j(settings_g.manifest.sound.element).attr("disabled", "disabled");
 		j(settings_g.manifest.previewSound.element).attr("disabled", "disabled");
 	}
+}
+
+function noMsgLookChanged()
+{
+    var selectedValue = "";
+
+    for (var f in settings_g.manifest.noMsgLook.elements)
+        if (settings_g.manifest.noMsgLook.elements[f].checked)
+        {
+            selectedValue = settings_g.manifest.noMsgLook.elements[f].value;
+            break;
+        }
+
+    if (selectedValue == "2")
+        j(settings_g.manifest.noMsgText.element).removeAttr("disabled");
+    else
+        j(settings_g.manifest.noMsgText.element).attr("disabled", "disabled");
+
+    redrawMessages();
 }
 
 function autoupdateChanged()

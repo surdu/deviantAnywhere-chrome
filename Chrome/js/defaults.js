@@ -10,7 +10,8 @@ var defaults = {
     "openNotification": true,
     "playSound": true,
     "sound": "chrome-extension://__MSG_@@extension_id__/sounds/splat.wav",
-    "noMsgText": 0,
+    "noMsgLook": "0",
+    "noMsgText": "No messages",
     
     "customLook": true,
     "bkgColor": "#728776",

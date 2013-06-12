@@ -69,7 +69,6 @@ function handleRequests(request, sender, sendResponse)
 	else
 	if (request.action == "redraw_messages")
 	{
-		settings = request.settings;
 		chrome.extension.sendMessage({action: "get_status"}, handleGetStatusResponse);
 		sendResponse({});
 	}
@@ -103,7 +102,7 @@ function handleFrameLoad(response)
 	iFrameContent.onselectstart = disable;
 	
 	// disable right click
-	$(iFrameContent).bind("contextmenu", disable);
+//	$(iFrameContent).bind("contextmenu", disable);
 
 	if ($.cookie('hide_devanybar'))
 	{
@@ -113,10 +112,8 @@ function handleFrameLoad(response)
 	else
 		$("#collapseBtn", iFrameContent).toggle(hideBar, showBar);
 
-	chrome.extension.sendMessage({action: 'get_settings'}, function(rSettings) {
-		initLook();
-		chrome.extension.sendMessage({action: "get_status"}, handleGetStatusResponse);
-  	});	
+    initLook();
+    chrome.extension.sendMessage({action: "get_status"}, handleGetStatusResponse);
 }
 
 function hideBar()
@@ -252,9 +249,28 @@ function setStatus(status)
         if (allEmpty)
         {
             $("#sysMessages", iFrameContent).removeClass("empty");
-            $("#sysMessages .messageItem", iFrameContent).text("No messages");
+
+            switch (parseInt(settings["noMsgLook"]))
+            {
+                case 0:
+                    $("#sysMessages .messageItem", iFrameContent).text("");
+                    $('#devany_chrome_iframe').css("display", "block");
+                    break;
+
+                case 1:
+                    $('#devany_chrome_iframe').css("display", "none");
+                    break;
+
+                case 2:
+                    $("#sysMessages .messageItem", iFrameContent).text(settings["noMsgText"]);
+                    $('#devany_chrome_iframe').css("display", "block");
+                    break;
+            }
+
             barWidth = $("#sysMessages .messagesText", iFrameContent).width() + ICON_WIDTH + PADDING_WIDTH;
         }
+        else
+            $('#devany_chrome_iframe').css("display", "block");
 
         $('#devany_chrome_iframe').width(barWidth+13);
 

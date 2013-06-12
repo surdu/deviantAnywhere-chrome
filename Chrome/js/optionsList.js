@@ -77,8 +77,21 @@ this.manifest = {
         {
             "tab": i18n.get("behave"),
             "group": i18n.get("widget"),
-            "type": "description",
-            "text": i18n.get("noMsgtext")
+            "name": "noMsgLook",
+            "type": "radioButtons",
+            options:[
+                ["0", i18n.get("justIcon")],
+                ["1", i18n.get("hideWidget")],
+                ["2", i18n.get("customText")]
+            ],
+            "label": i18n.get("noMsgText")
+        },
+
+        {
+            "tab": i18n.get("behave"),
+            "group": i18n.get("widget"),
+            "name": "noMsgText",
+            "type": "text"
         },
 
         {

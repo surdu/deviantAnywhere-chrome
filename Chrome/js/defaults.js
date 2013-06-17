@@ -12,6 +12,7 @@ var defaults = {
     "sound": "chrome-extension://__MSG_@@extension_id__/sounds/splat.wav",
     "noMsgLook": "0",
     "noMsgText": "No messages",
+    "preventMultiInbox": true,
     
     "customLook": true,
     "bkgColor": "#728776",

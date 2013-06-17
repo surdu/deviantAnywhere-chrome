@@ -95,6 +95,14 @@ this.manifest = {
         },
 
         {
+            "tab": i18n.get("behave"),
+            "group": i18n.get("widget"),
+            "name": "preventMultiInbox",
+            "type": "checkbox",
+            "label": i18n.get("preventMultiInbox")
+        },
+
+        {
             "tab": i18n.get("connect"),
             "icon": "connect",
             "group": i18n.get("autoupdate"),

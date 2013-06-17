@@ -102,7 +102,7 @@ function handleFrameLoad(response)
 	iFrameContent.onselectstart = disable;
 	
 	// disable right click
-//	$(iFrameContent).bind("contextmenu", disable);
+	$(iFrameContent).bind("contextmenu", disable);
 
 	if ($.cookie('hide_devanybar'))
 	{

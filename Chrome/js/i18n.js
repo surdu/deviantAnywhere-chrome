@@ -41,6 +41,9 @@ this.i18n = {
     "noMsgText":{
         "en": "What the widget displays when no messages ?"
     },
+    "preventMultiInbox":{
+        "en": "Prevent multiple inbox tabs"
+    },
     "justIcon":{
         "en": "Just show the icon"
     },

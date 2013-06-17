@@ -138,6 +138,15 @@ function openURL(url, newtab, focus)
 
 function openInbox(newtab, focus, groupid)
 {
+    /***
+     * Open a deviantArt inbox
+     *
+     * Arguments:
+     * newtab   -- Should the inbox be opened in a new tab (default 'False')
+     * focus    -- Should the inbox tab be focused uppon open (default 'True')
+     * groupid  -- The id of the deviantArt inbox
+     */
+
 	var suffix = "";
 	if (groupid)
 		suffix = "#view="+groupid;

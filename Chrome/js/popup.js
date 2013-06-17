@@ -7,9 +7,17 @@ function closePopup()
 
 function goToMessages()
 {
-	openInbox(true, true);
-	closePopup();
-	return false;
+    chrome.extension.sendMessage({action: 'get_interesting_inbox'}, function(response) {
+
+        // 0 = inbox; -1 = no new messages, so we go as well to inbox
+        if (response.interestingInbox == 0 || response.interestingInbox == -1)
+            openInbox(true, true);
+        else
+            openInbox(true, true, response.interestingInbox);
+
+        closePopup();
+        return false;
+    });
 }
 
 function checkNow()

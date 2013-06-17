@@ -19,6 +19,9 @@ var hasNewThisRound;
 
 var settings = new Store("settings", defaults);
 
+// what inbox to open when clicking "Go to messages". 0 = main inbox; -1 = no new messages / not determined
+var interestingInbox = -1;
+
 function init()
 {
 	log("Starting...");
@@ -28,6 +31,9 @@ function init()
 
 function retrieveMessages()
 {
+    // reseting the interestingInbox to it's default value
+    interestingInbox = -1;
+
 	badgeHint = "";
 	log("Retrieve messages: start");
 	
@@ -137,7 +143,7 @@ function generateStatus(result)
 		};
 	
 	statusList["i"+result.id].hasMessages = false;
-	
+
     for (var item in newMessages)
     {
     	if (!statusList["i"+result.id].messages[item])
@@ -151,6 +157,15 @@ function generateStatus(result)
 
         if (currentValue > oldValue && (settings.get("followGroup_i"+result.id, true) || result.isInbox))
         {
+            // determine what inbox is displayed when 'Go to messages' is pressed
+            // main inbox has priority above all others
+            if (result.isInbox)
+                interestingInbox = 0;
+            else
+                // if we don't have a contender, set the current inbox as one
+                if (interestingInbox == -1)
+                    interestingInbox = result.id;
+
         	if (!hasNew)
         		hasNew = settings.get(messagesInfo[item].pref);
         	
@@ -258,6 +273,15 @@ function updateStatus(iid)
 
 function openURL(url, newtab, focus)
 {
+    /***
+     * Open an URL
+     *
+     * Arguments:
+     * url      -- The URL to be opened
+     * newtab   -- Should the URL be opened in a new tab (default 'False')
+     * focus    -- Should the new tab be focused uppon open (default 'True')
+     */
+
 	if (newtab)
 	{
 		if (typeof focus == 'undefined' && focus !== false)
@@ -312,20 +336,17 @@ function handleRequests(request, sender, sendResponse)
 		}
 		
 		sendResponse({statusList: statusList});
-		return;
 	}
 	else
 	if (request.action == "get_settings")
 	{
 		sendResponse(settings.toObject());
-		return;
 	}
 	else
 	if (request.action == "reset_new_flag")
 	{
 		resetNewFlag();
 		sendResponse({});
-		return;
 	}
 	else
 	if (request.action == "check_now")
@@ -334,15 +355,19 @@ function handleRequests(request, sender, sendResponse)
 			clearTimeout(recheckTimeout);
 		retrieveMessages();
 		sendResponse({});
-		return;
 	}
 	else
 	if (request.action == "open_url")
 	{
 		openURL(request.url, request.newtab, request.focus);
 		sendResponse({});
-		return;
 	}
+    else
+    if (request.action == "get_interesting_inbox")
+    {
+        sendResponse({"interestingInbox": interestingInbox});
+    }
+
 }
 
 init();

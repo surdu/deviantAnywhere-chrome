@@ -150,7 +150,7 @@ function openInbox(newtab, focus, groupid)
 	var suffix = "";
 	if (groupid)
 		suffix = "#view="+groupid;
-	openURL("http://my.deviantart.com/messages/"+suffix, newtab, focus);
+	openURL("http://www.deviantart.com/messages/"+suffix, newtab, focus);
 	chrome.extension.sendMessage({action: "reset_new_flag"});
 	return false;
 }

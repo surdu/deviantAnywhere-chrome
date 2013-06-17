@@ -5,7 +5,7 @@
 var difiURL = "http://www.deviantart.com/global/difi.php";
 var loginURL    = "https://www.deviantart.com/users/login";
 
-var NOCACHE_HEADERS = {"Pragma": "no-cache", "Cache-Control": "no-cache"}
+var NOCACHE_HEADERS = {"Pragma": "no-cache", "Cache-Control": "no-cache"};
 
 var statusList = {};
 
@@ -128,9 +128,9 @@ function generateStatus(result)
 	
 	var messages = JSON.parse(lastMessages);
 	var newMessages = result.newMessages;
-	var hintMessages = ""
+	var hintMessages = "";
 
-	var folderName = result.folderName
+	var folderName = result.folderName;
 	if (result.isInbox)
 		folderName = settings.get("username") || "Main account";
 	
@@ -231,7 +231,7 @@ function generateStatus(result)
 	        
 	        if (settings.get("openInbox"))
 	        {
-	            openInbox(true,settings.get("focusTab"));
+	            openInbox(true,settings.get("focusInbox"));
 	            resetNewFlag();
 	        }
         }
@@ -261,7 +261,7 @@ function updateBadge(text, error, details)
 	chrome.browserAction.setBadgeText({"text": text});
 	
 	if (details)
-		chrome.browserAction.setTitle({title: details})
+		chrome.browserAction.setTitle({title: details});
 	else
 		chrome.browserAction.setTitle({title: ""});
 }
@@ -325,7 +325,7 @@ function handleRequests(request, sender, sendResponse)
 	{
 		for (var iid in statusList)
 		{
-			statusList[iid].hasMessages = false
+			statusList[iid].hasMessages = false;
 			for (var name in statusList[iid].messages)
 			{
 				var shouldRender = settings.get(messagesInfo[name].pref);

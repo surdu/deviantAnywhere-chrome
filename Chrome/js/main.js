@@ -287,16 +287,21 @@ function openURL(url, newtab, focus)
 		if (typeof focus == 'undefined' && focus !== false)
 			focus = true;
 
-		chrome.windows.getAll({populate: true}, function(windows){
-			for (var f=0; f<windows.length; f++)
-				for (var g=0; g<windows[f].tabs.length; g++)
-					if (windows[f].tabs[g].url == url)
-					{
-						chrome.tabs.update(windows[f].tabs[g].id, {selected: true});
-						return;
-					}
-			chrome.tabs.create({url: url, selected: focus});
-		});
+        if (settings.get("preventMultiInbox", true))
+        {
+            chrome.windows.getAll({populate: true}, function(windows){
+                for (var f=0; f<windows.length; f++)
+                    for (var g=0; g<windows[f].tabs.length; g++)
+                        if (windows[f].tabs[g].url == url)
+                        {
+                            chrome.tabs.update(windows[f].tabs[g].id, {selected: true});
+                            return;
+                        }
+                chrome.tabs.create({url: url, selected: focus});
+            });
+        }
+        else
+            chrome.tabs.create({url: url, selected: focus});
 	}
 	else
 		chrome.tabs.getSelected(null, function(tab){

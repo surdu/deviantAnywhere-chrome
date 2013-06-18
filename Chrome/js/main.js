@@ -2,7 +2,7 @@
 // Copyright (c) 2011 Nicolae Surdu
 //
 
-var difiURL = "http://www.deviantart.com/global/difi.php";
+var difiURL = "http://browse.deviantart.com/global/difi/";
 var loginURL    = "https://www.deviantart.com/users/login";
 
 var NOCACHE_HEADERS = {"Pragma": "no-cache", "Cache-Control": "no-cache"};
@@ -10,10 +10,12 @@ var NOCACHE_HEADERS = {"Pragma": "no-cache", "Cache-Control": "no-cache"};
 var statusList = {};
 
 var badgeHint;
+
+// the 'timer' used for autoupdate
 var recheckTimeout;
 
+// used in generateStatus to determine when all the groups finished rendering
 var groupsCount;
-var totalGroupsCount;
 
 var hasNewThisRound;
 
@@ -22,6 +24,9 @@ var settings = new Store("settings", defaults);
 // what inbox to open when clicking "Go to messages". 0 = main inbox; -1 = no new messages / not determined
 var interestingInbox = -1;
 
+// the folders are stored localy for speed optimisation
+var foldersCache = [];
+
 function init()
 {
 	log("Starting...");
@@ -29,19 +34,40 @@ function init()
     chrome.extension.onMessage.addListener(handleRequests);
 }
 
-function retrieveMessages()
+function retrieveMessages(force)
 {
     // reseting the interestingInbox to it's default value
     interestingInbox = -1;
 
 	badgeHint = "";
 	log("Retrieve messages: start");
-	
-	var getFoldersReq = new HTTPRequest(difiURL+'?c[]="MessageCenter","get_folders",[]&t=json', "GET", NOCACHE_HEADERS);
-	getFoldersReq.onSuccess = parseFolders;
-	getFoldersReq.onError = autoupdate;
-	getFoldersReq.dataType = "json";
-	getFoldersReq.send();
+
+    groupsCount = 0;
+    hasNewThisRound = false;
+
+    // TODO: maybe allow users to refresh folders by pressing 'Check now' via the 'force' parametter
+    if (!foldersCache.length || force)
+    {
+        // get folders for this user
+        var getFoldersReq = new HTTPRequest(difiURL+'?c[]="MessageCenter","get_folders",[]&t=json', "GET", NOCACHE_HEADERS);
+        getFoldersReq.onSuccess = parseFolders;
+        getFoldersReq.onError = autoupdate;
+        getFoldersReq.dataType = "json";
+        getFoldersReq.send();
+    }
+    else
+    {
+        log("Using cached folders");
+
+        // if we have the folders cached, just use the cache to extract messages
+        for (var f=0; f < foldersCache.length; f++)
+        {
+            var folder = foldersCache[f];
+			new MessEx(folder.folderid, folder.title, folder.is_inbox, generateStatus, null);
+        }
+
+        autoupdate();
+    }
 }
 
 function parseFolders(response)
@@ -51,23 +77,54 @@ function parseFolders(response)
 		log("Parsing folders");
 		var folders = response.DiFi.response.calls[0].response.content;
 
-		groupsCount = 0;
-		totalGroupsCount = 0;
-		hasNewThisRound = false;
+		foldersCache = [];
 
-		var groups = {};
-		
 		// get the inbox folder id
 		for (var f=0; f<folders.length;f++)
 		{
-			new MessEx(folders[f].folderid, folders[f].title, folders[f].is_inbox, generateStatus);
-			if (folders[f].title)
-				groups["i"+folders[f].folderid] = folders[f].title;
-			totalGroupsCount ++
+            var folder = folders[f];
+
+            if (folder.is_inbox)
+            {
+                // extract messages from folder
+                new MessEx(folder.folderid, folder.title, folder.is_inbox, generateStatus, null);
+                foldersCache.push(folder);
+            }
+            else
+            {
+                // check to see if folder is a group or not
+                // setting the folder as the context of the callback so as to know for which folder we made the check
+                chrome.cookies.get({url: "http://www.deviantart.com/", name: "userinfo"}, $.proxy(function(cookie){
+                    var folder = this;
+                    var checkFolderReq = new HTTPRequest(difiURL, "POST", {"Content-type": "application/x-www-form-urlencoded"});
+
+                    checkFolderReq.onSuccess = function(checkResponse){
+                        var isGroup = checkResponse.DiFi.response.calls[0].response.status == "SUCCESS";
+
+                        if (isGroup)
+                        {
+                            var groups = settings.get("groups", {})
+
+                            new MessEx(folder.folderid, folder.title, folder.is_inbox, generateStatus, null);
+                            foldersCache.push(folder);
+
+                            groups["i"+folder.folderid] = folder.title;
+
+                            settings.set("groups", groups);
+                        }
+                    };
+
+                    checkFolderReq.dataType = "json";
+
+                    checkFolderReq.send({
+                        ui: cookie.value,
+                        "c[]":'"GrusersSubmitToGroupsModule","check_permissions",["'+folder.title+'","'+folder.folderid+'",true]',
+                        "t": "json"
+                    });
+                }, folder));
+            }
 		}
 		
-		settings.set("groups", groups);
-			
 		autoupdate();
 	}
 	else
@@ -203,7 +260,7 @@ function generateStatus(result)
 	settings.set("lastMessages_"+result.id, JSON.stringify(newMessages));	
 	updateStatus("i"+result.id);
 	
-	if (groupsCount == totalGroupsCount)
+	if (groupsCount == foldersCache.length)
 	{
 		var globalHasNew = false;
 		for (var iid in statusList)
@@ -290,6 +347,8 @@ function openURL(url, newtab, focus)
         if (settings.get("preventMultiInbox", true))
         {
             chrome.windows.getAll({populate: true}, function(windows){
+
+                // search for the first tab that has the URL already opened
                 for (var f=0; f<windows.length; f++)
                     for (var g=0; g<windows[f].tabs.length; g++)
                         if (windows[f].tabs[g].url == url)
@@ -297,7 +356,10 @@ function openURL(url, newtab, focus)
                             chrome.tabs.update(windows[f].tabs[g].id, {selected: true});
                             return;
                         }
+
+                // if none, just open a new tab
                 chrome.tabs.create({url: url, selected: focus});
+
             });
         }
         else

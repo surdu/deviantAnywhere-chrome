@@ -55,7 +55,6 @@ MessEx.prototype =
 		this.newMessages["A"] =     parseInt(response.DiFi.response.calls[5].response.content[0].result.matches);
 		this.newMessages["CO"]=     parseInt(response.DiFi.response.calls[6].response.content[0].result.matches);
 		this.newMessages["D"] =     parseInt(response.DiFi.response.calls[7].response.content[0].result.matches);
-//		this.newMessages["NA"]=     parseInt(response.DiFi.response.calls[8].response.content[0].result.matches);
 		this.newMessages["J"] =     parseInt(response.DiFi.response.calls[8].response.content[0].result.matches);
 		this.newMessages["P"] =     parseInt(response.DiFi.response.calls[9].response.content[0].result.matches);
 		this.newMessages["F"] =     parseInt(response.DiFi.response.calls[10].response.content[0].result.matches);
@@ -69,6 +68,5 @@ MessEx.prototype =
 			isInbox: 		this.owner.isInbox, 
 			newMessages:	this.newMessages
 		});		
-	},
-	
+	}
 }

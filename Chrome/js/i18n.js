@@ -113,6 +113,6 @@ this.i18n = {
         "en": "Interests"
     },
     "groupFollow": {
-        "en": "Follow this groups/folders"
+        "en": "Follow this groups"
     }
 };

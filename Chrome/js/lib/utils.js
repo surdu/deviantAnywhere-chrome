@@ -27,8 +27,13 @@ HTTPRequest.prototype =
 		var query = "";
 		
 		if (data)
+        {
 			for (var item in data)
 				query += item + "=" + data[item] + "&";
+
+            // remove the last apersand
+            query = query.substring(0, query.length-1);
+        }
 		
 	    this.req.send(query);
 	},

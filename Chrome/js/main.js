@@ -27,6 +27,9 @@ var interestingInbox = -1;
 // the folders are stored localy for speed optimisation
 var foldersCache = [];
 
+// whether or not login was attempted
+var loginAttempted = false;
+
 function init()
 {
 	log("Starting...");
@@ -34,7 +37,7 @@ function init()
     chrome.extension.onMessage.addListener(handleRequests);
 }
 
-function retrieveMessages(force)
+function retrieveMessages()
 {
     // reseting the interestingInbox to it's default value
     interestingInbox = -1;
@@ -45,9 +48,10 @@ function retrieveMessages(force)
     groupsCount = 0;
     hasNewThisRound = false;
 
-    // TODO: maybe allow users to refresh folders by pressing 'Check now' via the 'force' parametter
-    if (!foldersCache.length || force)
+    if (foldersCache.length == 0)
     {
+        settings.set("groups", {});
+
         // get folders for this user
         var getFoldersReq = new HTTPRequest(difiURL+'?c[]="MessageCenter","get_folders",[]&t=json', "GET", NOCACHE_HEADERS);
         getFoldersReq.onSuccess = parseFolders;
@@ -63,7 +67,7 @@ function retrieveMessages(force)
         for (var f=0; f < foldersCache.length; f++)
         {
             var folder = foldersCache[f];
-			new MessEx(folder.folderid, folder.title, folder.is_inbox, generateStatus, null);
+			new MessEx(folder.folderid, folder.title, folder.is_inbox, generateStatus, handleNotLoggedIn);
         }
 
         autoupdate();
@@ -87,7 +91,7 @@ function parseFolders(response)
             if (folder.is_inbox)
             {
                 // extract messages from folder
-                new MessEx(folder.folderid, folder.title, folder.is_inbox, generateStatus, null);
+                new MessEx(folder.folderid, folder.title, folder.is_inbox, generateStatus, handleNotLoggedIn);
                 foldersCache.push(folder);
             }
             else
@@ -105,7 +109,7 @@ function parseFolders(response)
                         {
                             var groups = settings.get("groups", {})
 
-                            new MessEx(folder.folderid, folder.title, folder.is_inbox, generateStatus, null);
+                            new MessEx(folder.folderid, folder.title, folder.is_inbox, generateStatus, handleNotLoggedIn);
                             foldersCache.push(folder);
 
                             groups["i"+folder.folderid] = folder.title;
@@ -128,14 +132,24 @@ function parseFolders(response)
 		autoupdate();
 	}
 	else
-		if (settings.get("useAutoLogin"))
-			login();
-		else
-		{
-			updateBadge("Oops", true, "You are not logged in deviantArt.\nPlease use the auto-login option in deviantAnywhere \nor login on deviantArt.");
-			//TODO: when you click badge, go to login
-		}
-			
+        handleNotLoggedIn();
+}
+
+function handleNotLoggedIn()
+{
+    log("Not logged in ?");
+    if (settings.get("useAutoLogin"))
+    {
+        if (!loginAttempted)
+            login();
+        else
+            updateBadge("Oops", true, "The auto-login has failed.\nPlease check the supplied username and password.");
+    }
+    else
+    {
+        updateBadge("Oops", true, "You are not logged in deviantArt.\nPlease use the auto-login option in deviantAnywhere \nor login on deviantArt.");
+        //TODO: when you click badge, go to login
+    }
 }
 
 function autoupdate()
@@ -150,28 +164,17 @@ function autoupdate()
 
 function login()
 {
+    log("Logging in ...");
+    loginAttempted = true;
 	var loginReq = new HTTPRequest(loginURL, "POST", {"Content-Type": "application/x-www-form-urlencoded"});
-	// this looks very counter-intuitive, but it's the only way i can think
-	// now how to determine a successful login:
-	// - In case of successful login, we get a redirect from https to http which triggers 
-	//   a cross-domain status 0 error. (success)
-	// - In case of a bad login, the login page is returned with status code 200 (error)
-	loginReq.onSuccess = parseLoginError;
-	loginReq.onError = parseLoginSuccess;
-	
+	loginReq.onSuccess = loginEnded;
 	loginReq.send({"username": settings.get("username"), "password": settings.get("password")});
 }
 
-function parseLoginSuccess(statusCode)
+function loginEnded()
 {
-	if (statusCode == 0)
-		retrieveMessages();
-}
-
-function parseLoginError()
-{
-	//TODO: check this
-	updateBadge("Oops", true, "The auto-login has failed.\nPlease check the supplied username and password.");
+    log("Retry retreiving messages");
+    retrieveMessages();
 }
 
 ///////////////////////// UI /////////////////////////
@@ -181,9 +184,7 @@ function generateStatus(result)
     var hasNew = false;
 	groupsCount ++;
 	
-	var lastMessages = settings.get("lastMessages_"+result.id, "[]");
-	
-	var messages = JSON.parse(lastMessages);
+	var messages = settings.get("lastMessages_"+result.id, {});
 	var newMessages = result.newMessages;
 	var hintMessages = "";
 
@@ -257,7 +258,7 @@ function generateStatus(result)
 		updateBadge("New", false, badgeHint);
     }
 
-	settings.set("lastMessages_"+result.id, JSON.stringify(newMessages));	
+	settings.set("lastMessages_"+result.id, newMessages);
 	updateStatus("i"+result.id);
 	
 	if (groupsCount == foldersCache.length)
@@ -418,8 +419,13 @@ function handleRequests(request, sender, sendResponse)
 	else
 	if (request.action == "check_now")
 	{
+        // cancel the autoupdate timer
 		if (recheckTimeout)
 			clearTimeout(recheckTimeout);
+
+        // allow reattempt to login, if neccessary
+        loginAttempted = false;
+
 		retrieveMessages();
 		sendResponse({});
 	}

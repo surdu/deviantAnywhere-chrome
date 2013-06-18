@@ -1,7 +1,4 @@
 var defaults = {
-    
-    "lastMessages": "[]",
-    
     "autoupdate": true,
     "checkTime": 5,
     "useAutoLogin": false,

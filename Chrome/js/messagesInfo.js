@@ -1,5 +1,5 @@
 var messagesInfo  = {"HT":{"desc":"Hot Topic::Hot Topics", "pref":"followNotices"},
-				 	 "A":{"desc":"Activity Message::Activity Messages", "pref":"followActivity"},
+				 	 "AM":{"desc":"Activity Message::Activity Messages", "pref":"followActivityMsg"},
 				 	 "R":{"desc":"Reply::Replies", "pref":"followReplies"},
 				 	 "UN":{"desc":"Unread Note::Unread Notes", "pref":"followNotes"},
 				 	 "J":{"desc":"Journal::Journals", "pref":"followJournals"},
@@ -12,5 +12,6 @@ var messagesInfo  = {"HT":{"desc":"Hot Topic::Hot Topics", "pref":"followNotices
 					 "CO":{"desc":"Correspondence Item::Correspondence Items", "pref":"followCorrespondence"},
 					 "S":{"desc":"Support Ticket::Support Tickets", "pref":"followSupport"},
 					 "B":{"desc":"Bulletin::Bulletins", "pref":"followBulletin"},
-					 "F":{"desc":"Forum::Forums", "pref":"followForum"}
+					 "F":{"desc":"Forum::Forums", "pref":"followForum"},
+                     "A":{"desc":"Activity::Activities", "pref":"followWatchedActivity"}
 					};

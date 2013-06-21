@@ -1,6 +1,7 @@
-//
-// Copyright (c) 2011 Nicolae Surdu
-//
+/***
+ * Copyright (c) 2011 - 2013 Nicolae Surdu
+ */
+
 
 function HTTPRequest(url, method, headers)
 {

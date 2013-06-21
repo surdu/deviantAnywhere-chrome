@@ -17,7 +17,7 @@ var defaults = {
     "newTextColor": "#ffffff",
     
     "followNotices": true,
-    "followActivity": true,
+    "followActivityMsg": true,
     "followReplies": true,
     "followNotes": true,
     "followJournals": true,
@@ -30,5 +30,6 @@ var defaults = {
     "followCorrespondence": true,
     "followSupport": true,
     "followBulletin": true,
-    "followForum": true
+    "followForum": true,
+    "followWatchedActivity": true
 };

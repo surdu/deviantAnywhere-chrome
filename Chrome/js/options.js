@@ -1,6 +1,6 @@
-//
-// Copyright (c) 2011 Nicolae Surdu
-//
+/***
+ * Copyright (c) 2011 - 2013 Nicolae Surdu
+ */
 
 var settings_g;
 

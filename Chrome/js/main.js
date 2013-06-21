@@ -1,7 +1,3 @@
-/***
- * Copyright (c) 2011 - 2013 Nicolae Surdu
- */
-
 var difiURL = "http://browse.deviantart.com/global/difi/";
 var loginURL    = "https://www.deviantart.com/users/login";
 

@@ -48,7 +48,7 @@ this.i18n = {
         "en": "Just show the icon"
     },
     "hideWidget":{
-        "en": "Completlly hide the widget"
+        "en": "Completely hide the widget"
     },
     "customText":{
         "en": "Custom text:"
@@ -63,7 +63,7 @@ this.i18n = {
         "en": "Preview"
     },        
     "notifyMsgLabel": {
-        "en": "Follow this messages"
+        "en": "Follow these messages"
     },           
     "connect": {
         "en": "Connection"

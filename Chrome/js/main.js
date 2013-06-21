@@ -35,6 +35,10 @@ function init()
 	log("Starting...");
     retrieveMessages();
     chrome.extension.onMessage.addListener(handleRequests);
+    chrome.runtime.onInstalled.addListener(function(details){
+       if(details.reason == "install")
+           openURL("http://deviantanywhere.deviantart.com/", true, true);
+    });
 }
 
 function retrieveMessages()

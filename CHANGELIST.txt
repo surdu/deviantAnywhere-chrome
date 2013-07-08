@@ -1,17 +1,14 @@
-Version 1.3
+VERSION 1.3
+-----------
 
-    FIXES:
+FIXES:
+- Fixed issues regarding following groups not working as expected
+- The option of focusing the inbox page when opened for new messages, now works
+- Folders are not listed anymore as groups
+- Auto-login works correctly again
 
-    - Fixed issues regarding following groups not working as expected
-    - The option of focusing the inbox page when opened for new messages, now works
-    - Folders are not listed anymore as groups
-    - Auto-login works correctly again
-
-    FEATURES:
-
-    - 'Go to messages' now takes you to the first group that has new messages or inbox, not always to inbox
-    - The widget is now smaller when there are no messages. New options available in 'Behaviour' section.
-    - Added new message type: deviantWatch Activity (commisions, username changes, etc.).
-        This is labeled "A" and the Activity Messages, that where previously "A" are now labeled "AM".
-    - Now you can open multiple tabs of your inbox when you doubleclick the widget of press 'Go to messages'.
-        New option available in 'Behaviour' section ('Prevent multiple inbox tabs')
+FEATURES:
+- 'Go to messages' now takes you to the first group that has new messages or inbox, not always to inbox
+- The widget is now smaller when there are no messages. New options available in 'Behaviour' section.
+- Added new message type: deviantWatch Activity (commisions, username changes, etc.). This is labeled "A" and the Activity Messages, that where previously "A" are now labeled "AM".
+- Now you can open multiple tabs of your inbox when you doubleclick the widget of press 'Go to messages'. New option available in 'Behaviour' section ('Prevent multiple inbox tabs')

@@ -7,7 +7,7 @@ var statusList = {};
 
 var badgeHint;
 
-// the 'timer' used for autoupdate
+// the 'timer' used for auto-update
 var recheckTimeout;
 
 // used in generateStatus to determine when all the groups finished rendering
@@ -20,7 +20,7 @@ var settings = new Store("settings", defaults);
 // what inbox to open when clicking "Go to messages". 0 = main inbox; -1 = no new messages / not determined
 var interestingInbox = -1;
 
-// the folders are stored localy for speed optimisation
+// the folders are stored locally for speed optimisation
 var foldersCache = [];
 
 // whether or not login was attempted
@@ -37,9 +37,18 @@ function init()
     });
 }
 
-function retrieveMessages()
+function retrieveMessages(forceFolders)
 {
-    // reseting the interestingInbox to it's default value
+    /***
+     *
+     *  Start the message retrieving process.
+     *
+     * Arguments:
+     * forceFolders -- Force the re-retrieval of the folders list
+     */
+
+
+    // resetting the interestingInbox to it's default value
     interestingInbox = -1;
 
 	badgeHint = "";
@@ -48,7 +57,7 @@ function retrieveMessages()
     groupsCount = 0;
     hasNewThisRound = false;
 
-    if (foldersCache.length == 0)
+    if (foldersCache.length == 0 || forceFolders)
     {
         settings.set("groups", {});
 
@@ -74,14 +83,22 @@ function retrieveMessages()
     }
 }
 
+function addFolder(folder)
+{
+    // extract messages from folder
+    new MessEx(folder.folderid, folder.title, folder.is_inbox, generateStatus, handleNotLoggedIn);
+    foldersCache.push(folder);
+}
+
 function parseFolders(response)
 {
 	if (response.DiFi.status == "SUCCESS")
 	{
-		log("Parsing folders");
 		var folders = response.DiFi.response.calls[0].response.content;
 
 		foldersCache = [];
+
+        log("Parsing "+ folders.length +" folders");
 
 		// get the inbox folder id
 		for (var f=0; f<folders.length;f++)
@@ -90,41 +107,53 @@ function parseFolders(response)
 
             if (folder.is_inbox)
             {
-                // extract messages from folder
-                new MessEx(folder.folderid, folder.title, folder.is_inbox, generateStatus, handleNotLoggedIn);
-                foldersCache.push(folder);
+                addFolder(folder);
             }
             else
             {
                 // check to see if folder is a group or not
                 // setting the folder as the context of the callback so as to know for which folder we made the check
                 chrome.cookies.get({url: "http://www.deviantart.com/", name: "userinfo"}, $.proxy(function(cookie){
-                    var folder = this;
-                    var checkFolderReq = new HTTPRequest(difiURL, "POST", {"Content-type": "application/x-www-form-urlencoded"});
 
-                    checkFolderReq.onSuccess = function(checkResponse){
-                        var isGroup = checkResponse.DiFi.response.calls[0].response.status == "SUCCESS";
+                        var folder = this;
 
-                        if (isGroup)
+                        // for some reason, the cookie is not here sometimes. In that case, just add the folder.
+                        if (typeof cookie != 'undefined')
                         {
-                            var groups = settings.get("groups", {})
+                            log("Cookies where ok");
+                            var checkFolderReq = new HTTPRequest(difiURL, "POST", {"Content-type": "application/x-www-form-urlencoded"});
 
-                            new MessEx(folder.folderid, folder.title, folder.is_inbox, generateStatus, handleNotLoggedIn);
-                            foldersCache.push(folder);
+                            checkFolderReq.onSuccess = function(checkResponse){
+                                var isGroup = checkResponse.DiFi.response.calls[0].response.status == "SUCCESS";
 
-                            groups["i"+folder.folderid] = folder.title;
+                                if (isGroup)
+                                {
+                                    log("Folder "+ folder.title +" is a group");
+                                    var groups = settings.get("groups", {})
 
-                            settings.set("groups", groups);
+                                    addFolder(folder);
+
+                                    groups["i"+folder.folderid] = folder.title;
+
+                                    settings.set("groups", groups);
+                                }
+                                else
+                                    log("Folder "+ folder.title +" is NOT a group");
+                            };
+
+                            checkFolderReq.dataType = "json";
+
+                            checkFolderReq.send({
+                                ui: cookie.value,
+                                "c[]":'"GrusersSubmitToGroupsModule","check_permissions",["'+folder.title+'","'+folder.folderid+'",true]',
+                                "t": "json"
+                            });
                         }
-                    };
-
-                    checkFolderReq.dataType = "json";
-
-                    checkFolderReq.send({
-                        ui: cookie.value,
-                        "c[]":'"GrusersSubmitToGroupsModule","check_permissions",["'+folder.title+'","'+folder.folderid+'",true]',
-                        "t": "json"
-                    });
+                        else
+                        {
+                            log("PROBLEM: Cookies where missing.");
+                            addFolder(folder);
+                        }
                 }, folder));
             }
 		}
@@ -137,7 +166,7 @@ function parseFolders(response)
 
 function handleNotLoggedIn()
 {
-    log("Not logged in ?");
+    log("PROBLEM: Not logged in ?");
     if (settings.get("useAutoLogin"))
     {
         if (!loginAttempted)
@@ -337,7 +366,7 @@ function openURL(url, newtab, focus)
      * Arguments:
      * url      -- The URL to be opened
      * newtab   -- Should the URL be opened in a new tab (default 'False')
-     * focus    -- Should the new tab be focused uppon open (default 'True')
+     * focus    -- Should the new tab be focused upon open (default 'True')
      */
 
 	if (newtab)
@@ -419,14 +448,15 @@ function handleRequests(request, sender, sendResponse)
 	else
 	if (request.action == "check_now")
 	{
-        // cancel the autoupdate timer
+        // cancel the auto-update timer
 		if (recheckTimeout)
 			clearTimeout(recheckTimeout);
 
-        // allow reattempt to login, if neccessary
+        // allow reattempt to login, if necessary
         loginAttempted = false;
 
-		retrieveMessages();
+        // retrieve messages, forcing the retrieving of the folders list
+		retrieveMessages(true);
 		sendResponse({});
 	}
 	else

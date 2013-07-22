@@ -1,3 +1,10 @@
+VERSION 1.4
+-----------
+
+FEATURES:
+- Popup will now reflect when the user is not logged in and helps him to login
+
+
 VERSION 1.3
 -----------
 

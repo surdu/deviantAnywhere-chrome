@@ -26,6 +26,10 @@ var foldersCache = [];
 // whether or not login was attempted
 var loginAttempted = false;
 
+// indicates if the user is logged in or not. Assumed as true if not proven otherwise.
+// used to render the popup menu
+var loggedIn = true;
+
 function init()
 {
 	log("Starting...");
@@ -50,8 +54,9 @@ function retrieveMessages(forceFolders)
 
     // resetting the interestingInbox to it's default value
     interestingInbox = -1;
-
+    loggedIn = true;
 	badgeHint = "";
+
 	log("Retrieve messages: start");
 
     groupsCount = 0;
@@ -177,7 +182,7 @@ function handleNotLoggedIn()
     else
     {
         updateBadge("Oops", true, "You are not logged in deviantArt.\nPlease use the auto-login option in deviantAnywhere \nor login on deviantArt.");
-        //TODO: when you click badge, go to login
+        loggedIn = false;
     }
 }
 
@@ -466,9 +471,21 @@ function handleRequests(request, sender, sendResponse)
 		sendResponse({});
 	}
     else
+    if (request.action == "open_login")
+    {
+		openURL(loginURL, request.newtab, request.focus);
+		sendResponse({});
+    }
+    else
     if (request.action == "get_interesting_inbox")
     {
         sendResponse({"interestingInbox": interestingInbox});
+    }
+    else
+    if (request.action == "get_login_status")
+    {
+        // used to render the popup menu (for now)
+        sendResponse({"loggedIn": loggedIn});
     }
 
 }

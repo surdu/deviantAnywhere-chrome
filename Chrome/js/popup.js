@@ -20,17 +20,24 @@ function goToMessages()
     });
 }
 
+function openLogin()
+{
+    chrome.extension.sendMessage({action: "open_login"});
+	closePopup();
+	return false;
+}
+
 function checkNow()
 {
 	chrome.extension.sendMessage({action: "check_now"});
-	window.close();
+	closePopup();
 	return false;
 }
 
 function markAsRead()
 {
 	chrome.extension.sendMessage({action: "reset_new_flag"});
-	window.close();
+	closePopup();
 	return false;
 }
 
@@ -57,7 +64,25 @@ function about()
 
 document.addEventListener('DOMContentLoaded', function ()
 {
-    document.querySelector('#gotoBtn').addEventListener('click', goToMessages);
+    chrome.extension.sendMessage({action: 'get_login_status'}, function(response) {
+
+        var mainOptionBtn = document.querySelector('#gotoBtn');
+        var mainOptionText = document.querySelector('#gotoBtn b span');
+
+        if (response.loggedIn)
+        {
+            mainOptionText.innerHTML = "Go to messages";
+            mainOptionBtn.addEventListener('click', goToMessages);
+        }
+        else
+        {
+            mainOptionText.innerHTML = "Log in";
+            mainOptionBtn.addEventListener('click', openLogin);
+
+        }
+    });
+
+
     document.querySelector('#checkBtn').addEventListener('click', checkNow);
     document.querySelector('#markReadBtn').addEventListener('click', markAsRead);
 

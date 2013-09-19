@@ -13,5 +13,6 @@ var messagesInfo  = {"HT":{"desc":"Hot Topic::Hot Topics", "pref":"followNotices
 					 "S":{"desc":"Support Ticket::Support Tickets", "pref":"followSupport"},
 					 "B":{"desc":"Bulletin::Bulletins", "pref":"followBulletin"},
 					 "F":{"desc":"Forum::Forums", "pref":"followForum"},
-                     "A":{"desc":"Activity::Activities", "pref":"followWatchedActivity"}
+                     "A":{"desc":"Activity::Activities", "pref":"followWatchedActivity"},
+                     "M":{"desc":"Mention::Mentions", "pref":"followMention"}
 					};

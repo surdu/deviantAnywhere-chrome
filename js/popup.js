@@ -1,7 +1,7 @@
 function closePopup()
 {
 	// if we are not in Windows
-	if(navigator.platform.toLowerCase().indexOf("win") == -1)
+//	if(navigator.platform.toLowerCase().indexOf("win") == -1)
 		window.close();
 }
 

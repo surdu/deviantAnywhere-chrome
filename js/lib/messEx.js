@@ -23,6 +23,7 @@ MessEx.prototype =
 		'["'+this.id+'","oq:notices:0:'+maxItems+':f"],'+
 		'["'+this.id+'","oq:contests:0:'+maxItems+':f"],'+
 		'["'+this.id+'","oq:fb_activity:0:'+maxItems+':f"],'+
+        '["'+this.id+'","oq:fb_mentions:0:'+maxItems+':f"],'+
 		'["'+this.id+'","oq:correspondence:0:'+maxItems+':f"],'+
 		'["'+this.id+'","oq:devwatch:0:'+maxItems+':f:tg=deviations"],'+
 		'["'+this.id+'","oq:devwatch:0:'+maxItems+':f:tg=journals"],'+
@@ -52,15 +53,16 @@ MessEx.prototype =
                 "HT":   parseInt(response.DiFi.response.calls[3].response.content[0].result.matches),
                 "CA":   parseInt(response.DiFi.response.calls[4].response.content[0].result.matches),
                 "AM":   parseInt(response.DiFi.response.calls[5].response.content[0].result.matches),
-                "CO":   parseInt(response.DiFi.response.calls[6].response.content[0].result.matches),
-                "D":    parseInt(response.DiFi.response.calls[7].response.content[0].result.matches),
-                "J":    parseInt(response.DiFi.response.calls[8].response.content[0].result.matches),
-                "P":    parseInt(response.DiFi.response.calls[9].response.content[0].result.matches),
-                "F":    parseInt(response.DiFi.response.calls[10].response.content[0].result.matches),
-                "WC":   parseInt(response.DiFi.response.calls[11].response.content[0].result.matches),
-                "A":    parseInt(response.DiFi.response.calls[12].response.content[0].result.matches),
-                "S":    parseInt(response.DiFi.response.calls[13].response.content[0].result.matches),
-                "B":    parseInt(response.DiFi.response.calls[14].response.content[0].result.matches)
+                "M":    parseInt(response.DiFi.response.calls[6].response.content[0].result.matches),
+                "CO":   parseInt(response.DiFi.response.calls[7].response.content[0].result.matches),
+                "D":    parseInt(response.DiFi.response.calls[8].response.content[0].result.matches),
+                "J":    parseInt(response.DiFi.response.calls[9].response.content[0].result.matches),
+                "P":    parseInt(response.DiFi.response.calls[10].response.content[0].result.matches),
+                "F":    parseInt(response.DiFi.response.calls[11].response.content[0].result.matches),
+                "WC":   parseInt(response.DiFi.response.calls[12].response.content[0].result.matches),
+                "A":    parseInt(response.DiFi.response.calls[13].response.content[0].result.matches),
+                "S":    parseInt(response.DiFi.response.calls[14].response.content[0].result.matches),
+                "B":    parseInt(response.DiFi.response.calls[15].response.content[0].result.matches)
             };
 
             this.onSuccess({

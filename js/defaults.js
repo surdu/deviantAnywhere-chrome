@@ -31,5 +31,6 @@ var defaults = {
     "followSupport": true,
     "followBulletin": true,
     "followForum": true,
-    "followWatchedActivity": true
+    "followWatchedActivity": true,
+    "followMention": true
 };
